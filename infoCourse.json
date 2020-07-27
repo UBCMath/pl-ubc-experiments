@@ -1,0 +1,19 @@
+{
+    "uuid": "d10cb1ee-7b71-4a5f-9191-96eda9bb17f2",
+    "name": "START 101",
+    "title": "Course Scaffolding",
+    "assessmentSets": [
+        {"abbreviation": "LT", "name": "Lecture Ticket", "heading": "Lecture Tickets", "color": "purple2"}
+    ],
+    "topics": [
+        {"name": "Demo", "color": "red3", "description": "Demo Questions"},
+        {"name": "Basics", "color": "red3", "description": "Basic Concepts"}
+    ],
+    "tags": [
+        {"name": "Demo", "color": "red1", "description": "Demo Questions"}
+    ],
+    "timezone": "America/Vancouver",
+    "options": {
+        "useNewQuestionRenderer": true
+    }
+}
