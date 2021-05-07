@@ -4,6 +4,13 @@
     "userRoles": {
         "cbmacdon@ubc.ca": "Instructor",
         "genga@ubc.ca": "Instructor"
+        "cadenze@ubc.ca": "Instructor",
+        "mrarnold@ubc.ca": "Instructor",
+        "franxiao@ubc.ca": "Instructor",
+        "arechnit@ubc.ca": "Instructor",
+        "cheeren@ubc.ca": "Instructor",
+        "jcharbon@ubc.ca": "Instructor",
+        "hyunuk@ubc.ca": "Instructor"
     },
     "allowAccess": []
 }
