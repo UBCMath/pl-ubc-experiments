@@ -2,8 +2,8 @@
     "uuid": "89c29787-00b7-47a0-a8c9-9d2bdbf9e1eb",
     "longName": "Summer 2021 Hackery",
     "userRoles": {
-        "cbmacdon@ubc.ca": "Instructor"
-        "genga@ubc.ca": "Instructor"
+        "cbmacdon@ubc.ca": "Instructor",
+        "genga@ubc.ca": "Instructor",
     },
     "allowAccess": []
 }
