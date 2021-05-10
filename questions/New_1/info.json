@@ -1,11 +1,9 @@
 {
-    "uuid": "861ac91b-f6ef-4545-9025-d60160496de0",
-    "title": "New (1)",
-    "topic": "Algebra",
+    "uuid": "9a7f1689-2e43-4c1d-9741-bb75b95c3a4d",
+    "title": "Morgan's First Question",
+    "topic": "Horrid Integrals",
     "tags": [
-        "mwest",
-        "fa17",
-        "tpl101",
+        "hack2021",
         "v3"
     ],
     "type": "v3"
