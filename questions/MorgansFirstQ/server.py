@@ -10,4 +10,4 @@ def generate(data):
 
     I = sympy.integrate(n/(x**3-1), x)
 
-    data["correct_answer"]["integral"] = pl.to_json(I)
+    data["correct_answers"]["integral"] = pl.to_json(I)
