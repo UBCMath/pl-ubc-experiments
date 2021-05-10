@@ -1,17 +1,13 @@
-import random, copy
+import prairielearn as pl
+import sympy
+import random
 
 def generate(data):
+    x = sympy.symbols("x")
+    n = random.randint(1, 5)
+    
+    data["params"]["n"] = n
 
-    # Sample two random integers between 5 and 10 (inclusive)
-    a = random.randint(5, 10)
-    b = random.randint(5, 10)
+    I = sympy.integrate(n/(x**3-1), x)
 
-    # Put these two integers into data['params']
-    data['params']['a'] = a
-    data['params']['b'] = b
-
-    # Compute the sum of these two integers
-    c = a + b
-
-    # Put the sum into data['correct_answers']
-    data['correct_answers']['c'] = c
+    data["correct_answer"]["integral"] = pl.to_json(I)
