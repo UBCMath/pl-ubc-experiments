@@ -1,11 +1,9 @@
 {
     "uuid": "ea1c7beb-a86a-4fba-b423-ca86a0b2029b",
-    "title": "New (1)",
-    "topic": "Algebra",
+    "title": "Annie's First Question",
+    "topic": "Antiderivatives",
     "tags": [
-        "mwest",
-        "fa17",
-        "tpl101",
+        "hack2021",
         "v3"
     ],
     "type": "v3"
