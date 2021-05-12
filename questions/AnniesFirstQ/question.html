@@ -1,6 +1,7 @@
 <pl-question-panel>
-  <p> Consider two numbers $a = {{params.a}}$ and $b = {{params.b}}$.</p>
-  <p> What is the sum $c = a + b$?</p>
+  <p> Consider the function $f(x) = {{params.a}} \cos x - {{params.b}} \sin x$.</p>
+  <p> Let $F(x)$ be the antiderivative of $f(x)$ with $F({{params.c}}) = {{params.d}}$.</p>
+  <p> Then </p>
 </pl-question-panel>
-
-<pl-number-input answers-name="c" comparison="sigfig" digits="3" label="$c=$"></pl-number-input>
+ 
+<pl-symbolic-input answers-name="symbolic_math" variables="x" label="$F(x) = $"></pl-symbolic-input>
