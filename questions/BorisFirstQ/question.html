@@ -1,6 +1,6 @@
 <pl-question-panel>
-  <p> Consider two numbers $a = {{params.a}}$ and $b = {{params.b}}$.</p>
-  <p> What is the sum $c = a + b$?</p>
+  <p> Evaluate the following integral:</p>
+  <p>$$\int x^2 \arctan({{params.n}}x) \, dx$$</p>
 </pl-question-panel>
 
-<pl-number-input answers-name="c" comparison="sigfig" digits="3" label="$c=$"></pl-number-input>
+<pl-symbolic-input answers-name="I" variables="x, C" label="$I=$"></pl-symbolic-input>
