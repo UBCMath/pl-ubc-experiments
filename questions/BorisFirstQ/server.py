@@ -8,6 +8,6 @@ def generate(data):
 
     data['params']['n'] = n
 
-    I = sympy.integrate(x**2*atan(n*x), x)
+    I = sympy.integrate(x**2*sympy.atan(n*x), x)
 
     data['correct_answers']['I'] = pl.to_json(I)
