@@ -14,7 +14,7 @@ def generate(data):
     data['params']['c'] = c
     data['params']['d'] = d
 
-    x = sympy.symbols('x')
+    sympy.var('a b x')
     z = a*sympy.sin(x)+b*sympy.cos(x)
-    data['correct_answer']['symbolic_math'] = pl.to_json(z)
+    data['correct_answers']['symbolic_math'] = pl.to_json(z)
     
