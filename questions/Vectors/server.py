@@ -30,8 +30,8 @@ def generate(data):
     result = rot_matrix.dot(rscale * r + sscale * s)
 
     # add the correct answers for the x and y components to data["correct-answers"]
-    data["correct_answers"]["x-comp"] = result[0]
-    data["correct_answers"]["y-comp"] = result[1]
+    data["correct_answers"]["x-comp"] = int(result[0])
+    data["correct_answers"]["y-comp"] = int(result[1])
 
 def file(data):
     if data["filename"] == "figure.png":
