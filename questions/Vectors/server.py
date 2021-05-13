@@ -19,8 +19,8 @@ def generate(data):
 
     # add them to data["params"]
     data["params"]["theta"] = theta
-    data["params"]["r"] = r[1]
-    data["params"]["s"] = s[0]
+    data["params"]["r"] = int(r[1])
+    data["params"]["s"] = int(s[0])
     data["params"]["rscale"] = rscale
     data["params"]["sscale"] = sscale
 
