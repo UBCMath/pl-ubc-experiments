@@ -1,5 +1,5 @@
-from matplotlib import scale
 import matplotlib.pyplot as plt
+import matplotlib.patches as pcs
 import numpy as np
 import random
 import io
@@ -36,24 +36,36 @@ def generate(data):
 def file(data):
     if data["filename"] == "figure.png":
 
-        # for plotting purposes it turns out to be easier to collect r and s in a matrix
-        vectors = np.array([[data["params"]["s"], 0],
-                            [0, data["params"]["r"]]])
+        theta = data["params"]["theta"]
+        r = np.array([0, data["params"]["r"]])
+        s = np.array([data["params"]["s"], 0])
+        rot_matrix = np.array([[np.cos(theta * np.pi / 180), np.sin(theta * np.pi / 180)],
+                            [-np.sin(theta * np.pi / 180), np.cos(theta * np.pi / 180)]])
 
-        # redefine the 2D (clockwise) rotation matrix
-        rot_matrix = np.array([[np.cos(data["params"]["theta"]), np.sin(data["params"]["theta"])],
-                              [-np.sin(data["params"]["theta"]), np.cos(data["params"]["theta"])]])
+        r = rot_matrix.dot(r)
+        s = rot_matrix.dot(s)
 
-        # apply our rotation to the vectors
-        vectors = np.matmul(rot_matrix, vectors)
+        fig, ax = plt.subplots()
+        ax.spines[["left", "bottom"]].set_position(("data", 0))
+        ax.spines[["top", "right"]].set_visible(False)
+        ax.plot(1, 0, ">k", transform=ax.get_yaxis_transform(), clip_on=False)
+        ax.plot(0, 1, "^k", transform=ax.get_xaxis_transform(), clip_on=False)
 
-        # both r and s have their origin at (0, 0)
-        origin = np.array([[0, 0], [0, 0]])
+        ax.set_xlim([0, 5])
+        ax.set_ylim([-5, 5])
+        ax.set_aspect("equal")
 
-        plt.quiver(*origin, vectors[:,0], vectors[:,1], scale=1, units="xy")
-        plt.grid()
-        plt.xlim([0, 5])
-        plt.ylim([-5, 5])
+        ax.set_xticks([])
+        ax.set_yticks([])
+
+        ax.add_patch(pcs.Arc((0, 0), np.linalg.norm(r), np.linalg.norm(r), theta1=90-theta, theta2=90))
+        ax.add_patch(pcs.Arc((0, 0), np.linalg.norm(s), np.linalg.norm(s), theta1=360-theta, theta2=0))
+
+        ax.arrow(0, 0, r[0], r[1], color="#81b85d", lw=2)
+        ax.arrow(0, 0, s[0], s[1], color="#81b85d", lw=2)
+
+        ax.text(1.1*r[0]+0.3, 1.1*r[1], r"$\vec{r}$")
+        ax.text(1.1*s[0]+0.3, 1.1*s[1], r"$\vec{s}$")
 
     buf = io.BytesIO()
     plt.savefig(buf, format="png")
