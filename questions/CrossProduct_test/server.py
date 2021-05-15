@@ -1,17 +1,23 @@
-import random, copy
+import random, math
+import numpy as np
+import prairielearn as pl
+import scipy.linalg as sla
+import to_precision
 
 def generate(data):
 
-    # Sample two random integers between 5 and 10 (inclusive)
-    a = random.randint(5, 10)
-    b = random.randint(5, 10)
+    N = 3
+    sf = 2
+    a = np.array([1,2,3])
+    b = np.array([2,4,6])
+    B = np.array([0,0,0])
+    C = np.array([0,0,0])
+    #C = B / np.sqrt(np.dot(B, B))
 
-    # Put these two integers into data['params']
-    data['params']['a'] = a
-    data['params']['b'] = b
+    data["params"]["sf"] = sf
+    data["params"]["a"] = pl.to_json(a)
+    data["params"]["b"] = pl.to_json(b)
 
-    # Compute the sum of these two integers
-    c = a + b
-
-    # Put the sum into data['correct_answers']
-    data['correct_answers']['c'] = c
+    data["correct_answers"]["out1"] = pl.to_json(B)
+    data["correct_answers"]["out2"] = pl.to_json(C)
+    
