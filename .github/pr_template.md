@@ -8,7 +8,7 @@
 - Description of changes.
 
 ## Checklist
-*If you don't meet all checklist items, please do not post a PR. If you think you don't have to check all items, please describe a reason below!*
+*If you don't think you have to check all items, please describe why below. Not sure what all this is? Just ask, and we'll help.*
 
 - [ ] followed the code conventions? (import, HTML, LaTex)
 - [ ] tested locally through Docker?
