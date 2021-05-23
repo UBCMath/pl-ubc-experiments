@@ -1,7 +1,7 @@
 import random
 def generate(data):
     # two constants to randomize momentum equation. question will ask about p = const * t^2 at t = t
-    t = random.randint(2, 5)
+    t = random.randint(3, 5)
     const  = random.randint(10, 30)
 
     # I wanted the "not enough information" possibility to be correct. it's easier, so only appears 10% of the time. this is a hacky bit of code and I don't like it
