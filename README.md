@@ -1,46 +1,36 @@
-# Start 101 Course Scaffolding
+# SCIE 001 PrairieLearn Repo
 
-## UBC Getting Started Steps
+Instructors and TAs use this repo to coordinate homework assignments over multiple instances of the course.
 
-Pre-requisites:
+Please file issues or pull requests to improve the homework questions.
 
-- Git is installed (usually pre-installed on a Mac or Linux machine, but [GUI Git Client](https://git-scm.com/download/win) available for Windows)
-- Internet connection
-- Contacted UBC CPSC Tech Staff to give you 'Owner' permissions of course
-- Have 'admin' or 'write' permissions to `pl-ubc-course999` course repository, which you likely do if you are reading this.
+### :gear: Development Workflow
 
-Read:
+#### Getting Started
+* Clone this repo to your local machine.
+* Follow instructions in [here](https://prairielearn.readthedocs.io/en/latest/installing/) to set up a local instance of PrairieLearn.
 
-1) [Clone this Repository](#clone-this-repository)
-2) [Modify this Repository](#modify-this-repository)
-3) [Sync this Repository](#sync-this-repository)
-4) Follow Get Started guide published by University of Illinois Urbana-Champaign (UIUC)
-5) DELETE this README.md and implement a README.md for your TAs
+#### Making Changes
+1. Create a new branch off of the `master` branch. If you are fixing an issue, name it with the number of the issue you'll be working on (e.g. `ISSUE-101`). If you are adding a new lesson, name it the same thing as the created question's QID (e.g. `FreeBodyDiagramsQ1`).
+2. Make changes and commit your changes to your branch with [Conventional Commit Messages](https://gist.github.com/qoomon/5dfcdf8eec66a051ecd85625518cfd13).
+3. Once you're satisfied with your changes, open a new pull request for your branch with the corresponding issue number or QID and description as the PR title (e.g. ISSUE-61: Fix Colin's code) 
+4. Fill out [PR template](https://learning.github.ubc.ca/PrairieLearn/pl-ubc-scie001/blob/master/.github/pr_template.md) when you post a PR.
+5. Resolve all merge conflicts as needed.
+6. Assign at least one member to review your PR and be open and available to address feedback.
+7. Comment the PR link in the issue ticket, if your PR addresses an issue.
+8. After approval from the team member, confirm the PR and merge your branch into the `master` branch.
+9. Confirm that your changes are reflected in the `master` branch, and then delete your branch.
 
-## Clone this Repository
+## Notes
 
-You will have the scaffolding necessary for a basic course in Prairie Learn.
+  * The current live instance of this course pulls from the master
+    branch (but this does not currently happen automatically).
 
-- Type command `git clone https://github.ubc.ca/PrairieLearn/pl-ubc-course999` after replacing `course999` with your course short name.
-- Substitute the course name with your course.
-- Follow the capitalization and naming conventions conventions found on [Prairie Learn Canada](https://ca.prairielearn.org/).
+  * During term, all non-trivial changes should go through merge
+    requests.
 
-## Modify this Repository
+## Caution
 
-UBC Tech Staff have given you 'Owner' permissions for the Course subject in Prairie Learn Canada. Owner permissions allow you to sync the contents of this Github Repository with the changes that you have implemented.
+  * **Student data should not be present in this repo.**
 
-Once you sync the contents of your course repository, you will be able to create a course instance and complete the Get Started guide published by UIUC.
-
-## Sync this Repository
-
-You will need to import the repository course code to the [Prairie Learn Canada application](https://ca.prairielearn.org) once you are done with your initial configuration.
-
-1) Make sure that the code configuration changes are committed to Git version control.
-2) The committed changes are now assumed to be in your local environment. If you have not pushed the code to the remote repository, push your changes now.
-
-Command to push your changes to remote repository: `git push origin master`
-
-## Getting Started
-
-Read and follow the [Get Started](https://prairielearn.readthedocs.io/en/latest/getStarted/) Prairie Learn Guide.
-
+  * **Students should not be discussed here.**
