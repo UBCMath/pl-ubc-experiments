@@ -11,6 +11,8 @@ def file(data):
         fig = plt.figure()
         ax = fig.add_subplot(111, aspect='auto', autoscale_on = True)
         
+        #graph in metres 
+        
         w = data['params']['w'] 
         b = data['params']['b'] /100
         h = data['params']['h'] /100
@@ -18,9 +20,10 @@ def file(data):
         n = data['params']['nowHeight'] /100
         
         a = (w-b)*(1/2)
+
+        #perspective for the right and top parallelograms
         shift = 0.45
-        
-        
+
         #top parallelogram 
         x = [0, w, (l+w-shift), (l-shift)]
         y = [h, h, (h+shift), (h+shift)]
@@ -31,11 +34,12 @@ def file(data):
         y = [h, (h+shift), shift, 0]
         ax.add_patch(patches.Polygon(xy=list(zip(x,y)), fill=False))
         
-        #trapezoid in cm
+        #trapezoid 
 
         x = [0, w, (a+b),a]
         y = [h, h, 0, 0]
         ax.add_patch(patches.Polygon(xy=list(zip(x,y)), fill=False))
+        # add dotted line showing current water level
         plt.plot([0,w],[n,n], linestyle = 'dotted')
         
         plt.show()  
@@ -47,7 +51,7 @@ def file(data):
 
 def generate(data):
     l = random.randint(2,6)
-    lToCm = 100* l
+    lToCm = 100* l #change from m to cm
     h = random.randint(30, 70)
     w = random.randint (1, 2)
     wToCm = 100* w
