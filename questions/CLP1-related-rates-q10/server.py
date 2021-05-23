@@ -17,7 +17,7 @@ def file(data):
         b = data['params']['b'] /100
         h = data['params']['h'] /100
         l = data['params']['l']
-        n = data['params']['nowHeight'] /100
+        n = data['params']['now_height'] /100
         
         a = (w-b)*(1/2)
 
@@ -39,6 +39,7 @@ def file(data):
         x = [0, w, (a+b),a]
         y = [h, h, 0, 0]
         ax.add_patch(patches.Polygon(xy=list(zip(x,y)), fill=False))
+        
         # add dotted line showing current water level
         plt.plot([0,w],[n,n], linestyle = 'dotted')
         
@@ -51,31 +52,34 @@ def file(data):
 
 def generate(data):
     l = random.randint(2,6)
-    lToCm = 100* l #change from m to cm
     h = random.randint(30, 70)
     w = random.randint (1, 2)
-    wToCm = 100* w
     b = random.randint (20, 80)
     rate = random.randint (1, 3)
-    while (True):
-        nowHeight= random.randint(5, 50)
-        if (nowHeight < h):
-            break
-    x = sympy.symbols("x")
-    v = b*lToCm*x+(0.5)*(1/h)*lToCm*x**2*(wToCm-b)
-    dv = sympy.lambdify(x, v.diff(x))
-    ans = dv(nowHeight)
-    rateToCmCubed = rate*-1000
-    ans = (-1)*rateToCmCubed/ans
     
-
+    while (True):
+        now_height= random.randint(5, 50)
+        if (now_height < h):
+            break
+      
     data['params']['l'] = l
     data['params']['h'] = h
     data['params']['w'] = w
     data['params']['b'] = b
     data['params']['rate'] = rate
-    data['params']['nowHeight'] = nowHeight
-    data['correct_answers']['ans_sig'] = round(ans,6)
+    data['params']['now_height'] = now_height
+    
+    l = 100* l #change from m to cm
+    w = 100* w
+
+    x = sympy.symbols("x")
+    v = b*l*x+(0.5)*(1/h)*l*x**2*(w-b)
+    dv = sympy.lambdify(x, v.diff(x))
+    ans = dv(now_height)
+    rateToCmCubed = rate*-1000
+    ans = (-1)*rateToCmCubed/ans
+    
+    data['correct_answers']['ans_sig'] = round(ans,5)
 
 
     
