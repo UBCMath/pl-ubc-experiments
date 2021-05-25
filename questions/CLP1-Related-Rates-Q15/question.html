@@ -1,0 +1,6 @@
+<pl-question-panel>
+    <p>Find the rate of change $\frac{dA}{dt}$ of the area of the annulus $\left\{ (x, y) : r^2 \leq x^2 + y^2 \leq R^2 \right\}$. (i.e. the points inside the circle of radius $R$ but outside the circle of radius $r$) if $R= {{params.R}} \text{cm}$, $r= {{params.r}} \text{cm}$, $\frac{dR}{dt}= {{params.DR}} \frac{\text{cm}}{\text{s}}$, and $\frac{dr}{dt}= {{params.Dr}} \frac{\text{cm}}{\text{s}}$.</p>
+    <pl-figure file-name="figure.png" type="dynamic" width=400px></pl-figure>
+</pl-question-panel>
+
+<pl-number-input answers-name="rate_of_change" comparison="sigfig" digits="3" label="$\frac{dA}{dt}=$" suffix="$\frac{\text{cm}^2}{\text{s}}$"></pl-number-input>
