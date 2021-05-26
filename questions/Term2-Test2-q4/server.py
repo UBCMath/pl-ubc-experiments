@@ -13,6 +13,18 @@ def file(data):
         R = 0.5
         scale = data['params']['scale']
         
+        #remove ticks on axes
+
+        plt.tick_params(
+            axis='both',          
+            which='both',      
+            bottom=False,
+            top=False,
+            labelbottom=False,
+            right=False,
+            left=False,
+            labelleft=False)
+            
         # add initial base
         x = [-R, -R, R,R]
         y = [0, scale*R, scale*R, 0]
