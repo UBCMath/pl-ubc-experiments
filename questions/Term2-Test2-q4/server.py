@@ -26,6 +26,23 @@ def file(data):
         
         ax.plot(x1, x2)
         ax.set_aspect(1)
+        
+        #adding labels to sides
+        ax.plot([-R, -R], [0, scale*R], "k")
+        ax.plot([-R, -R], [0, scale*R], "ko")
+
+        ax.text(-R-0.1, (scale*R)/2, scale, horizontalalignment="right", fontsize="xx-large", fontweight="black")
+        ax.text(-R-0.01, (scale*R)/2, "R", horizontalalignment="right", fontsize="xx-large", fontweight="black")
+
+        ax.plot([-R, 0], [scale*R,scale*R], "k")
+        ax.plot([-R, 0], [scale*R,scale*R], "ko")
+        ax.text((-R/2), scale*R, "R", verticalalignment="bottom", fontsize="xx-large", fontweight="black")
+
+        ax.plot([0, R*np.cos(np.pi/4)], [scale*R,(R*np.sin(np.pi/4) + scale*R)], "k")
+        ax.plot([0, R*np.cos(np.pi/4)], [scale*R,(R*np.sin(np.pi/4) + scale*R)], "ko")
+
+        ax.text((R/2), ((R/2)+scale*R), "R", verticalalignment="top", fontsize="xx-large", fontweight="black")
+
         plt.axis('off')
         plt.show()  
 
