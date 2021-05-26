@@ -27,12 +27,13 @@ def file(data):
         ax.plot(x1, x2)
         ax.set_aspect(1)
         
-        #adding labels to sides
+        #adding labels to sides of figure
         ax.plot([-R, -R], [0, scale*R], "k")
         ax.plot([-R, -R], [0, scale*R], "ko")
-
-        ax.text(-R-0.1, (scale*R)/2, scale, horizontalalignment="right", fontsize="xx-large", fontweight="black")
-        ax.text(-R-0.01, (scale*R)/2, "R", horizontalalignment="right", fontsize="xx-large", fontweight="black")
+        if (scale != 1):
+            ax.text(-R-0.03, (scale*R)/2, str(scale) + "R", horizontalalignment="right", fontsize="xx-large", fontweight="black")
+        else:
+            ax.text(-R-0.03, (scale*R)/2, "R", horizontalalignment="right", fontsize="xx-large", fontweight="black")
 
         ax.plot([-R, 0], [scale*R,scale*R], "k")
         ax.plot([-R, 0], [scale*R,scale*R], "ko")
@@ -41,7 +42,14 @@ def file(data):
         ax.plot([0, R*np.cos(np.pi/4)], [scale*R,(R*np.sin(np.pi/4) + scale*R)], "k")
         ax.plot([0, R*np.cos(np.pi/4)], [scale*R,(R*np.sin(np.pi/4) + scale*R)], "ko")
 
-        ax.text((R/2), ((R/2)+scale*R), "R", verticalalignment="top", fontsize="xx-large", fontweight="black")
+        ax.text((R/2)-0.01, ((R/2)+scale*R)-0.01, "R", verticalalignment="top", fontsize="xx-large", fontweight="black")
+        
+        # adding new axes in the form of lines
+        ax.plot([-2*R, 2*R], [0,0], "k")
+        ax.plot([0, 0], [0, (scale*R+1.5*R)], "k")
+        ax.text(2*R, 0, "x", verticalalignment="top", horizontalalignment="right", fontsize="x-large", fontweight="black")
+        ax.text(0.1, (scale*R+1.5*R), "y", verticalalignment="top", horizontalalignment="right", fontsize="x-large", fontweight="black")
+        
 
         plt.axis('off')
         plt.show()  
@@ -55,17 +63,18 @@ def generate(data):
     scale = random.randint(1,4)
 
     data['params']['scale'] = scale
-    x = sympy.symbols("x")
-    sympy.var ('x y new_height R')
-    new_height = scale*R
-    
-    area = new_height*(2*R)+(1/2)*(np.pi)*R**2
-    semicircle_equation = new_height + np.sqrt(R**2-x**2)
-    integrate_eq = (1/area)*sympy.integrate(semicircle_equation**2,R)
-    Y = sympy.lambdify (R, integrate_eq)
-    y = Y(R) -Y(0)
+    sympy.var('R')
 
-    data['correct_answers']['x_coor'] = pl.to_json(x)
-    data['correct_answers']['y_coor'] = pl.to_json(y)
+    new_height = scale*R
+    area_of_semicircle = (1/2)*np.pi*R**2
+    area_of_rect = new_height*2*R
+    com_semicircle = (4/(3*np.pi))*R + new_height
+    com_rect = new_height/2
+    y = area_of_semicircle*com_semicircle + area_of_rect* com_rect
+    y = y/(area_of_rect+ area_of_semicircle)
+    funct = sympy.lambdify (R, y)
+    ans = funct (1)
+
+    data['correct_answers']['y_coor'] = round (ans, 4)
     
     
