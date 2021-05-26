@@ -12,10 +12,12 @@ def file(data):
         ax = fig.add_subplot(111, aspect='auto', autoscale_on = True)
         R = 0.5
         scale = data['params']['scale']
-
         
-        # add dotted line showing current water level
-        plt.plot([-R,0],[-R,scale*R], linestyle = 'dotted')
+        # add initial base
+        x = [-R, -R, R,R]
+        y = [0, scale*R, scale*R, 0]
+        plt.plot(x,y)
+        
         
         plt.show()  
 
