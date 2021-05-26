@@ -55,9 +55,10 @@ def generate(data):
     scale = random.randint(1,4)
 
     data['params']['scale'] = scale
-    new_height = scale*R
+    x = sympy.symbols("x")
     sympy.var ('x y new_height R')
-
+    new_height = scale*R
+    
     area = new_height*(2*R)+(1/2)*(np.pi)*R**2
     semicircle_equation = new_height + np.sqrt(R**2-x**2)
     integrate_eq = (1/area)*sympy.integrate(semicircle_equation**2,R)
