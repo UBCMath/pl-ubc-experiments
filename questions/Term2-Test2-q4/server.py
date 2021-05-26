@@ -5,7 +5,7 @@ import io
 import random
 import sympy
 import numpy as np
-
+    
 def file(data):
     if data['filename']=='figure.png':
         fig = plt.figure()
@@ -13,8 +13,8 @@ def file(data):
         R = 0.5
         scale = data['params']['scale']
         
+        
         #remove ticks on axes
-
         plt.tick_params(
             axis='both',          
             which='both',      
@@ -24,12 +24,23 @@ def file(data):
             right=False,
             left=False,
             labelleft=False)
-            
+        
+        #remove border on graph
+        fig.patch.set_visible(False)
+        ax.axis('off')
+        
         # add initial base
         x = [-R, -R, R,R]
         y = [0, scale*R, scale*R, 0]
         plt.plot(x,y)
         
+        theta = np.linspace(0, (np.pi/2), 100)
+        
+        x1 = R*np.cos(theta)
+        x2 = R*np.sin(theta) + scale*R
+
+        
+        ax.plot(x1, x2)
         
         plt.show()  
 
