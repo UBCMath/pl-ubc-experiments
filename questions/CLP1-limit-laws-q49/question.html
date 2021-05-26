@@ -1,0 +1,28 @@
+<pl-question-panel>
+  <p>Suppose:</p>
+  <p>$$ f(x) =
+        \begin{cases}
+        x^2 - {{params.n}} & , \, x \lt 0 \\
+        0                  & , \, x = 0 \\
+        x^2 + {{params.n}} & , \, x \gt 0 \\
+        \end{cases} $$
+  </p>
+  <p>Evaluate $\lim_{x -> 0^-} f(x)$.</p>
+</pl-question-panel>
+
+<pl-integer-input answers-name="lim-L" label="$\lim_{x -> 0^-} f(x) \; =$"></pl-integer-input>
+
+<pl-question-panel>
+  <p>Evaluate $\lim_{x -> 0^+} f(x)$.</p>
+</pl-question-panel>
+
+<pl-integer-input answers-name="lim-R" label="$\lim_{x -> 0^+} f(x) \; =$"></pl-integer-input>
+
+<pl-question-panel>
+  <p>Does $\lim_{x -> 0} f(x)$ exist?</p>
+</pl-question-panel>
+
+<pl-multiple-choice answers-name='lim' number-answers='2'>
+  <pl-answer>Yes</pl-answer>
+  <pl-answer correct='true'>No</pl-answer>
+</pl-multiple-choice>
