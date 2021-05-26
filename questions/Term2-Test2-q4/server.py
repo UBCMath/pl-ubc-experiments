@@ -55,10 +55,14 @@ def generate(data):
     scale = random.randint(1,4)
 
     data['params']['scale'] = scale
-    sympy.var ('x y scale R')
-    
-    x = 0*R
-    y = R
+    new_height = scale*R
+    sympy.var ('x y new_height R')
+
+    area = new_height*(2*R)+(1/2)*(np.pi)*R**2
+    semicircle_equation = new_height + np.sqrt(R**2-x**2)
+    integrate_eq = (1/area)*sympy.integrate(semicircle_equation**2,R)
+    Y = sympy.lambdify (R, integrate_eq)
+    y = Y(R) -Y(0)
 
     data['correct_answers']['x_coor'] = pl.to_json(x)
     data['correct_answers']['y_coor'] = pl.to_json(y)
