@@ -61,24 +61,17 @@ def file(data):
         plt.savefig(f, format='png')
         return f
 
-def generate(data):
+def generate (data):
     scale = random.randint(1,4)
 
     data['params']['scale'] = scale
-    sympy.var('R')
-
-    new_height = scale*R
-    area_of_semicircle = (1/2)*np.pi*R**2
-    area_of_rect = new_height*2*R
+    x = sympy.Symbol('x', real=True)
+    R = sympy.Symbol('R', real=True)
     
-    com_semicircle = (4/(3*np.pi))*R + new_height
-    com_rect = new_height/2
+    m = sympy.pi*R**2/2 + 2*scale*R**2
+    dybar = 1/(2*m)*(scale*R + sympy.sqrt(R**2 - x**2))**2
+    y = sympy.simplify(sympy.integrate(dybar, (x, -R, R)))
     
-    y = area_of_semicircle*com_semicircle + area_of_rect* com_rect
-    y = y/(area_of_rect+ area_of_semicircle)
-    funct = sympy.lambdify (R, y)
-    ans = funct (1)
-
-    data['correct_answers']['y_coor'] = round (ans, 4)
+    data['correct_answers']['y_coor'] = pl.to_json(y)
     
     
