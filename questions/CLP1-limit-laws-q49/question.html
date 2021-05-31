@@ -7,24 +7,15 @@
         x^2 + {{params.n}} & , \, x \gt 0 \\
         \end{cases} $$
   </p>
-  <p>Evaluate $\displaystyle \lim_{x \to 0^-} f(x)$.</p>
+  <p>Evaluate the following three limits. Type <b>DNE</b> if limit does not exist.</p>
 </pl-question-panel>
 
-<pl-integer-input answers-name="lim-L" label="$\lim_{x \to 0^-} f(x) \; =$"></pl-integer-input>
+<pl-integer-input answers-name="lim-L" show-help-text="false" label="$\displaystyle \lim_{x \to 0^-} f(x) \; =$"></pl-integer-input>
 
-<pl-question-panel>
-  <p></p>
-  <p>Evaluate $\displaystyle \lim_{x \to 0^+} f(x)$.</p>
-</pl-question-panel>
+<p>&nbsp;</p>
 
-<pl-integer-input answers-name="lim-R" label="$\lim_{x \to 0^+} f(x) \; =$"></pl-integer-input>
+<pl-integer-input answers-name="lim-R" show-help-text="false" label="$\displaystyle \lim_{x \to 0^+} f(x) \; =$"></pl-integer-input>
 
-<pl-question-panel>
-  <p></p>
-  <p>Does $\displaystyle \lim_{x \to 0} f(x)$ exist?</p>
-</pl-question-panel>
+<p>&nbsp;</p>
 
-<pl-multiple-choice answers-name='lim' number-answers='2'>
-  <pl-answer>Yes</pl-answer>
-  <pl-answer correct='true'>No</pl-answer>
-</pl-multiple-choice>
+<pl-string-input answers-name="lim"  show-help-text="false" label="$\displaystyle \lim_{x \to 0} f(x) \; =$" placeholder="integer"></pl-string-input>

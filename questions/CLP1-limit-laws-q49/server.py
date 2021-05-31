@@ -9,3 +9,4 @@ def generate(data):
 
     data['correct_answers']['lim-L'] = -n
     data['correct_answers']['lim-R'] = n
+    data['correct_answers']['lim'] = "DNE"
