@@ -1,6 +1,3 @@
-import prairielearn as pl
-
-
 def generate (data):
 
     data['correct_answers']['c'] = 1
