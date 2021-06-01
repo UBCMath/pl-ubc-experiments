@@ -7,5 +7,6 @@ def generate(data):
 
     data['params']['n'] = n
 
-    data['correct_answers']['lim-L'] = -n
-    data['correct_answers']['lim-R'] = n
+    data['correct_answers']['lim-L'] = str(-n)
+    data['correct_answers']['lim-R'] = str(n)
+    data['correct_answers']['lim'] = "DNE"
