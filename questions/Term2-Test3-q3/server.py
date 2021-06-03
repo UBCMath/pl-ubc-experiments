@@ -15,7 +15,7 @@ def generate (data):
     A = sympy.symbols("A")
     c = sympy.symbols("c")
     g = sympy.symbols("g")
-    z = 0*H
+    z = sympy.simplify(0)
     
     ans = sympy.simplify(g*A*(vary+c*(H/b-y))*(H-y))
     data['correct_answers']['symbolic_math'] = pl.to_json(ans)
