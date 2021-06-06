@@ -27,7 +27,7 @@ def generate(data):
         ["nr", integral_nr],
         ["rn", -integral_nr], #  prev integral but bounds flipped
         ["lr", integral_lr],
-        ["rl", -integral_rl]  #  prev integral but bounds flipped
+        ["rl", -integral_lr]  #  prev integral but bounds flipped
     ]
 
     # Takes integrated values, sort in descending order
