@@ -1,9 +1,3 @@
-<!--
-  Desmos API key (change for production)
-  For production, see https://www.desmos.com/api/v1.6/docs/index.html#document-api-keys for API keys
--->
-<script src="https://www.desmos.com/api/v1.6/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
-
 <pl-question-panel>
   <!--
     Question modified from Science One Webwork - MATH H2.1 Q7
@@ -13,9 +7,31 @@
   <p>&nbsp;</p>
 
   <!--
-    Desmos
+    Desmos API key (change for production)
+    For production, see https://www.desmos.com/api/v1.6/docs/index.html#document-api-keys for API keys
   -->
+  <script src="https://www.desmos.com/api/v1.6/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
   <div id="calculator" style="width: 600px; height: 400px;"></div>
+  <script>
+    var elt = document.getElementById('calculator');
+  
+    // disables viewing/changing the graph and its bounds
+    var calculator = Desmos.GraphingCalculator(elt,{expressions: false,  lockViewport: true});
+  
+    // sets the bounds of the graph
+    calculator.setMathBounds({
+      left: -5,
+      right: 15,
+      bottom: -6.5,
+      top: 6.5
+    });
+    
+    // graphs f(x) = (1/18) * x * (x-n) * (x-9)
+    var prefix = '(1/18) x (x-';
+    var n = {{params.n}};
+    var suffix = ') (x-9)';
+    calculator.setExpression({ id: 'graph1', latex: prefix.concat(n).concat(suffix)});
+  </script>
   <p>&nbsp;</p>
 </pl-question-panel>
 
@@ -26,28 +42,3 @@
     <pl-answer>$$\int_{{params.n}}^{{params.r}} f(x) \, dx$$</pl-answer>
   </pl-order-blocks>
 </pl-hide-in-panel>
-
-<!--
-  Desmos
--->
-<script>
-  var elt = document.getElementById('calculator');
-
-  // disables viewing/changing the graph and its bounds
-  var calculator = Desmos.GraphingCalculator(elt,{expressions: false,  lockViewport: true});
-
-  // sets the bounds of the graph
-  calculator.setMathBounds({
-    left: -5,
-    right: 15,
-    bottom: -6.5,
-    top: 6.5
-  });
-  
-  // graphs f(x) = (1/18) * x * (x-n) * (x-9)
-  var prefix = '(1/18) x (x-';
-  var n = {{params.n}};
-  var suffix = ') (x-9)';
-  calculator.setExpression({ id: 'graph1', latex: prefix.concat(n).concat(suffix)});
-</script>
-
