@@ -36,9 +36,12 @@
 </pl-question-panel>
 
 <pl-hide-in-panel answer="true">
-  <pl-order-blocks answers-name="order" grading-method="ordered">
-    <pl-answer>$$\int_{{params.l}}^{{params.n}} f(x) \, dx$$</pl-answer>
-    <pl-answer>$$\int_{{params.l}}^{{params.r}} f(x) \, dx$$</pl-answer>
-    <pl-answer>$$\int_{{params.n}}^{{params.r}} f(x) \, dx$$</pl-answer>
+  <pl-order-blocks answers-name="order" grading-method="ranking">
+    <pl-answer ranking={{params.ln}}>$$\int_{{params.l}}^{{params.n}} f(x) \, dx$$</pl-answer>
+    <pl-answer ranking={{params.nl}}>$$\int_{{params.n}}^{{params.l}} f(x) \, dx$$</pl-answer>
+    <pl-answer ranking={{params.lr}}>$$\int_{{params.l}}^{{params.r}} f(x) \, dx$$</pl-answer>
+    <pl-answer ranking={{params.rl}}>$$\int_{{params.r}}^{{params.l}} f(x) \, dx$$</pl-answer>
+    <pl-answer ranking={{params.nr}}>$$\int_{{params.n}}^{{params.r}} f(x) \, dx$$</pl-answer>
+    <pl-answer ranking={{params.rn}}>$$\int_{{params.r}}^{{params.n}} f(x) \, dx$$</pl-answer>
   </pl-order-blocks>
 </pl-hide-in-panel>
