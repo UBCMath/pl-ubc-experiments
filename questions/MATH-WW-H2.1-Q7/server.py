@@ -16,20 +16,25 @@ def generate(data):
     x = sympy.Symbol('x', real=True)
     f = (1/18)*(x-n)*(x-l)*(x-r)
 
-    # Calculates 6 integrals
+    # Calculates 3 integrals
+    integral_ln = sympy.integrate(f, (x, l, n))
+    integral_nr = sympy.integrate(f, (x, n, r))
+    integral_lr = sympy.integrate(f, (x, l, r))
+
     integrals = [
-        ["ln", sympy.integrate(f, (x, l, n))],
-        ["nl", sympy.integrate(f, (x, n, l))],
-        ["nr", sympy.integrate(f, (x, n, r))],
-        ["rn", sympy.integrate(f, (x, r, n))],
-        ["lr", sympy.integrate(f, (x, l, r))],
-        ["rl", sympy.integrate(f, (x, r, l))]
+        ["ln", integral_ln],
+        ["nl", -integral_ln], #  prev integral but bounds flipped
+        ["nr", integral_nr],
+        ["rn", -integral_nr], #  prev integral but bounds flipped
+        ["lr", integral_lr],
+        ["rl", -integral_rl]  #  prev integral but bounds flipped
     ]
 
     # Takes integrated values, sort in descending order
     values = list(map(lambda a : a[1], integrals))
     values.sort(reverse=True)
     
+    # if searches for value, returns label
     def matching(v):
         for i in integrals:
             if v == i[1]:
