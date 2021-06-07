@@ -5,16 +5,19 @@ def generate(data):
 
     # Generate a random number that determines the middle x-intercept of the function
     n = random.randint(1, 8)
+    # Positive or negative?
+    sign = 1 if (random.randint(0, 1) == 1) else -1
     l = 0   # left x-intercept
     r = 9   # right x-intercept
 
     data['params']['n'] = n
+    data['params']['sign'] = sign
     data['params']['l'] = l
     data['params']['r'] = r
 
     # SymPy setup
     x = sympy.Symbol('x', real=True)
-    f = (1/18)*(x-n)*(x-l)*(x-r)
+    f = sign * (1/18) * (x-n) * (x-l) * (x-r)
 
     # Calculates 3 integrals
     integral_ln = sympy.integrate(f, (x, l, n))

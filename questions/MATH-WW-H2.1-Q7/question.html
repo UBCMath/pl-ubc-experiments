@@ -26,11 +26,12 @@
       top: 6.5
     });
     
-    // graphs f(x) = (1/18) * x * (x-n) * (x-9)
-    var prefix = '(1/18) x (x-';
+    // graphs f(x) = sign * (1/18) * x * (x-n) * (x-9)
+    var sign = '('.concat({{params.sign}}).concat(')'); // (1) or (-1)
+    var prefix = ' (1/18) x (x-';
     var n = {{params.n}};
     var suffix = ') (x-9)';
-    calculator.setExpression({ id: 'graph1', latex: prefix.concat(n).concat(suffix)});
+    calculator.setExpression({ id: 'graph1', latex: sign.concat(prefix).concat(n).concat(suffix)});
   </script>
   <p>&nbsp;</p>
 </pl-question-panel>
