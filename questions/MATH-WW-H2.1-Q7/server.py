@@ -24,28 +24,17 @@ def generate(data):
     integral_nr = sympy.integrate(f, (x, n, r))
     integral_lr = sympy.integrate(f, (x, l, r))
 
-    integrals = [
-        ["ln", integral_ln],
-        ["nl", -integral_ln], #  prev integral but bounds flipped
-        ["nr", integral_nr],
-        ["rn", -integral_nr], #  prev integral but bounds flipped
-        ["lr", integral_lr],
-        ["rl", -integral_lr]  #  prev integral but bounds flipped
-    ]
+    integrals = {
+        "ln": integral_ln,
+        "nl": -integral_ln, #  prev integral but bounds flipped
+        "nr": integral_nr,
+        "rn": -integral_nr, #  prev integral but bounds flipped
+        "lr": integral_lr,
+        "rl": -integral_lr  #  prev integral but bounds flipped
+    }
 
     # Takes integrated values, sort in descending order
-    values = list(map(lambda a : a[1], integrals))
-    values.sort(reverse=True)
-    
-    # if searches for value, returns label
-    def matching(v):
-        for i in integrals:
-            if v == i[1]:
-                return i[0]
-        return ""
-    
-    # maps the integral names onto the sorted list
-    ranking = list(map(matching, values))
+    ranking = list(dict(sorted(integrals.items(), key=lambda item: item[1], reverse=True)).keys())
 
     # saves the ranking (+1 because index 1)
     data['params']['ln'] = ranking.index('ln') + 1
