@@ -21,10 +21,6 @@ def grade (data):
         
     if continuous and limit_qualifies:
         data ['score'] = 1
-    elif continous:
-        data ['score'] = 0.5
-    elif limit_qualifies:
-        data ['score'] = 0.5
     else:
         data ['score'] = 0
         
