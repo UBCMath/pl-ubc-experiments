@@ -11,8 +11,7 @@ def grade (data):
     x = sympy.symbols ('x')
     const = data['params']['const']
     ans = pl.from_json(data['submitted_answers']['symbolic_math'])
-    limit_to_const_inv = sympy.limit ((1/ans), x, const)
-    limit_qualifies = (limit_to_const_inv == sympy.oo)
+    limit_qualifies = ((sympy.limit ((1/ans), x, const,'-') == sympy.oo) and (sympy.limit ((1/ans), x, const,'+') == sympy.oo))
     if limit_qualifies:
         limit_to_const = sympy.limit (ans, x, const)
         f = sympy.lambdify (x, ans)
