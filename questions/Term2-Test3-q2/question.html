@@ -3,27 +3,18 @@
   <p> A ${{params.salt_solution}}$ $kg/L$ salt solution flows in at a rate of ${{params.flow_in}}$ $L/min$, and well-mixed solution flows out at a rate of ${{params.flow_out}}$ $L/min$. </p>
 
 </pl-question-panel>
-<pl-overlay width = "1000" height = "70" clip = "false"> 
-    <pl-location left = "250" top = "30">
-        <pl-symbolic-input answers-name="symbolic_math" variables="S,t" label="$\displaystyle \frac {dS} {dt} = $"></pl-symbolic-input>
-    </pl-location>
-    <pl-location left = "595" top = "35"> 
-        <pl-number-input answers-name="c3" show-help-text="false" size = "1" label="" show-placeholder= "false"></pl-number-input>
-    </pl-location>
-    <pl-location left = "680" top = "35">
-        <pl-number-input answers-name="c4" show-help-text="false" size = "2" label="" show-placeholder= "false"></pl-number-input>
-    </pl-location>
-    <pl-location left = "560" top = "35">
-        <pl-question-panel >
-          <p> $S ($</p>
-        </pl-question-panel>
-    </pl-location>
-    <pl-location left = "640" top = "35">
-        <pl-question-panel >
-          <p> $) = $ </p>
-        </pl-question-panel>
-    </pl-location>
-</pl-overlay>
+
+<div style="display: flex; flex-direction: row; align-items: center;">
+    <h3 style="flex-grow: 0; flex-shrink: 0;">$\displaystyle \frac {dS} {dt} = $</h3>
+    <div style="display: flex; flex-direction: row; margin-right: 2%; flex-grow: 0; flex-shrink: 4;">
+        <pl-symbolic-input answers-name="symbolic_math" variables="S,t" label=""></pl-symbolic-input>
+    </div>
+    <h4 style="margin-left: 2%; flex-grow: 0; flex-shrink: 0;">$S ($</h4>
+    <pl-number-input answers-name="c3" show-help-text="false" size = "1" label="" show-placeholder= "false"></pl-number-input>
+    <h4 style="margin-left: 1%; flex-grow: 0; flex-shrink: 0;">$) = $</h4>
+    <pl-number-input answers-name="c4" show-help-text="false" size = "2" label="" show-placeholder= "false"></pl-number-input>
+</div>
+
 
 
 
