@@ -1,0 +1,104 @@
+<pl-question-panel>
+  <!--
+    I found this question scribbled on a piece of graph paper that I possibly
+    used to do scratch work on while studying AP Physics C. Either way, I can't
+    find the original author of this question, but thank you.
+      ~ Boris Li
+  -->
+
+  <!--
+    GeoGebra
+  -->
+  <script src="https://www.geogebra.org/apps/deployggb.js"></script>
+  <div id="ggb-element"></div>
+  <script>  
+    var params = {
+      "appName": "3d",
+      "width": 800, "height": 600,
+      "showToolBar": false, "showAlgebraInput": false, "showMenuBar": false,
+      "appletOnLoad": function(api){
+        objects = api.evalCommandGetLabels(
+          "R = 3 \n r = 0.2 \n P = (6,0,0) \n A = Surface(r sin(phi), sin(theta)(R+rcos(phi)), cos(theta)(R+rcos(phi)), theta, 0, 2pi, phi, 0, 2pi)"
+        );
+        api.setCoordSystem(-4, 8, -4, 8, -4, 8, true);
+        api.setAxisLabels(3, "x", "y", "z");
+        api.setColor("A", 25, 25, 25);
+      }
+    };
+    var applet = new GGBApplet(params, true);
+    window.addEventListener("load", function() { 
+        applet.inject('ggb-element');
+      }
+    );
+  </script>
+
+  <p>
+    An electric current of ${{params.I}} \text{A}$ flows around a circular loop of radius ${{params.R}} \text{m}$
+    counterclockwise when viewed from point $P$. The loop lies on the $yz$-plane, with its centre at the origin.
+    A point $P$ is ${{params.x}} \text{m}$ away from the origin on the $x$-axis.
+  </p>
+
+  <p><em>
+    Note: Diagram might not be drawn to scale.
+  </em></p>
+
+  <p>
+    What is the direction of the magnetic field at point $P$?
+  </p>
+</pl-question-panel>
+
+<!--
+  If threejs ever works, we can change this to letting the student rotate the arrow on screen.
+-->
+The magnetic field points in the direction of the
+<pl-dropdown sort="fixed" answers-name="B_hat">
+  <pl-answer correct="true">+x</pl-answer>
+  <pl-answer correct="false">-x</pl-answer>
+  <pl-answer correct="false">+y</pl-answer>
+  <pl-answer correct="false">-y</pl-answer>
+  <pl-answer correct="false">+z</pl-answer>
+  <pl-answer correct="false">-z</pl-answer>
+</pl-dropdown> axis.
+
+<pl-question-panel>
+  <p>
+    Determine the magnitude of the magnetic field at point $P$.
+  </p>
+</pl-question-panel>
+
+<pl-number-input answers-name="B_P" comparison="sigfig" digits=3 label="$B =$" suffix="$\text{T}$"></pl-number-input>
+
+<!--
+  If threejs ever implemented, can ask student to move a sphere to location of max B (origin).
+-->
+<pl-question-panel>
+  <p>&nbsp;</p>
+  <p>
+    What is the maximum value of the magnetic field?
+  </p>
+</pl-question-panel>
+
+<pl-number-input answers-name="B_max" comparison="sigfig" digits=3 label="$B =$" suffix="$\text{T}$"></pl-number-input>
+
+<pl-question-panel>
+  <p>&nbsp;</p>
+  <p>
+    If an electron is moving in the positive $y$ direction at a constant speed ${{params.v}} \times 10^6 \text{m/s}$, what is the
+    direction and magnitude of the magnetic force as it passes point $P$?
+  </p>
+</pl-question-panel>
+
+<pl-number-input answers-name="F" comparison="sigfig" digits=3 label="$F =$" suffix="$\text{N}$"></pl-number-input>
+
+<p>&nbsp;</p>
+
+The magnetic force points in the direction of the
+<pl-dropdown sort="fixed" answers-name="F_hat">
+  <pl-answer correct="false">+x</pl-answer>
+  <pl-answer correct="false">-x</pl-answer>
+  <pl-answer correct="false">+y</pl-answer>
+  <pl-answer correct="false">-y</pl-answer>
+  <pl-answer correct="false">+z</pl-answer>
+  <pl-answer correct="true">-z</pl-answer>
+</pl-dropdown> axis.
+
