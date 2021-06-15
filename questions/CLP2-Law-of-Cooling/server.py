@@ -25,12 +25,26 @@ def generate(data):
     k_const = sympy.solve ((temp_ini-ambient)*sympy.exp(K*hours_pased)+ambient-temp_fin,K)[0]
     k_const = round(k_const, 5)
     t_d = float((1/k_const)*sympy.log((37-ambient)/(temp_ini-ambient)))
-    mins = int(((abs(t_d*100)%100)/100)*60)
+    mins = round(((abs(t_d*100)%100)/100)*60)
+    if (t_d < 0):
+        mins *= -1
+    mins += 45
     hours = int(t_d)
-    if ( (hours + time_ini) <= 0 or (hours + time_ini) >= 12):
+    if ((hours + time_ini) <= 0 or (hours + time_ini) >= 12):
         time_of_day = "am"
         inc = "pm"
-        
+    while(mins >= 60):
+        mins -= 60
+        if (t_d > 0):
+            hours += 1
+        else:
+            hours -= 1
+    while(mins < 0):
+        mins += 60
+        if (t_d > 0):
+            hours -= 1
+        else:
+            hours += 1        
 
     list_of_para = {
         "ambient":  ambient, 
@@ -47,6 +61,8 @@ def generate(data):
     }
     for key in list_of_para:
         data['params'][key] = list_of_para[key]
+    data['correct_answers']['death_time_h'] = time_ini + hours
+    data ['correct_answers']['death_time_mins'] = mins
 
 def grade(data):
     start_time_hr = data ['params']['time_ini'] 
@@ -54,18 +70,12 @@ def grade(data):
     mins_sub  = data ['submitted_answers']['death_time_mins']
     time = data ['submitted_answers']['time']
     change_in_hr = data ['params']['change_in_hr']
-    change_in_mins = data ['params']['change_in_mins']
-    
-    if(change_in_hr < 0):
-        change_in_mins *= -1
+    if (data['score']!= 1):
+        if ((hours_sub-change_in_hr) == (12+start_time_hr)):
+            data['score'] += 1/3
 
-    if ((hours_sub-change_in_hr) == start_time_hr or (hours_sub-change_in_hr) == (12+start_time_hr)):
-        if ((mins_sub-45) == change_in_mins):
-            data['score'] = 1
-        else:
-            data['score'] = 0
-    else:
-        data['score'] = 0
+
+
 
 
 
