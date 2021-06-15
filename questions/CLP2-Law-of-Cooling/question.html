@@ -6,14 +6,14 @@
 <div style="display: flex; flex-direction: row; align-items: center;">
     <h5 style="flex-grow: 0; flex-shrink: 0;">Time of death: </h5>
     <div style="display: flex; flex-direction: row; margin-right: 1%; flex-grow: 0; flex-shrink: 4;">
-        <pl-number-input answers-name="death_time_1" comparison="sigfig" digits="1" size = "1" label = "" suffix = "" show-help-text = "False" show-placeholder = "False"></pl-number-input>
+        <pl-number-input answers-name="death_time_h" comparison="sigfig" digits="1" size = "1" label = "" suffix = "" show-help-text = "False" show-placeholder = "False"></pl-number-input>
     </div>
     <h4 style="margin-left: 1%; flex-grow: 0; flex-shrink: 0;">$:$</h4>
-    <pl-number-input answers-name="death_time_2" comparison="sigfig" digits="3" size = "2" label = "" suffix = "" show-help-text = "False" show-placeholder = "False"></pl-number-input>
+    <pl-number-input answers-name="death_time_mins" comparison="sigfig" digits="3" size = "2" label = "" suffix = "" show-help-text = "False" show-placeholder = "False"></pl-number-input>
     <div style="display: flex; flex-direction: column; margin: 1em ; margin-top: 5%; flex-grow: 0; flex-shrink: 4;">
     <pl-dropdown  sort = "random" answers-name="time">
-        <pl-answer correct="true">{{params.time_of_day}}</pl-answer>
-        <pl-answer correct="false">{{params.incorrect_time_of_day}}</pl-answer>
+        <pl-answer correct = "True">{{params.time_of_day}}</pl-answer>
+        <pl-answer correct = "False">{{params.time_of_day_2}}</pl-answer>
     </pl-dropdown>
     </div>
 </div>
