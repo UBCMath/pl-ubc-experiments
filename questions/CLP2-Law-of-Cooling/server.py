@@ -30,9 +30,6 @@ def generate(data):
         mins *= -1
     mins += 45
     hours = int(t_d)
-    if ((hours + time_ini) <= 0 or (hours + time_ini) >= 12):
-        time_of_day = "am"
-        inc = "pm"
     while(mins >= 60):
         mins -= 60
         if (t_d > 0):
@@ -45,7 +42,13 @@ def generate(data):
             hours -= 1
         else:
             hours += 1        
-
+    if ((hours + time_ini) <= 0 or (hours + time_ini) >= 12):
+        if (hours + time_ini <= 0):
+            hours += 12
+        else:
+            hours -= 12
+        time_of_day = "am"
+        inc = "pm"
     list_of_para = {
         "ambient":  ambient, 
         "temp_ini" : temp_ini,
@@ -57,7 +60,7 @@ def generate(data):
         "time_of_day_2" : inc,
         "const" : 45,
         "change_in_hr" : hours,
-        "change_in_mins" : mins
+        "mins" : mins
     }
     for key in list_of_para:
         data['params'][key] = list_of_para[key]
@@ -67,12 +70,18 @@ def generate(data):
 def grade(data):
     start_time_hr = data ['params']['time_ini'] 
     hours_sub = data ['submitted_answers']['death_time_h']
-    mins_sub  = data ['submitted_answers']['death_time_mins']
-    time = data ['submitted_answers']['time']
+    mins_sub = data ['submitted_answers']['death_time_mins']
     change_in_hr = data ['params']['change_in_hr']
+    mins = data ['params']['mins']
+    
     if (data['score']!= 1):
-        if ((hours_sub-change_in_hr) == (12+start_time_hr)):
+        if ((hours_sub-change_in_hr) == (12+start_time_hr) and (12+start_time_hr) <= 24):
             data['score'] += 1/3
+            data['partial_scores'] ['death_time_h'] ['score']= 1
+        if (mins_sub+1 == mins or mins_sub-1 == mins):
+            data['partial_scores'] ['death_time_mins'] ['score']= 0.5
+            data['feedback']['death_time_mins'] = "Please round to the nearest minute carefully."
+
 
 
 
