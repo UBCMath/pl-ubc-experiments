@@ -20,9 +20,9 @@ BASE_UNITS = {
         "cd": 17
     }
 
-def numberify_base(unit):
+def numberify(unit, units):
     # splits strings into cells of base units, replaces them with number
-    components = list(map((lambda a : str(BASE_UNITS.get(a.strip(), a))), re.split("[*\/^()]", unit)))
+    components = list(map((lambda a : str(units.get(a.strip(), a))), re.split("[*\/^()]", unit)))
     # retain the operations
     operations = list(re.sub("[^*\/^()]", "", unit))
     # join together numbers and operations
@@ -33,40 +33,31 @@ def numberify_base(unit):
 DERIVED_UNITS = {
     "rad": 1,
     "sr": 1,
-    "Hz": numberify_base("1/s"),
-    "N": numberify_base("kg*m/s^2"),
-    "Pa": numberify_base("kg/(m*s^2)"),
-    "J": numberify_base("kg*m^2/s^2"),
-    "W": numberify_base("kg*m^2/s^3"),
-    "C": numberify_base("A*s"),
-    "V": numberify_base("kg*m^2/(A*s^3)"),
-    "F": numberify_base("A^2*s^4/kg/m^2"),
-    "O": numberify_base("kg*m^2/s^3/A^2"), # decided that Ω = O
-    "Ω": numberify_base("kg*m^2/s^3/A^2"),
-    "S": numberify_base("A^2*s^3/kg/m^2"),
-    "Wb": numberify_base("kg*m^2/A/s^2"),
-    "T": numberify_base("kg/s^2/A"),
-    "H": numberify_base("kg*m^2/s^2/A^2"),
-    "lm": numberify_base("cd"),
-    "lx": numberify_base("cd/m^2"),
-    "Bq": numberify_base("1/s"),
-    "Gy": numberify_base("m^2/s^2"),
-    "Sv": numberify_base("m^2/s^2"),
-    "kat": numberify_base("mol/s")
+    "Hz": numberify("1/s", BASE_UNITS),
+    "N": numberify("kg*m/s^2", BASE_UNITS),
+    "Pa": numberify("kg/(m*s^2)", BASE_UNITS),
+    "J": numberify("kg*m^2/s^2", BASE_UNITS),
+    "W": numberify("kg*m^2/s^3", BASE_UNITS),
+    "C": numberify("A*s", BASE_UNITS),
+    "V": numberify("kg*m^2/(A*s^3)", BASE_UNITS),
+    "F": numberify("A^2*s^4/kg/m^2", BASE_UNITS),
+    "O": numberify("kg*m^2/s^3/A^2", BASE_UNITS), # decided that Ω = O
+    "Ω": numberify("kg*m^2/s^3/A^2", BASE_UNITS),
+    "S": numberify("A^2*s^3/kg/m^2", BASE_UNITS),
+    "Wb": numberify("kg*m^2/A/s^2", BASE_UNITS),
+    "T": numberify("kg/s^2/A", BASE_UNITS),
+    "H": numberify("kg*m^2/s^2/A^2", BASE_UNITS),
+    "lm": numberify("cd", BASE_UNITS),
+    "lx": numberify("cd/m^2", BASE_UNITS),
+    "Bq": numberify("1/s", BASE_UNITS),
+    "Gy": numberify("m^2/s^2", BASE_UNITS),
+    "Sv": numberify("m^2/s^2", BASE_UNITS),
+    "kat": numberify("mol/s", BASE_UNITS)
 }
 
 # combined base and derived units
 UNITS = BASE_UNITS.copy()
 UNITS.update(DERIVED_UNITS)
-
-def numberify(unit):
-    # splits strings into cells of base units, replaces them with number
-    components = list(map((lambda a : str(UNITS.get(a.strip(), a))), re.split("[*\/^()]", unit)))
-    # retain the operations
-    operations = list(re.sub("[^*\/^()]", "", unit))
-    # join together numbers and operations
-    string = "".join([j for i in zip(components, operations) for j in i]) + str(components[-1])
-    return eval(string.replace("^", "**"))
 
 def parse(data):
     # checks whether a string is an integer
@@ -91,12 +82,11 @@ def grade(data):
     data['params']['F'] = "N"
     data['params']['j'] = "A/m^2"
 
-
     # check whether they are identical or numerically same
     for answer in data['submitted_answers']:
         sample = data['params'][answer]
         ans = data['submitted_answers'][answer]
-        if sample == ans or math.isclose(numberify(sample), numberify(ans)):
+        if sample == ans or math.isclose(numberify(sample, UNITS), numberify(ans, UNITS)):
             data['partial_scores'][answer] = {'score': 1, 'weight': 1}
         else:
             data['partial_scores'][answer] = {'score': 0, 'weight': 1}
