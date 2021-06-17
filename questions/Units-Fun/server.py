@@ -9,50 +9,20 @@ import re
 # all integers can be factorized down to prime numbers, and therefore every unit can
 # be represented as fractions, the composite of base units, as primes.
 
-def base_units():
-    # initializes the base units as first 7 prime numbers
-    base = {
-            "s": 2,
-            "m": 3,
-            "kg": 5,
-            "A": 7,
-            "K": 11,
-            "mol": 13,
-            "cd": 17
-        }
-    return base
-
-def derived_units():
-    # initializes the derived units as numberified powers of base unit primes
-    derived = {
-        "rad": 1,
-        "sr": 1,
-        "Hz": numberify_base("1/s"),
-        "N": numberify_base("kg*m/s^2"),
-        "Pa": numberify_base("kg/(m*s^2)"),
-        "J": numberify_base("kg*m^2/s^2"),
-        "W": numberify_base("kg*m^2/s^3"),
-        "C": numberify_base("A*s"),
-        "V": numberify_base("kg*m^2/(A*s^3)"),
-        "F": numberify_base("A^2*s^4/kg/m^2"),
-        "O": numberify_base("kg*m^2/s^3/A^2"), # decided that Ω = O
-        "Ω": numberify_base("kg*m^2/s^3/A^2"),
-        "S": numberify_base("A^2*s^3/kg/m^2"),
-        "Wb": numberify_base("kg*m^2/A/s^2"),
-        "T": numberify_base("kg/s^2/A"),
-        "H": numberify_base("kg*m^2/s^2/A^2"),
-        "lm": numberify_base("cd"),
-        "lx": numberify_base("cd/m^2"),
-        "Bq": numberify_base("1/s"),
-        "Gy": numberify_base("m^2/s^2"),
-        "Sv": numberify_base("m^2/s^2"),
-        "kat": numberify_base("mol/s")
+# initializes the base units as first 7 prime numbers
+BASE_UNITS = {
+        "s": 2,
+        "m": 3,
+        "kg": 5,
+        "A": 7,
+        "K": 11,
+        "mol": 13,
+        "cd": 17
     }
-    return derived
 
 def numberify_base(unit):
     # splits the unit strings
-    components = list(map((lambda a : base_units().get(a, a)), re.split("[*\/^()]", unit)))
+    components = list(map((lambda a : BASE_UNITS.get(a, a)), re.split("[*\/^()]", unit)))
     operations = list(re.sub("[^*\/^()]", "", unit))
     string = ""
 
@@ -64,10 +34,36 @@ def numberify_base(unit):
     # evaluate expression
     return eval(string.replace("^", "**"))
 
+# initializes the derived units as numberified powers of base unit primes
+DERIVED_UNITS = {
+    "rad": 1,
+    "sr": 1,
+    "Hz": numberify_base("1/s"),
+    "N": numberify_base("kg*m/s^2"),
+    "Pa": numberify_base("kg/(m*s^2)"),
+    "J": numberify_base("kg*m^2/s^2"),
+    "W": numberify_base("kg*m^2/s^3"),
+    "C": numberify_base("A*s"),
+    "V": numberify_base("kg*m^2/(A*s^3)"),
+    "F": numberify_base("A^2*s^4/kg/m^2"),
+    "O": numberify_base("kg*m^2/s^3/A^2"), # decided that Ω = O
+    "Ω": numberify_base("kg*m^2/s^3/A^2"),
+    "S": numberify_base("A^2*s^3/kg/m^2"),
+    "Wb": numberify_base("kg*m^2/A/s^2"),
+    "T": numberify_base("kg/s^2/A"),
+    "H": numberify_base("kg*m^2/s^2/A^2"),
+    "lm": numberify_base("cd"),
+    "lx": numberify_base("cd/m^2"),
+    "Bq": numberify_base("1/s"),
+    "Gy": numberify_base("m^2/s^2"),
+    "Sv": numberify_base("m^2/s^2"),
+    "kat": numberify_base("mol/s")
+}
+
 def numberify(unit):
     # combines base and derived units
-    units = base_units().copy()
-    units.update(derived_units())
+    units = BASE_UNITS.copy()
+    units.update(DERIVED_UNITS)
 
     # splits the unit strings
     components = list(map((lambda a : units.get(a, a)), re.split("[*\/^()]", unit)))
