@@ -22,7 +22,7 @@ BASE_UNITS = {
 
 def numberify_base(unit):
     # splits strings into cells of base units, replaces them with number
-    components = list(map((lambda a : BASE_UNITS.get(a, a)), re.split("[*\/^()]", unit)))
+    components = list(map((lambda a : str(BASE_UNITS.get(a.strip(), a))), re.split("[*\/^()]", unit)))
     # retain the operations
     operations = list(re.sub("[^*\/^()]", "", unit))
     # join together numbers and operations
@@ -55,29 +55,35 @@ DERIVED_UNITS = {
     "kat": numberify_base("mol/s")
 }
 
+# combined base and derived units
+UNITS = BASE_UNITS.copy()
+UNITS.update(DERIVED_UNITS)
+
 def numberify(unit):
-    # combines base and derived units
-    units = BASE_UNITS.copy()
-    units.update(DERIVED_UNITS)
     # splits strings into cells of base units, replaces them with number
-    components = list(map((lambda a : units.get(a, a)), re.split("[*\/^()]", unit)))
+    components = list(map((lambda a : str(UNITS.get(a.strip(), a))), re.split("[*\/^()]", unit)))
     # retain the operations
     operations = list(re.sub("[^*\/^()]", "", unit))
     # join together numbers and operations
     string = "".join([j for i in zip(components, operations) for j in i]) + str(components[-1])
     return eval(string.replace("^", "**"))
 
-def generate(data):
-    # initialize sample answer units
-    data['params']['t'] = "s"
-    data['params']['F'] = "N"
-    data['params']['j'] = "A/m^2"
+def parse(data):
+    for answer in data['submitted_answers']:
+        if answer not in data['format_errors']:
+            unit = data['submitted_answers'][answer]
+            components = (list(map(lambda a : a.strip(), re.split("[*\/^()]", unit))))
+            for i in components:
+                if i not in UNITS and i != "1" and i != "":
+                    data['format_errors'][answer] = i + " is not a valid unit."
+                    break
 
 def grade(data):
-    # gets both sample and student answer
-    sample_t = data['params']['t']
-    sample_F = data['params']['F']
-    sample_j = data['params']['j']
+    # sample answer
+    sample_t = "s"
+    sample_F = "N"
+    sample_j = "A/m^2"
+    # get student answer
     ans_t = data['submitted_answers']['t']
     ans_F = data['submitted_answers']['F']
     ans_j = data['submitted_answers']['j']
@@ -104,4 +110,3 @@ def grade(data):
     for name in variables:
         correct += data['partial_scores'][name]['score']  
     data['score'] = correct / len(variables)
-    
