@@ -21,18 +21,13 @@ BASE_UNITS = {
     }
 
 def numberify_base(unit):
-    # splits the unit strings
+    # splits strings into cells of base units, replaces them with number
     components = list(map((lambda a : BASE_UNITS.get(a, a)), re.split("[*\/^()]", unit)))
+    # retain the operations
     operations = list(re.sub("[^*\/^()]", "", unit))
-    string = ""
-
-    # replaces units with number
-    for i in range(len(operations)):
-        string = string + str(components[i]) + operations[i]
-    string = string + str(components[-1])
-
-    # evaluate expression
-    return eval(string.replace("^", "**"))
+    # join together numbers and operations
+    string = "".join([j for i in zip(components, operations) for j in i]) + str(components[-1])
+    return eval(string.replace("^", "**")) # no security concern, since only used in DERIVED_UNITS?
 
 # initializes the derived units as numberified powers of base unit primes
 DERIVED_UNITS = {
@@ -64,18 +59,12 @@ def numberify(unit):
     # combines base and derived units
     units = BASE_UNITS.copy()
     units.update(DERIVED_UNITS)
-
-    # splits the unit strings
+    # splits strings into cells of base units, replaces them with number
     components = list(map((lambda a : units.get(a, a)), re.split("[*\/^()]", unit)))
+    # retain the operations
     operations = list(re.sub("[^*\/^()]", "", unit))
-    string = ""
-
-    # replaces units with number
-    for i in range(len(operations)):
-        string = string + str(components[i]) + operations[i]
-    string = string + str(components[-1])
-
-    # evaluate expression
+    # join together numbers and operations
+    string = "".join([j for i in zip(components, operations) for j in i]) + str(components[-1])
     return eval(string.replace("^", "**"))
 
 def generate(data):
