@@ -80,29 +80,19 @@ def parse(data):
 
 def grade(data):
     # sample answer
-    sample_t = "s"
-    sample_F = "N"
-    sample_j = "A/m^2"
-    # get student answer
-    ans_t = data['submitted_answers']['t']
-    ans_F = data['submitted_answers']['F']
-    ans_j = data['submitted_answers']['j']
+    data['params']['t'] = "s"
+    data['params']['F'] = "N"
+    data['params']['j'] = "A/m^2"
+
 
     # check whether they are identical or numerically same
-    if sample_t == ans_t or math.isclose(numberify(sample_t), numberify(ans_t)):
-        data['partial_scores']['t'] = {'score': 1, 'weight': 1}
-    else:
-        data['partial_scores']['t'] = {'score': 0, 'weight': 1}
-    
-    if sample_F == ans_F or math.isclose(numberify(sample_F), numberify(ans_F)):
-        data['partial_scores']['F'] = {'score': 1, 'weight': 1}
-    else:
-        data['partial_scores']['F'] = {'score': 0, 'weight': 1}
-    
-    if sample_j == ans_j or math.isclose(numberify(sample_j), numberify(ans_j)):
-        data['partial_scores']['j'] = {'score': 1, 'weight': 1}
-    else:
-        data['partial_scores']['j'] = {'score': 0, 'weight': 1}
+    for answer in data['submitted_answers']:
+        sample = data['params'][answer]
+        ans = data['submitted_answers'][answer]
+        if sample == ans or math.isclose(numberify(sample), numberify(ans)):
+            data['partial_scores'][answer] = {'score': 1, 'weight': 1}
+        else:
+            data['partial_scores'][answer] = {'score': 0, 'weight': 1}
     
     # calculate score
     correct = 0
