@@ -69,12 +69,19 @@ def numberify(unit):
     return eval(string.replace("^", "**"))
 
 def parse(data):
+    # checks whether a string is an integer
+    def is_int(s):
+        if s[0] in ('-','+'):
+            return s[1:].isdigit()
+        return s.isdigit()
+
     for answer in data['submitted_answers']:
         if answer not in data['format_errors']:
             unit = data['submitted_answers'][answer]
+            # checks whether components are valid units or integers
             components = (list(map(lambda a : a.strip(), re.split("[*\/^()]", unit))))
             for i in components:
-                if i not in UNITS and i != "1" and i != "":
+                if i not in UNITS and i != "" and not is_int(i):
                     data['format_errors'][answer] = i + " is not a valid unit."
                     break
 
