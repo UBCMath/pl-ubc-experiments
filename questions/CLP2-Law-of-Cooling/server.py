@@ -76,8 +76,8 @@ def grade(data):
     
     if (data['score']!= 1):
         if ((hours_sub-change_in_hr) == (12+start_time_hr) and (12+start_time_hr) <= 24):
-            data['score'] += 1/3
-            data['partial_scores'] ['death_time_h'] ['score']= 1
+            data['partial_scores'] ['death_time_h'] ['score']= 0.5
+            data['feedback']['death_time_h'] = "Please format the death time hour using a 12-hour clock."
         if (mins_sub+1 == mins or mins_sub-1 == mins):
             data['partial_scores'] ['death_time_mins'] ['score']= 0.5
             data['feedback']['death_time_mins'] = "Please round to the nearest minute carefully."
