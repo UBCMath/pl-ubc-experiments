@@ -6,5 +6,6 @@
         "hack2021",
         "experiment"
     ],
-    "type": "v3"
+    "type": "v3",
+    "singleVariant": true
 }
