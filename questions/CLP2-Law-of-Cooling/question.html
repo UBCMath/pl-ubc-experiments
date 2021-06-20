@@ -1,0 +1,26 @@
+<pl-question-panel>
+  <p>A dead body is discovered at ${{params.time_ini}}: {{params.const}} \textrm{pm}$ in a room where the temperature is ${{params.ambient}}^\circ\textrm{C}$. At that time the temperature of the body is ${{params.temp_ini}}^\circ\textrm{C}$. {{params.hours_later}} hours later, at ${{params.time_fin}}:{{params.const}} \textrm{pm}$, the temperature of the body is ${{params.temp_fin}}^\circ\textrm{C}$. </p>
+  <p>Assuming the person was a healthy adult right up until he died, what was the time of death (rounded to the nearest minute)? Note that the normal (adult human) body temperature is  $37^\circ\textrm{C}$.</p>
+</pl-question-panel>
+
+<div style="display: flex; flex-direction: row; align-items: center;">
+    <h5 style="flex-grow: 0; flex-shrink: 0;">Time of death: </h5>
+    <div style="display: flex; flex-direction: row; margin-right: 1%; flex-grow: 0; flex-shrink: 4;">
+        <pl-integer-input answers-name="death_time_h" size = "1" label = "" suffix = "" show-help-text = "False"></pl-integer-input>
+    </div>
+    <h4 style="margin-left: 1%; flex-grow: 0; flex-shrink: 0;">$:$</h4>
+    <pl-integer-input answers-name="death_time_mins" size = "2" label = "" suffix = "" show-help-text = "False"></pl-integer-input>
+    <div style="display: flex; flex-direction: column; margin: 1em ; margin-top: 5%; flex-grow: 0; flex-shrink: 4;">
+    <pl-dropdown  sort = "random" answers-name="time">
+        <pl-answer correct = "True">{{params.time_of_day}}</pl-answer>
+        <pl-answer correct = "False">{{params.time_of_day_2}}</pl-answer>
+    </pl-dropdown>
+    </div>
+</div>
+<pl-submission-panel>
+  <p>{{feedback.death_time_h}}</p>
+  <p>{{feedback.death_time_mins}}</p>
+</pl-submission-panel>
+
+
+
