@@ -1,0 +1,87 @@
+<pl-question-panel>
+    <p>Consider the function $f(x) = e^{x^2}$ on the interval $[0,1]$. Let $I = \displaystyle \int_{0}^{1} e^{x^2} \,dx $</p>
+    <p> (a) Sketch the graph of $f$ over the interval $[0,1]$.</p>
+    <p> 
+        <pl-drawing answers-name="graph" gradable="true" hide-answer-panel="false" width="500" height="400" >
+            <pl-drawing-answer draw-error-box="true" >
+                <pl-graph-line origin='{"x": 80, "y": 320}'
+                               end-points='[{"x": 0, "y": 80}, {"x": 80, "y": 217.4624}, {"x": 75, "y": 83}]'
+                               offset-control-tol-x="11"
+                               offset-control-tol-y="17"
+                               color = "black">
+                </pl-graph-line>
+        
+                <pl-graph-line origin='{"x": 80, "y": 320}'
+                               end-points='[{"x": 80, "y": 0}, {"x": 80, "y": 217.4624}]'
+                               offset-tol-x="7"
+                               offset-tol-y="7"
+                               stroke-width = "2">
+                </pl-graph-line>
+                
+                <pl-graph-line origin='{"x": 80, "y": 320}'
+                               end-points='[{"x": 40, "y": 0}, {"x": 40, "y": 102.7}]'
+                               offset-tol-x="7"
+                               offset-tol-y="15"
+                               stroke-width = "2">
+                </pl-graph-line>
+                
+                <pl-graph-line origin='{"x": 80, "y": 320}'
+                               end-points='[{"x": 0, "y": 80}, {"x": 40, "y": 102.7}]'
+                               offset-tol-x="7"
+                               offset-tol-y="15"
+                               stroke-width = "2">
+                </pl-graph-line>
+                <pl-graph-line origin='{"x": 80, "y": 320}'
+                               end-points='[{"x": 40, "y": 102.7}, {"x": 80, "y": 217.4624}]'
+                               offset-tol-x="7"
+                               offset-tol-y="15"
+                               stroke-width = "2">
+                </pl-graph-line>
+            </pl-drawing-answer>
+            
+            <pl-drawing-initial>
+        
+                    <pl-axes origin='{"x": 80, "y": 320}' 
+                             ypos = "300"
+                             supporting-lines='[{"x":217.4624},{"y":217.4624}]'
+                             grid-label='[ {"axis": "x", "pos": 0,  "lab": "0" },
+                                        {"axis": "x", "pos": 217.4624,  "lab": "e" },
+                                        {"axis": "y", "pos": 217.4624,  "lab": "e" },
+                                       {"axis": "y", "pos": 80, "lab": "1" },
+                                       {"axis": "y", "pos": 160, "lab": "2" },
+                                       {"axis": "y", "pos": 240,  "lab": "3" },
+                                       {"axis": "x", "pos": 80, "lab": "1" },
+                                       {"axis": "x", "pos": 160, "lab": "2" },
+                                       {"axis": "x", "pos": 240,  "lab": "3" }]'>
+                    </pl-axes>
+        
+            </pl-drawing-initial>
+        
+            <pl-controls>
+              <pl-controls-group label="Graded objects:" >
+                  <pl-drawing-button type="pl-controlled-line" stroke-width = "2"></pl-drawing-button>
+                  <pl-drawing-button type="pl-controlled-curved-line" color = "black"></pl-drawing-button>
+              </pl-controls-group>
+              <pl-controls-group label="Help buttons (not graded):">
+                  <pl-drawing-button type="delete"></pl-drawing-button>
+                  <pl-drawing-button type="help-line"></pl-drawing-button>
+              </pl-controls-group>
+          </pl-controls>
+        
+        </pl-drawing>
+  
+    </p>
+    <p> (b) Compute the trapezoid rule approximation $T_2$ (with $ n = 2$ trapezoids) of $I$, and draw lines (that not overlap with axes) on the graph to represent the trapezoids.</p>
+    <pl-number-input answers-name="approx" comparison="sigfig" digits="3" label="$I = $" size = "15"> </pl-number-input>
+    <p> (c) Does $T_2$ overestimate or underestimate $I$?</p>
+    <pl-dropdown  sort = "random" answers-name="estimation">
+        <pl-answer correct = "True">overestimate</pl-answer>
+        <pl-answer correct = "False">underestimate</pl-answer>
+    </pl-dropdown>
+    <p> (d) Given that the error in approximating an integral $\displaystyle \int_{a}^{b} f(x) \,dx $ using the trapezoid rule $T_n$ (with $n$ trapezoids) is $\frac {(b-a)^3} {12n^2}$ $f''(y)$ for some $y \in (a,b)$ , find the smallest $n$ which guarantees $T_n$ approximates $I$ to within $0.1$.</p>
+    <pl-integer-input answers-name="smallest_n" size = "5" label = "$n = $"></pl-integer-input>
+</pl-question-panel>
+
+
+
+
