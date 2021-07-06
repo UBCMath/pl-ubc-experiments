@@ -2,6 +2,7 @@ import random
 import sympy
 
 def generate(data):
+    #generating random variables for the question
     ambient = random.randint(15, 20)
     temp_ini = random.randint(26, 35)
 
@@ -9,8 +10,9 @@ def generate(data):
         temp_fin = random.randint(21, 26)
         if(temp_fin< temp_ini):
             break
-
+        
     time_ini = random.randint(1,6)
+    #choosing when the dead body is discovered
     skip = ["Two", "Three", "Four"]
 
     time_of_day = "pm"
