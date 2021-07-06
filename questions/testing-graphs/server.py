@@ -34,8 +34,7 @@ def generate(data):
       
     data['params']['left_endpoint'] = left_endpoint
     data['params']['right_endpoint'] = right_endpoint
-    
-    x = sympy.symbols("x", rational = True)
+
 
 
     
