@@ -1,0 +1,144 @@
+{{#question}}
+<script>
+    $(function(){
+        $('#pl-units-input-{{uuid}} [data-toggle="popover"]').popover({
+            sanitize: false,
+            container: 'body',
+            template: '<div class="popover pl-units-input-popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>',
+        });
+    });
+</script>
+
+{{#inline}}<span class="form-inline d-inline-block ml-2">{{/inline}}
+    <span id="pl-units-input-{{uuid}}" class="input-group pl-units-input">
+        {{#label}}
+        <span class="input-group-prepend">
+            <span class="input-group-text" id="pl-units-input-{{uuid}}-label">{{{label}}}</span>
+        </span>
+        {{/label}}
+
+        <!-- A tag to disable first input box when number-mode is none? -->
+        <input name={{first_name}} type="text" class="form-control pl-units-input-input" size="{{size}}" {{^editable}}disabled{{/editable}} {{#raw_submitted_first_answer}}value="{{raw_submitted_first_answer}}"{{/raw_submitted_first_answer}} aria-describedby="pl-units-input-{{uuid}}-label pl-units-input-{{uuid}}-infix" {{#show_first_placeholder}}placeholder="{{first_info}}"{{/show_first_placeholder}} />
+
+        {{#infix}}
+        <span class="input-group-inpend">
+            <span class="input-group-text" id="pl-units-input-{{uuid}}-infix">{{infix}}</span>
+        </span>
+        {{/infix}}
+
+        <input name={{last_name}} type="text" class="form-control pl-units-input-input {{^display_append_span}}rounded-right{{/display_append_span}}" size="{{size}}" {{^editable}}disabled{{/editable}} {{#raw_submitted_last_answer}}value="{{raw_submitted_last_answer}}"{{/raw_submitted_last_answer}} aria-describedby="pl-units-input-{{uuid}}-infix pl-units-input-{{uuid}}-suffix" {{#show_last_placeholder}}placeholder="{{last_info}}"{{/show_last_placeholder}} />
+
+        <span class="input-group-append">
+            {{#suffix}}
+            <span class="input-group-text {{^show_info}}rounded-right{{/show_info}}" id="pl-units-input-{{uuid}}-suffix">{{suffix}}</span>
+            {{/suffix}}
+
+            {{#show_info}}
+            <a role="button" class="btn btn-light border d-flex align-items-center" data-toggle="popover" data-html="true" title="Units" data-content="{{info}}" data-placement="auto" data-trigger="focus" tabindex="0">
+                <i class="fa fa-question-circle" aria-hidden="true"></i>
+            {{/show_info}}
+            {{^show_info}}
+            <span class="d-flex align-items-center">
+            {{/show_info}}
+
+            {{#correct}}&nbsp;<span class="badge badge-success">
+                <i class="fa fa-check" aria-hidden="true"></i> 100%
+            </span>{{/correct}}
+            {{#partial}}&nbsp;<span class="badge badge-warning">
+                <i class="fa fa-circle-o" aria-hidden="true"></i> {{partial}}%
+            </span>{{/partial}}
+            {{#incorrect}}&nbsp;<span class="badge badge-danger">
+                <i class="fa fa-times" aria-hidden="true"></i> 0%
+            </span>{{/incorrect}}
+
+            {{#show_info}}
+            </a>
+            {{/show_info}}
+            {{^show_info}}
+            </span>
+            {{/show_info}}
+        </span>
+    </span>
+{{#inline}}</span>{{/inline}}
+{{/question}}
+
+
+{{#submission}}
+{{#inline}}<span class="d-inline-block">{{/inline}}
+
+{{#error}}
+<script>
+    $(function(){
+        $('#pl-units-input-submission-{{uuid}} [data-toggle="popover"]').popover({
+            sanitize: false,
+            container: 'body',
+            template: '<div class="popover pl-units-input-popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>',
+        });
+    });
+</script>
+
+<span id="pl-units-input-submission-{{uuid}}">
+    {{#parse_error}}
+    {{#label}}<span>{{{label}}}</span>{{/label}}
+    {{#raw_submitted_first_answer}}<code class="user-output-invalid">{{raw_submitted_first_answer}}</code>{{/raw_submitted_first_answer}}
+    {{#raw_submitted_last_answer}}<code class="user-output-invalid">{{raw_submitted_last_answer}}</code>{{/raw_submitted_last_answer}}
+    <span class="badge text-danger badge-invalid">
+        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Invalid
+    </span>
+    <a href="javascript:void(0);" role="button" class="btn btn-sm btn-secondary small border" data-placement="auto" data-trigger="focus" data-toggle="popover" data-html="true" style="margin-left: 5px" title="Format Error" tabindex="0" data-content="{{parse_error}}"> Why
+        <i class="fa fa-question-circle" aria-hidden="true"></i>
+    </a>
+    {{/parse_error}}
+
+    {{#missing_input}}
+    {{#label}}<span>{{{label}}}</span>{{/label}}
+    <span class="badge text-dark badge-missing-input">
+        <i class="fa fa-question-circle" aria-hiden="true"></i> Missing Input
+    </span>
+    <a href="javascript:void(0);" role="button" class="btn btn-sm btn-secondary small border" data-placement="auto" data-trigger="focus" data-toggle="popover" data-html="true" style="margin-left: 5px" title="Format Error" tabindex="0" data-content="There is no submitted value for this field.  This may have happened because the question was changed by course staff after the answer was submitted."> Why
+        <i class="fa fa-question-circle" aria-hidden="true"></i>
+    </a>
+    {{/missing_input}}
+</span>
+{{/error}}
+
+{{^error}}
+{{#label}}<span>{{{label}}}</span>{{/label}}
+<samp>{{first_sub}}</samp>
+{{#infix}}<span>{{infix}}</span>{{/infix}}
+<samp>{{last_sub}}</samp>
+{{#suffix}}<span>{{suffix}}</span>{{/suffix}}
+
+{{#correct}}<span class="badge badge-success">
+    <i class="fa fa-check" aria-hidden="true"></i> 100%
+</span>{{/correct}}
+{{#partial}}<span class="badge badge-warning">
+    <i class="fa fa-circle-o" aria-hidden="true"></i> {{partial}}%
+</span>{{/partial}}
+{{#incorrect}}<span class="badge badge-danger">
+    <i class="fa fa-times" aria-hidden="true"></i> 0%
+</span>{{/incorrect}}
+{{/error}}
+
+{{#inline}}</span>{{/inline}}
+{{/submission}}
+
+
+{{#answer}}
+{{#label}}<span>{{{label}}}</span>{{/label}}
+<samp>{{first_tru}}</samp>
+{{#infix}}<span>{{infix}}</span>{{/infix}}
+<samp>{{last_tru}}</samp>
+{{#suffix}}<span>{{suffix}}</span>{{/suffix}}
+{{/answer}}
+
+
+{{#format}}
+<!--
+    Might need separate format errors for first and last inputs.
+    TODO: more detailed format error messages
+-->
+<p>
+    Placeholder format error.
+</p>
+{{/format}}
