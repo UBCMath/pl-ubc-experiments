@@ -26,22 +26,12 @@ def generate(data):
     k_const = round(k_const, 5)
     t_d = float((1/k_const)*sympy.log((37-ambient)/(temp_ini-ambient)))
     mins = round(((abs(t_d*100)%100)/100)*60)
-    if (t_d < 0):
-        mins *= -1
+    mins *= -1
     mins += 45
-    hours = int(t_d)
-    while(mins >= 60):
-        mins -= 60
-        if (t_d > 0):
-            hours += 1
-        else:
-            hours -= 1
-    while(mins < 0):
-        mins += 60
-        if (t_d > 0):
-            hours -= 1
-        else:
-            hours += 1        
+    
+    hourss,mins = divmod (mins, 60)
+    hours = int(t_d) + hourss
+    
     if ((hours + time_ini) <= 0 or (hours + time_ini) >= 12):
         if (hours + time_ini <= 0):
             hours += 12
