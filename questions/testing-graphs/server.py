@@ -16,14 +16,16 @@ def file(data):
         
         xpoints = np.linspace(left_endpoint, right_endpoint, 1000)
         ypoints = xpoints
-        fig.set_size_inches(6.25,6.25)
+        fig.set_size_inches(5,5)
 
         plt.plot(xpoints, ypoints)
         # plt.axis('off')
+        
+        plt.tight_layout()
         plt.show()
         # save plot as utf-8 bytes
         f = io.BytesIO()
-        plt.savefig(f, format='png')
+        plt.savefig(f, format='png', transparent=True,bbox_inches='tight', pad_inches=0)
         return f
 
 def generate(data):

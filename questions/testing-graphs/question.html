@@ -1,24 +1,26 @@
 <pl-question-panel>
-  <p> Mark a random point on the graph below.</p>
-
+  <p> Label $(2, y(2))$ on the following graph where $ y = x $</p>
 </pl-question-panel>
 
 
 
-<pl-overlay height = "500" width = "500" clip = "false"> 
+<pl-overlay height = "400" width = "400" clip = "false"> 
     <pl-background >
-        <pl-figure file-name="figure.png" type="dynamic" width = "500"></pl-figure>
+        <pl-figure file-name="figure.png" type="dynamic" width = "400"></pl-figure>
+        
     </pl-background>
 
-    <pl-location left = "300" top = "250" valign = "middle" halign = "center" >
-        <pl-drawing grid-size="0" gradable="true" answers-name="box" height = "330" width="345" show-tolerance-hint = "false">
-            <pl-drawing-answer draw-error-box="false">
-                <pl-point x1= "0" y1="0" label="ans"></pl-point>
-
+    <pl-location left = "250" top = "200" valign = "middle" halign = "center" >
+        <pl-drawing grid-size="0" gradable="true" answers-name="box" height = "400" width="400" show-tolerance-hint = "false">
+            <pl-drawing-answer draw-error-box="true">
+                <pl-point x1="100" y1="275" label="box" offsetx = "10" offsety = "10"></pl-point>
             </pl-drawing-answer>
 
             <pl-drawing-initial>
-               <pl-point x1="0" y1="0" label="D"></pl-point>
+               <pl-point x1="25" y1="350" label=""></pl-point>
+               <pl-point x1="40" y1="335" label="O"></pl-point>
+               <pl-point x1="25" y1="275" label=""></pl-point>
+               
             </pl-drawing-initial>
         
             <pl-controls>
@@ -31,7 +33,6 @@
             </pl-controls>
             
         </pl-drawing>
-        
-
     </pl-location>
 </pl-overlay>
+
