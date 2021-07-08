@@ -1,8 +1,16 @@
 <pl-question-panel>
   <p> Compute $\displaystyle \frac{\mathrm{d}^2 y}{\mathrm{d}x^2}$ if </p>
-  <pl-symbolic-input answers-name="sin" variables="x" label="$y = \sin ({{params.a}}x^2) $"></pl-symbolic-input>
-  <pl-symbolic-input answers-name="cos" variables="x" label="$y = \cos (\sqrt {{params.b}} x) $"></pl-symbolic-input>
-  <pl-symbolic-input answers-name="frac" variables="x" label="$y = \displaystyle \frac {{{params.c}}}{(x+1)^5}$"></pl-symbolic-input>
+  {{#params.display_a}}
+  <pl-symbolic-input answers-name="ans" variables="x" label="$y = \sin ({{params.a}}x^2) $"></pl-symbolic-input>
+  {{/params.display_a}}
+  
+  {{#params.display_b}}
+  <pl-symbolic-input answers-name="ans" variables="x" label="$y = \cos (\sqrt {{params.b}} x) $"></pl-symbolic-input>
+  {{/params.display_b}}
+  
+  {{#params.display_c}}
+  <pl-symbolic-input answers-name="ans" variables="x" label="$y = \displaystyle \frac {{{params.c}}}{(x+1)^5}$"></pl-symbolic-input>
+  {{/params.display_c}}
 </pl-question-panel>
  
 
