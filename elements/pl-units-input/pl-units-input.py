@@ -12,7 +12,6 @@ import units
 WEIGHT_DEFAULT = 1
 CORRECT_ANSWER_DEFAULT = None
 LABEL_DEFAULT = None
-INFIX_DEFAULT = None
 SUFFIX_DEFAULT = None
 DISPLAY_DEFAULT = 'inline'
 ALLOW_BLANK_DEFAULT = False
@@ -26,7 +25,7 @@ def prepare(element_html, data):
     # TODO: checks whether correct answer is valid
     element = lxml.html.fragment_fromstring(element_html)
     required_attribs = ['answers-name']
-    optional_attribs = ['weight', 'correct-answer', 'label', 'infix', 'suffix', 'display', 'allow-blank', 'allow-unitless', 'blank-value', 'unitless-value', 'size', 'show-help-text']
+    optional_attribs = ['weight', 'correct-answer', 'label', 'suffix', 'display', 'allow-blank', 'allow-unitless', 'blank-value', 'unitless-value', 'size', 'show-help-text']
     pl.check_attibs(element, required_attribs, optional_attribs)
 
     name = pl.get_string_attrib(element, 'answers-name')
@@ -47,7 +46,6 @@ def render(element_html, data):
     first_name = name + str(1)
     last_name = name + str(2)
     label = pl.get_string_attrib(element, 'label', LABEL_DEFAULT)
-    infix = pl.get_string_attrib(element, 'infix', INFIX_DEFAULT)
     suffix = pl.get_string_attrib(element, 'suffix', SUFFIX_DEFAULT)
     display = pl.get_string_attrib(element, 'display', DISPLAY_DEFAULT)
     size = pl.get_integer_attrib(element, 'size', SIZE_DEFAULT)
@@ -68,7 +66,6 @@ def render(element_html, data):
             'question': True,
             'name': name,
             'label': label,
-            'infix': infix,
             'suffix': suffix,
             'editable': editable,
             'info': info,
@@ -230,7 +227,7 @@ def parse(element_html, data):
         data['submitted_answers'][last_name] = None
         return
     
-    data['submitted_answers'][name] = units.dimensionfully_quantitize(a_sub_first, a_sub_last)
+    data['submitted_answers'][name] = units.from_tuple((a_sub_first, a_sub_last))
 
 def grade(element_html, data):
     # TODO: checks against correct answer
