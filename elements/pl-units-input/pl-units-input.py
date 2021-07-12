@@ -169,7 +169,8 @@ def render(element_html, data):
             html_params = {
                 'answer': True,
                 'label': label,
-                'a_tru': a_tru,
+                'first_tru': a_tru[0],
+                'last_tru': a_tru[1],
                 'suffix': suffix
             }
             with open('pl-units-input.mustache', 'r', encoding='utf-8') as f:
