@@ -5,7 +5,7 @@ import random, copy
 def generate(data):
     a = random.randint(2, 10)
     b = random.randint(2, 10)
-    c = random.randint(1, 10)
+    c = random.randint(1, 9)
     ind = ['display_a', 'display_b', 'display_c']
 
     to_true = random.choices (ind, k =1) [0]
