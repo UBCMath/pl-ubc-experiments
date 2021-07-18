@@ -19,6 +19,9 @@ class DimensionfulQuantity:
 
     def __eq__(self, rhs: DimensionfulQuantity) -> bool:
         return self.quantity * self.unit.multiplier == rhs.quantity * rhs.unit.multiplier and self.unit == rhs.unit
+    
+    def from_tuple(self, tup: Tuple[Any, Unit]) -> DimensionfulQuantity:
+        return DimensionfulQuantity(tup[0], Unit.from_string(tup[1]))
 
 class Unit:
     def __init__(self, multiplier: float, godel_frac: sympy.Rational) -> None:
