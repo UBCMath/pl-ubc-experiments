@@ -205,8 +205,14 @@ def parse(element_html, data):
     elif numberless and allow_numberless:
         data['submitted_answers'][name] = numberless_value + a_sub
     
-    # TODO: check unit string validity
-    # TODO: check number validity
+    try:
+        units.DimensionfulQuantity.from_string(a_sub)
+    except units.units.InvalidUnit:
+        data['format_errors'][name] = 'Invalid unit.'
+    except units.units.DisallowedExpression:
+        data['format_errors'][name] = 'Invalid unit.'
+    except ValueError:
+        data['format_errors'][name] = 'Invalid number.'
     
     # else:
     #     data['submitted_answers'][name] = units.DimensionfulQuantity.from_string(a_sub)
