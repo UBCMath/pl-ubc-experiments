@@ -16,17 +16,23 @@ SUFFIX_DEFAULT = None
 DISPLAY_DEFAULT = 'inline'
 ALLOW_BLANK_DEFAULT = False
 ALLOW_UNITLESS_DEFAULT = False
-BLANK_VALUE_DEFAULT = 0
-UNITLESS_VALUE_DEFAULT = 1
+ALLOW_NUMBERLESS_DEFAULT = False
+BLANK_VALUE_DEFAULT = ""
+UNITLESS_VALUE_DEFAULT = "rad"
+NUMBERLESS_VALUE_DEFAULT = 0
 SIZE_DEFAULT = 35
 SHOW_HELP_TEXT_DEFAULT = True
 PLACEHOLDER_TEXT_THRESHOLD = 4  # Minimum size to show the placeholder text
 
 def prepare(element_html, data):
-    # TODO: checks whether correct answer is valid
     element = lxml.html.fragment_fromstring(element_html)
     required_attribs = ['answers-name']
-    optional_attribs = ['weight', 'correct-answer', 'label', 'suffix', 'display', 'allow-blank', 'allow-unitless', 'blank-value', 'unitless-value', 'size', 'show-help-text']
+    optional_attribs = [
+        'weight', 'correct-answer', 'label', 'suffix', 'display',
+        'allow-blank', 'allow-unitless', 'allow-numberless',
+        'blank-value', 'unitless-value', 'numberless-value',
+        'size', 'show-help-text'
+    ]
     pl.check_attribs(element, required_attribs, optional_attribs)
 
     name = pl.get_string_attrib(element, 'answers-name')
@@ -37,10 +43,7 @@ def prepare(element_html, data):
             raise Exception('duplicate correct_answers variable name: %s' % name)
         data['correct_answers'][name] = correct_answer
 
-    # TODO: check integer validity?
-
 def render(element_html, data):
-    # TODO: render question, submission, & answer blocks
     # TODO: config customizable attributes
     element = lxml.html.fragment_fromstring(element_html)
     name = pl.get_string_attrib(element, 'answers-name')
@@ -167,12 +170,14 @@ def render(element_html, data):
     return html
 
 def parse(element_html, data):
-    # TODO: change submitted answer to dimensionful quantity
     element = lxml.html.fragment_fromstring(element_html)
     name = pl.get_string_attrib(element, 'answers-name')
     allow_blank = pl.get_string_attrib(element, 'allow-blank', ALLOW_BLANK_DEFAULT)
     allow_unitless = pl.get_string_attrib(element, 'allow-unitless', ALLOW_UNITLESS_DEFAULT)
+    allow_numberless = pl.get_string_attrib(element, 'allow-numberless', ALLOW_NUMBERLESS_DEFAULT)
     blank_value = pl.get_string_attrib(element, 'blank-value', str(BLANK_VALUE_DEFAULT))
+    unitless_value = pl.get_string_attrib(element, 'unitless-value', str(UNITLESS_VALUE_DEFAULT))
+    numberless_value = pl.get_string_attrib(element, 'numberless-value', str(NUMBERLESS_VALUE_DEFAULT))
 
     a_sub = data['submitted_answers'].get(name, None)
     if a_sub is None:
@@ -183,6 +188,26 @@ def parse(element_html, data):
     if not a_sub and not allow_blank:
         data['format_errors'][name] = 'Invalid format. The submitted answer was left blank.'
         data['submitted_answers'][name] = None
+    elif not a_sub and allow_blank:
+        data['submitted_answers'][name] = blank_value
+
+    unitless = units.DimensionfulQuantity.check_unitless(a_sub)
+    if unitless and not allow_unitless:
+        data['format_errors'][name] = 'Invalid format. The submitted answer has no unit.'
+        data['submitted_answers'][name] = None
+    elif unitless and allow_unitless:
+        data['submitted_answers'][name] = a_sub + unitless_value
+    
+    numberless = units.DimensionfulQuantity.check_numberless(a_sub)
+    if numberless and not allow_numberless:
+        data['format_errors'][name] = 'Invalid format. The submitted answer has no number.'
+        data['submitted_answers'][name] = None
+    elif numberless and allow_numberless:
+        data['submitted_answers'][name] = numberless_value + a_sub
+    
+    # TODO: check unit string validity
+    # TODO: check number validity
+    
     # else:
     #     data['submitted_answers'][name] = units.DimensionfulQuantity.from_string(a_sub)
 
@@ -206,18 +231,13 @@ def grade(element_html, data):
     a_tru = data['correct_answers'].get(name, None)
     if a_tru is None:
         return
-
-    # if type(a_tru) is tuple:
-    #     a_tru = units.DimensionfulQuantity.from_tuple(a_tru)
-    # else:
     a_tru = units.DimensionfulQuantity.from_string(a_tru)
     
     a_sub = data['submitted_answers'].get(name, None)
     if a_sub is None:
         data['partial_scores'][name] = {'score': 0, 'weight': weight}
         return
-    else:
-        a_sub = units.DimensionfulQuantity.from_string(a_sub)
+    a_sub = units.DimensionfulQuantity.from_string(a_sub)
 
     if a_tru == a_sub:
         data['partial_scores'][name] = {'score': 1, 'weight': weight}
@@ -227,5 +247,5 @@ def grade(element_html, data):
         data['partial_scores'][name] = {'score': 0, 'weight': weight}
 
 def test(element_html, data):
-    # TODO: support pl.to_json?
+    # TODO: unit test
     pass

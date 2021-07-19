@@ -24,13 +24,28 @@ class DimensionfulQuantity:
     def from_tuple(cls, tup: Tuple[Any, Unit]) -> DimensionfulQuantity:
         return DimensionfulQuantity(tup[0], Unit.from_string(tup[1]))
     
+    @staticmethod
+    def get_index(answer: str) -> int:
+        m = re.search(r'[a-z|A-Z|Ω|μ]', answer, re.I) # search for valid alpha/greek for unit start
+        return m.start() if m is not None else -1 # get index
+
     @classmethod
     def from_string(cls, answer: str) -> DimensionfulQuantity:
-        m = re.search(r'[a-z|A-Z|Ω|μ]', answer, re.I) # search for valid alpha/greek for unit start
-        i = m.start() if m is not None else -1 # get index
+        i = cls.get_index(answer)
         if i == -1:
             raise DisallowedExpression
         return DimensionfulQuantity(float(answer[:i].strip()), Unit.from_string(answer[i:].strip()))
+    
+    @classmethod
+    def check_unitless(cls, answer: str) -> bool:
+        i = cls.get_index(answer)
+        return i == -1
+    
+    @classmethod
+    def check_numberless(cls, answer: str) -> bool:
+        i = cls.get_index(answer)
+        number = answer[:i].strip()
+        return not number
 
 class Unit:
     def __init__(self, multiplier: float, godel_frac: sympy.Rational) -> None:
