@@ -20,8 +20,17 @@ class DimensionfulQuantity:
     def __eq__(self, rhs: DimensionfulQuantity) -> bool:
         return self.quantity * self.unit.multiplier == rhs.quantity * rhs.unit.multiplier and self.unit == rhs.unit
     
-    def from_tuple(self, tup: Tuple[Any, Unit]) -> DimensionfulQuantity:
+    @classmethod
+    def from_tuple(cls, tup: Tuple[Any, Unit]) -> DimensionfulQuantity:
         return DimensionfulQuantity(tup[0], Unit.from_string(tup[1]))
+    
+    @classmethod
+    def from_string(cls, answer: str) -> DimensionfulQuantity:
+        m = re.search(r'[a-z|A-Z|Ω|μ]', answer, re.I) # search for valid alpha/greek for unit start
+        i = m.start() if m is not None else -1 # get index
+        if i == -1:
+            raise DisallowedExpression
+        return DimensionfulQuantity(float(answer[:i].strip()), Unit.from_string(answer[i:].strip()))
 
 class Unit:
     def __init__(self, multiplier: float, godel_frac: sympy.Rational) -> None:
@@ -139,27 +148,27 @@ class SIPrefix(Enum):
     Yocto = -24
 
 class UnitTransform(ast.NodeTransformer):
-     def visit_Name(self, node):
-         return ast.copy_location(
-             ast.Call(
-                 func=ast.Attribute(
-                     value=ast.Name(id='Unit', ctx=ast.Load()),
-                     attr='_single_from_string',
-                     ctx=ast.Load()
-                 ),
-                 args=[ast.Constant(value=node.id)],
-                 keywords=[]
-             ),
-             node
-         )
+    def visit_Name(self, node):
+        return ast.copy_location(
+            ast.Call(
+                func=ast.Attribute(
+                    value=ast.Name(id='Unit', ctx=ast.Load()),
+                    attr='_single_from_string',
+                    ctx=ast.Load()
+                ),
+                args=[ast.Constant(value=node.id)],
+                keywords=[]
+            ),
+            node
+        )
 
 class CheckWhitelist(ast.NodeVisitor):
-     def __init__(self, whitelist):
-         self.whitelist = whitelist
-     def visit(self, node):
-         if not isinstance(node, self.whitelist):
-             raise DisallowedExpression
-         return super().visit(node)
+    def __init__(self, whitelist):
+        self.whitelist = whitelist
+    def visit(self, node):
+        if not isinstance(node, self.whitelist):
+            raise DisallowedExpression
+        return super().visit(node)
 
 class MetricUnits(Enum):
     s = SIBaseUnit.Second

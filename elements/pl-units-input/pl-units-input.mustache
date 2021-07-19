@@ -19,25 +19,14 @@
 
         <!-- A tag to disable first input box when number-mode is none? -->
         <input
-            name={{first_name}}
-            type="text"
-            class="form-control pl-units-input-input"
-            size="{{size}}"
-            {{^editable}}disabled{{/editable}}
-            {{#raw_submitted_first_answer}}value="{{raw_submitted_first_answer}}"{{/raw_submitted_first_answer}}
-            aria-describedby="pl-units-input-{{uuid}}-label"
-            {{#show_placeholder}}placeholder="{{first_info}}"{{/show_placeholder}}
-        />
-
-        <input
-            name={{last_name}}
+            name={{name}}
             type="text"
             class="form-control pl-units-input-input {{^display_append_span}}rounded-right{{/display_append_span}}"
             size="{{size}}"
             {{^editable}}disabled{{/editable}}
-            {{#raw_submitted_last_answer}}value="{{raw_submitted_last_answer}}"{{/raw_submitted_last_answer}}
-            aria-describedby="pl-units-input-{{uuid}}-suffix"
-            {{#show_placeholder}}placeholder="{{last_info}}"{{/show_placeholder}}
+            {{#raw_submitted_answer}}value="{{raw_submitted_answer}}"{{/raw_submitted_answer}}
+            aria-describedby="pl-units-input-{{uuid}}-label pl-units-input-{{uuid}}-suffix"
+            {{#show_placeholder}}placeholder="{{placeholder}}}"{{/show_placeholder}}
         />
 
         <span class="input-group-append">
@@ -100,8 +89,7 @@
 <span id="pl-units-input-submission-{{uuid}}">
     {{#parse_error}}
     {{#label}}<span>{{{label}}}</span>{{/label}}
-    {{#raw_submitted_first_answer}}<code class="user-output-invalid">{{raw_submitted_first_answer}}</code>{{/raw_submitted_first_answer}}
-    {{#raw_submitted_last_answer}}<code class="user-output-invalid">{{raw_submitted_last_answer}}</code>{{/raw_submitted_last_answer}}
+    {{#raw_submitted_answer}}<code class="user-output-invalid">{{raw_submitted_answer}}</code>{{/raw_submitted_answer}}
     <span class="badge text-danger badge-invalid">
         <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Invalid
     </span>
@@ -131,8 +119,7 @@
 
 {{^error}}
 {{#label}}<span>{{{label}}}</span>{{/label}}
-<samp>{{first_sub}}</samp>
-<samp>{{last_sub}}</samp>
+<samp>{{a_sub}}</samp>
 {{#suffix}}<span>{{suffix}}</span>{{/suffix}}
 
 {{#correct}}<span class="badge badge-success">
@@ -152,8 +139,7 @@
 
 {{#answer}}
 {{#label}}<span>{{{label}}}</span>{{/label}}
-<samp>{{first_tru}}</samp>
-<samp>{{last_tru}}</samp>
+<samp>{{a_tru}}</samp>
 {{#suffix}}<span>{{suffix}}</span>{{/suffix}}
 {{/answer}}
 
@@ -164,6 +150,6 @@
     TODO: more detailed format error messages
 -->
 <p>
-    Placeholder format error.
+    Units input blah blah blah.
 </p>
 {{/format}}
