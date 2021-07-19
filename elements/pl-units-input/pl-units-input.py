@@ -12,7 +12,6 @@ import units
 WEIGHT_DEFAULT = 1
 CORRECT_ANSWER_DEFAULT = None
 LABEL_DEFAULT = None
-INFIX_DEFAULT = None
 SUFFIX_DEFAULT = None
 DISPLAY_DEFAULT = 'inline'
 ALLOW_BLANK_DEFAULT = False
@@ -21,13 +20,14 @@ BLANK_VALUE_DEFAULT = 0
 UNITLESS_VALUE_DEFAULT = 1
 SIZE_DEFAULT = 35
 SHOW_HELP_TEXT_DEFAULT = True
+PLACEHOLDER_TEXT_THRESHOLD = 4  # Minimum size to show the placeholder text
 
 def prepare(element_html, data):
     # TODO: checks whether correct answer is valid
     element = lxml.html.fragment_fromstring(element_html)
     required_attribs = ['answers-name']
-    optional_attribs = ['weight', 'correct-answer', 'label', 'infix', 'suffix', 'display', 'allow-blank', 'allow-unitless', 'blank-value', 'unitless-value', 'size', 'show-help-text']
-    pl.check_attibs(element, required_attribs, optional_attribs)
+    optional_attribs = ['weight', 'correct-answer', 'label', 'suffix', 'display', 'allow-blank', 'allow-unitless', 'blank-value', 'unitless-value', 'size', 'show-help-text']
+    pl.check_attribs(element, required_attribs, optional_attribs)
 
     name = pl.get_string_attrib(element, 'answers-name')
     correct_answer = pl.get_string_attrib(element, 'correct-answer', CORRECT_ANSWER_DEFAULT)
@@ -47,7 +47,6 @@ def render(element_html, data):
     first_name = name + str(1)
     last_name = name + str(2)
     label = pl.get_string_attrib(element, 'label', LABEL_DEFAULT)
-    infix = pl.get_string_attrib(element, 'infix', INFIX_DEFAULT)
     suffix = pl.get_string_attrib(element, 'suffix', SUFFIX_DEFAULT)
     display = pl.get_string_attrib(element, 'display', DISPLAY_DEFAULT)
     size = pl.get_integer_attrib(element, 'size', SIZE_DEFAULT)
@@ -56,6 +55,7 @@ def render(element_html, data):
         editable = data['editable']
         raw_submitted_first_answer = data['raw_submitted_answers'].get(first_name, None)
         raw_submitted_last_answer = data['raw_submitted_answers'].get(last_name, None)
+        data['raw_submitted_answers'][name] = (raw_submitted_first_answer, raw_submitted_last_answer)
 
         # Get info strings
         info_params = {'format': True}
@@ -68,7 +68,6 @@ def render(element_html, data):
             'question': True,
             'name': name,
             'label': label,
-            'infix': infix,
             'suffix': suffix,
             'editable': editable,
             'info': info,
@@ -119,8 +118,11 @@ def render(element_html, data):
 
         if parse_error is None and name in data['submitted_answers']:
             # Get submitted answer, raising an exception if it does not exist
-            a_sub_first = data['submitted_answers'].get(first_name, None)
-            a_sub_last = data['submitted_answers'].get(last_name, None)
+            a_sub = data['submitted_answers'].get(name, None)
+            a_sub_first = a_sub[0]
+            a_sub_last = a_sub[1]
+            if a_sub is None:
+                raise Exception('submitted answer is None')
             if a_sub_first is None:
                 raise Exception('submitted number is None')
             if a_sub_last is None:
@@ -131,6 +133,7 @@ def render(element_html, data):
             a_sub_first = pl.from_json(a_sub_first)
             a_sub_last = pl.from_json(a_sub_last)
             a_sub_last = pl.escape_unicode_string(a_sub_last)
+            a_sub = (a_sub_first, a_sub_last)
 
             html_params['suffix'] = suffix
             html_params['first_sub'] = a_sub_first
@@ -172,7 +175,8 @@ def render(element_html, data):
             html_params = {
                 'answer': True,
                 'label': label,
-                'a_tru': a_tru,
+                'first_tru': a_tru[0],
+                'last_tru': a_tru[1],
                 'suffix': suffix
             }
             with open('pl-units-input.mustache', 'r', encoding='utf-8') as f:
@@ -181,7 +185,7 @@ def render(element_html, data):
             html = ''
     
     else:
-        raise Exception('Invalid  panel type: %s' % data['panel'])
+        raise Exception('Invalid panel type: %s' % data['panel'])
     
     return html
 
@@ -194,8 +198,14 @@ def parse(element_html, data):
     allow_blank = pl.get_string_attrib(element, 'allow-blank', ALLOW_BLANK_DEFAULT)
     allow_unitless = pl.get_string_attrib(element, 'allow-unitless', ALLOW_UNITLESS_DEFAULT)
 
-    a_sub_first = data['submitted_answers'].get(first_name, None)
-    a_sub_last = data['submitted_answers'].get(last_name, None)
+    a_sub = data['submitted_answers'].get(name, None)
+    if a_sub is None:
+        data['format_errors'][name] = 'No submitted answer.'
+        data['submitted_answers'][name] = None
+        return
+    
+    a_sub_first = a_sub[0]
+    a_sub_last = a_sub[1]
 
     if a_sub_first is None:
         data['format_errors'][first_name] = 'No submitted answer.'
@@ -230,7 +240,7 @@ def parse(element_html, data):
         data['submitted_answers'][last_name] = None
         return
     
-    data['submitted_answers'][name] = units.dimensionfully_quantitize(a_sub_first, a_sub_last)
+    data['submitted_answers'][name] = units.from_tuple((a_sub_first, a_sub_last))
 
 def grade(element_html, data):
     # TODO: checks against correct answer
@@ -241,6 +251,7 @@ def grade(element_html, data):
     a_tru = pl.from_json(data['correct_answers'].get(name, None))
     if a_tru is None:
         return
+    a_tru = units.from_tuple(a_tru)
     
     a_sub = data['submitted_answers'].get(name, None)
     if a_sub is None:
