@@ -188,6 +188,7 @@ class MetricUnits(Enum):
     C = SIBaseUnit.Second * SIBaseUnit.Ampere
     V = SIBaseUnit.Kilogram * SIBaseUnit.Metre ** 2 * SIBaseUnit.Second ** -3 * SIBaseUnit.Ampere ** -1
     F = SIBaseUnit.Kilogram ** -1 * SIBaseUnit.Metre ** -2 * SIBaseUnit.Second ** 4 * SIBaseUnit.Ampere ** 2
+    O = SIBaseUnit.Kilogram * SIBaseUnit.Metre ** 2 * SIBaseUnit.Second ** -3 * SIBaseUnit.Ampere ** -2
     Ω = SIBaseUnit.Kilogram * SIBaseUnit.Metre ** 2 * SIBaseUnit.Second ** -3 * SIBaseUnit.Ampere ** -2
     S = SIBaseUnit.Kilogram ** -1 * SIBaseUnit.Metre ** -2 * SIBaseUnit.Second ** 3 * SIBaseUnit.Ampere ** 2
     Wb = SIBaseUnit.Kilogram * SIBaseUnit.Metre ** 2 * SIBaseUnit.Second ** -2 * SIBaseUnit.Ampere ** -1
