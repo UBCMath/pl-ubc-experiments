@@ -179,18 +179,21 @@ def parse(element_html, data):
     unitless_value = pl.get_string_attrib(element, 'unitless-value', str(UNITLESS_VALUE_DEFAULT))
     numberless_value = pl.get_string_attrib(element, 'numberless-value', str(NUMBERLESS_VALUE_DEFAULT))
 
+    # retrieves submitted answer
     a_sub = data['submitted_answers'].get(name, None)
     if a_sub is None:
         data['format_errors'][name] = 'No submitted answer.'
         data['submitted_answers'][name] = None
         return
     
+    # checks for blank answer
     if not a_sub and not allow_blank:
         data['format_errors'][name] = 'Invalid format. The submitted answer was left blank.'
         data['submitted_answers'][name] = None
     elif not a_sub and allow_blank:
         data['submitted_answers'][name] = blank_value
 
+    # checks for no unit in submitted answer
     unitless = units.DimensionfulQuantity.check_unitless(a_sub)
     if unitless and not allow_unitless:
         data['format_errors'][name] = 'Invalid format. The submitted answer has no unit.'
@@ -198,6 +201,7 @@ def parse(element_html, data):
     elif unitless and allow_unitless:
         data['submitted_answers'][name] = a_sub + unitless_value
     
+    # checks for no number in submitted answer
     numberless = units.DimensionfulQuantity.check_numberless(a_sub)
     if numberless and not allow_numberless:
         data['format_errors'][name] = 'Invalid format. The submitted answer has no number.'
@@ -205,31 +209,17 @@ def parse(element_html, data):
     elif numberless and allow_numberless:
         data['submitted_answers'][name] = numberless_value + a_sub
     
+    # checks for invalids by parsing as a dimensionful quantity
     try:
         units.DimensionfulQuantity.from_string(a_sub)
-    except units.units.InvalidUnit:
+    except units.units.InvalidUnit: # incorrect units
         data['format_errors'][name] = 'Invalid unit.'
-    except units.units.DisallowedExpression:
+    except units.units.DisallowedExpression: # incorrect usage of prefixes + imperial
         data['format_errors'][name] = 'Invalid unit.'
-    except ValueError:
+    except ValueError: # can't convert to float
         data['format_errors'][name] = 'Invalid number.'
-    
-    # else:
-    #     data['submitted_answers'][name] = units.DimensionfulQuantity.from_string(a_sub)
-
-    # try:
-        # if allow_blank and a_sub.strip() == '':
-        #     a_sub = blank_value
-        # a_sub_parsed = str(a_sub.get_number()).strip()
-        # a_sub_first = float(a_sub_parsed)
-        # data['submitted_answers'][name] = units.DimensionfulQuantity(a_sub_first, a_sub.get_units())
-    # except Exception:
-    #     data['format_errors'][name] = 'Invalid format.'
-    #     data['submitted_answers'][name] = None
-    #     return
 
 def grade(element_html, data):
-    # TODO: checks against correct answer
     element = lxml.html.fragment_fromstring(element_html)
     name = pl.get_string_attrib(element, 'answers-name')
     weight = pl.get_integer_attrib(element, 'weight', WEIGHT_DEFAULT)
@@ -237,20 +227,22 @@ def grade(element_html, data):
     a_tru = data['correct_answers'].get(name, None)
     if a_tru is None:
         return
-    a_tru = units.DimensionfulQuantity.from_string(a_tru)
+    a_tru = units.DimensionfulQuantity.from_string(a_tru) # implicit assumption that true answer is formatted correctly
     
     a_sub = data['submitted_answers'].get(name, None)
     if a_sub is None:
         data['partial_scores'][name] = {'score': 0, 'weight': weight}
         return
-    a_sub = units.DimensionfulQuantity.from_string(a_sub)
+    a_sub = units.DimensionfulQuantity.from_string(a_sub) # will return no error, assuming parse() catches all of them
 
     if a_tru == a_sub:
         data['partial_scores'][name] = {'score': 1, 'weight': weight}
-    elif a_tru.unit == a_sub.unit:
+    elif a_tru.unit == a_sub.unit: # if units are in the same dimension, allow half marks
         data['partial_scores'][name] = {'score': 0.5, 'weight': weight}
     else:
         data['partial_scores'][name] = {'score': 0, 'weight': weight}
+    
+    # TODO: allow complex/fractions? (remember to edit {{format}} in .mustache)
 
 def test(element_html, data):
     # TODO: unit test
