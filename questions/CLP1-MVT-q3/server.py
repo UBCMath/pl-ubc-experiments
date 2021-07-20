@@ -23,11 +23,12 @@ def generate(data):
     a = random.randint(9,12)
     b = random.randint(10,13)
     c = random.randint(28,35)
+    #choosing where point b is so that it exists on the png
     while(True):
-        choice_of_b = random.choice ([1.20, 1.30, 1.40, 1.45])
+        choice_of_b = random.choice ([1.20, 1.30, 1.40])
         if(round(f(choice_of_b,a,b,c),1) >= 10):
             break
-            
+        
     data["params"]["a"] = a
     data["params"]["b"] = b
     data["params"]["c"] = c
@@ -36,7 +37,7 @@ def generate(data):
     fta = round(f(0,a,b,c),1)
     ftb = round(f(choice_of_b,a,b,c),1)
     
-    #generating point_a and point_b on graph
+    #generating point_a and point_b coordinates on pl-drawing-canvas
     pa = [60, (345-10*(fta-10))]
     pb = [int(200*choice_of_b+60), (345-10*(ftb-10))]
     data["params"]["pointa_x"] = str(pa[0])
@@ -44,14 +45,14 @@ def generate(data):
     data["params"]["pointb_x"] = str(pb[0])
     data["params"]["pointb_y"] = str(pb[1])
     
-
-    # find slope of secant
-    slope_of_secant = (ftb-fta) / choice_of_b
-    data["params"]["slope_canvas"] = (pb[1] - pa[1])/(pb[0] - pa[0])
-
     # this is the origin of the graph
     V0 = [60,345]
-
+    
+    # find slope of secant
+    slope_of_secant = (ftb-fta) / choice_of_b
+    data["params"]["slope_of_secant"] = slope_of_secant
+    
+    data["params"]["slope_canvas"] = (pb[1] - pa[1])/(pb[0] - pa[0])
 
     #store origin points
     data["params"]["origin_x"] = str(V0[0])
@@ -63,21 +64,26 @@ def generate(data):
 
 
 def grade(data):
-
     # Custom grade of the plot. Checking the slope of the plot
     graph = data["submitted_answers"].get("lines")
     # the above line will not fail, since the element parse function will fail if no submission is added to the plot area
-    if (len(graph) != 3):
-        data["partial_scores"]["lines"]["feedback"] = "Graph submission is NOT valid! Only one line should be added to the graph area"
+    if (len(graph) != 4): #first 2 elements are point_a and point_b
+        data["partial_scores"]["lines"]["feedback"] = "Graph submission is NOT valid! Exactly one line and one point should be added to the graph area"
         data["partial_scores"]["lines"]["score"] = 0
     else:
         item = graph[2]
+        item_point = graph[3]
+        canvas_to_graph = (item_point['left'] -60 )/200
+        
+        #checking if x coordinate of placed point satisfies MVT
+        if np.allclose(df(canvas_to_graph,data["params"]["a"] ,data["params"]["b"]),  data["params"]["slope_of_secant"] , atol=2):
+            data["partial_scores"]["lines"]["score"] += 0.5
         st_slope = (item['y2'] - item['y1'])/ (item['x2'] - item['x1'] )
-        if np.allclose(st_slope, data["params"]["slope_canvas"], rtol=0.05):
-            data["partial_scores"]["lines"]["score"] = 1
-            data["partial_scores"]["lines"]["feedback"] = "The graph is correct"
+        if np.allclose(st_slope, data["params"]["slope_canvas"], rtol=0.5):
+            data["partial_scores"]["lines"]["score"] += 0.5
+            data["partial_scores"]["lines"]["feedback"] = "The secant line is correct"
         else:
-            data["partial_scores"]["lines"]["feedback"] = "The graph is NOT correct"
+            data["partial_scores"]["lines"]["feedback"] = "The secant line is NOT correct"
 
     # recomputing final score based on partial scores
     total_score = 0
@@ -91,7 +97,6 @@ def grade(data):
 def file(data):
 
     if data['filename']=='figure1.png':
-        #clear
         a0 = 0
         b0 = 2
         x = np.linspace(a0, b0)

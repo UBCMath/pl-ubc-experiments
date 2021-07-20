@@ -1,8 +1,8 @@
 <pl-question-panel>
 
 <p> Below is the graph of $y=f(x)$, where $x$ is continuous on $[a,b]$ and differentiable on $(a,b)$. </p>
-<p> Draw the secant line from $a$ to $b$.</p>
-<p> Then, mark on the graph the approximate location of a value $c$ guaranteed by the mean value theorem</p>
+<p> Draw the secant line through points $a$ and $b$. Then, mark on the graph the approximate location of a value $c$ guaranteed by the mean value theorem </p>
+
 
 </pl-question-panel>
 
@@ -12,26 +12,27 @@
     </pl-background>
 
     <pl-location left="20" top="0" valign="top" halign="left">
-        <pl-drawing  answers-name="lines" gradable=true width="500" height="400" grid-size=0 show-tolerance-hint="false" hide-answer-panel="false">
+        <pl-drawing  answers-name="lines" gradable=true width="500" height="400" grid-size=0 show-tolerance-hint="false" hide-answer-panel="true">
             <pl-drawing-answer draw-error-box="true">
                 <pl-graph-line origin="{{params.V_origin}}" end-points="{{params.line}}" offset-tol-x="5" offset-tol-y="5"></pl-graph-line>
             </pl-drawing-answer>
             <pl-drawing-initial>
-            
                 <pl-point x1="{{params.pointa_x}}" y1="{{params.pointa_y}}" label="a" radius="3"></pl-point>
                 <pl-point x1="{{params.pointb_x}}" y1="{{params.pointb_y}}" label="b" radius="3"></pl-point>
-                
             </pl-drawing-initial>
             <pl-controls>
                 <pl-controls-group label="Add line:" >
                     <pl-drawing-button type="pl-controlled-line"></pl-drawing-button>
+                </pl-controls-group>
+                
+                <pl-controls-group label="Add point:" >
+                    <pl-drawing-button type="pl-point"></pl-drawing-button>
                 </pl-controls-group>
                 <pl-controls-group label="Delete:">
                     <pl-drawing-button type="delete"></pl-drawing-button>
                 </pl-controls-group>
               </pl-controls>
           </pl-drawing>
-
     </pl-location>
 </pl-overlay>
 
