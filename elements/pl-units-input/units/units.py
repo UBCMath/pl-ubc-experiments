@@ -20,10 +20,6 @@ class DimensionfulQuantity:
     def __eq__(self, rhs: DimensionfulQuantity) -> bool:
         return self.quantity * self.unit.multiplier == rhs.quantity * rhs.unit.multiplier and self.unit == rhs.unit
     
-    @classmethod
-    def from_tuple(cls, tup: Tuple[Any, Unit]) -> DimensionfulQuantity:
-        return DimensionfulQuantity(tup[0], Unit.from_string(tup[1]))
-    
     @staticmethod
     def get_index(answer: str) -> int:
         m = re.search(r'[a-z|A-Z|Ω|μ]', answer, re.I) # search for valid alpha/greek for unit start
