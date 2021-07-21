@@ -13,20 +13,96 @@ class DisallowedExpression(Exception):
     pass
 
 class DimensionfulQuantity:
+    """A quantity and a unit strung together. Represents a number with units.
+    
+    ...
+
+    Attributes
+    ----------
+    quantity : Any
+        Usually some sort of number. The "Quantity" part.
+    
+    unit : Unit
+        The unit accompanying the number. The "Dimensionful" part.
+    
+    Methods
+    -------
+    __eq__(rhs)
+        Determines whether this and another DimensionfulQuantity are equal.
+
+    get_index(answer)
+        Determines the index where the unit starts.
+
+    from_string(answer)
+        Constructs a DimensionfulQuantity from a string.
+    
+    check_unitless(answer)
+        Checks whether the string has no unit portion.
+    
+    check_numberless(answer)
+        Checks whether the string has no number portion.
+    """
+
     def __init__(self, quantity: Any, unit: Unit) -> None:
+        """
+        Parameters
+        ----------
+        quantity : Any
+            Usually some sort of number. The "Quantity" part.
+        
+        unit : Unit
+            The unit accompanying the number. The "Dimensionful" part.
+        """
+
         self.quantity = quantity
         self.unit = unit
 
     def __eq__(self, rhs: DimensionfulQuantity) -> bool:
+        """Determines whether this and another DimensionfulQuantity are equal.
+
+        Equality is determined by two things:
+            - number * multiplier/prefix of unit has to be equal
+            - unit has to has same dimensions (i.e. describe the same kind of stuff)
+        
+        Parameters
+        ----------
+        rhs : DimensionfulQuantity
+            The other DimensionfulQuantity we are comparing to.
+        """
+
         return self.quantity * self.unit.multiplier == rhs.quantity * rhs.unit.multiplier and self.unit == rhs.unit
     
     @staticmethod
     def get_index(answer: str) -> int:
-        m = re.search(r'[a-z|A-Z|Ω|μ]', answer, re.I) # search for valid alpha/greek for unit start
+        """Determines the index where the unit starts.
+        
+        Determines the index of first character that matches a prefix/unit in the string.
+        Returns -1 if not found.
+
+        Parameters
+        ----------
+        answer : str
+            String to search.
+        """
+
+        regex = f"(?:({'|'.join(MetricPrefixes.__members__.keys())})?({'|'.join(MetricUnits.__members__.keys())}))|({'|'.join(ImperialUnits.__members__.keys())})"
+        regex = re.compile(regex)
+        m = re.search(regex, answer) # search for valid alpha/greek for unit start
         return m.start() if m is not None else -1 # get index
 
     @classmethod
     def from_string(cls, answer: str) -> DimensionfulQuantity:
+        """Constructs a DimensionfulQuantity from a string.
+        
+        Splits a string into the number and the unit part, and parses
+        them as a float and a Unit respectively.
+
+        Parameters
+        ----------
+        answer : str
+            String to parse
+        """
+
         i = cls.get_index(answer)
         if i == -1:
             raise DisallowedExpression
@@ -34,11 +110,31 @@ class DimensionfulQuantity:
     
     @classmethod
     def check_unitless(cls, answer: str) -> bool:
+        """Checks whether the string has no unit portion.
+
+        Checks whether the string matches a unit/prefix at all.
+
+        Parameters
+        ----------
+        answer : str
+            String to search
+        """
+        
         i = cls.get_index(answer)
         return i == -1
     
     @classmethod
     def check_numberless(cls, answer: str) -> bool:
+        """Checks whether the string has no number portion.
+
+        Checks whether the string preceding the unit/prefix character is empty.
+
+        Parameters
+        ----------
+        answer : str
+            String to search
+        """
+
         i = cls.get_index(answer)
         number = answer[:i].strip()
         return not number
