@@ -44,7 +44,6 @@ def prepare(element_html, data):
         data['correct_answers'][name] = correct_answer
 
 def render(element_html, data):
-    # TODO: config customizable attributes
     element = lxml.html.fragment_fromstring(element_html)
     name = pl.get_string_attrib(element, 'answers-name')
     label = pl.get_string_attrib(element, 'label', LABEL_DEFAULT)
@@ -246,4 +245,22 @@ def grade(element_html, data):
 
 def test(element_html, data):
     # TODO: unit test
-    pass
+    element = lxml.html.fragment_fromstring(element_html)
+    name = pl.get_string_attrib(element, 'answers-name')
+    weight = pl.get_integer_attrib(element, 'weight', WEIGHT_DEFAULT)
+
+    a_tru = data['correct_answers'][name]
+
+    result = data['test_type']
+    if result == 'correct':
+        data['raw_submitted_answers'][name] = str(a_tru)
+        data['partial_scores'][name] = {'score': 1, 'weight': weight}
+    elif result == 'incorrect':
+        data['partial_scores'][name] = {'score': 0, 'weight': weight}
+        i = units.DimensionfulQuantity.get_index(a_tru)
+        u = "s" if a_tru[i:].strip() == "m" else "m"
+        answer = a_tru[:i] + u
+        data['raw_submitted_answers'][name] = str(answer)
+    elif result == 'invalid':
+        data['raw_submitted_answers'][name] = '1 vfg'
+        data['format_errors'][name] = 'Invalid unit.'
