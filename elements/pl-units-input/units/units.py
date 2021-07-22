@@ -228,9 +228,6 @@ class SIBaseUnit(Unit, Enum):
     Mole = 13
     Candela = 17
 
-    # defining this as a constant makes life a bit easier when it comes to defining derived units
-    Kilogram = 1000 * Gram
-
 class SIPrefix(Enum):
     Yotta = 24
     Zetta = 21
@@ -288,19 +285,19 @@ class MetricUnits(Enum):
     rad = SIBaseUnit.Metre / SIBaseUnit.Metre
     sr = SIBaseUnit.Metre ** 2 / SIBaseUnit.Metre ** 2
     Hz = SIBaseUnit.Second ** -1
-    N = SIBaseUnit.Kilogram * SIBaseUnit.Metre * SIBaseUnit.Second ** -2
-    Pa = SIBaseUnit.Kilogram * SIBaseUnit.Metre ** -1 * SIBaseUnit.Second ** -2
-    J = SIBaseUnit.Kilogram * SIBaseUnit.Metre ** 2 * SIBaseUnit.Second ** -2
-    W = SIBaseUnit.Kilogram * SIBaseUnit.Metre ** 2 * SIBaseUnit.Second ** -3
+    N = 1000 * SIBaseUnit.Gram * SIBaseUnit.Metre * SIBaseUnit.Second ** -2
+    Pa = 1000 * SIBaseUnit.Gram * SIBaseUnit.Metre ** -1 * SIBaseUnit.Second ** -2
+    J = 1000 * SIBaseUnit.Gram * SIBaseUnit.Metre ** 2 * SIBaseUnit.Second ** -2
+    W = 1000 * SIBaseUnit.Gram * SIBaseUnit.Metre ** 2 * SIBaseUnit.Second ** -3
     C = SIBaseUnit.Second * SIBaseUnit.Ampere
-    V = SIBaseUnit.Kilogram * SIBaseUnit.Metre ** 2 * SIBaseUnit.Second ** -3 * SIBaseUnit.Ampere ** -1
-    F = SIBaseUnit.Kilogram ** -1 * SIBaseUnit.Metre ** -2 * SIBaseUnit.Second ** 4 * SIBaseUnit.Ampere ** 2
-    O = SIBaseUnit.Kilogram * SIBaseUnit.Metre ** 2 * SIBaseUnit.Second ** -3 * SIBaseUnit.Ampere ** -2
-    Ω = SIBaseUnit.Kilogram * SIBaseUnit.Metre ** 2 * SIBaseUnit.Second ** -3 * SIBaseUnit.Ampere ** -2
-    S = SIBaseUnit.Kilogram ** -1 * SIBaseUnit.Metre ** -2 * SIBaseUnit.Second ** 3 * SIBaseUnit.Ampere ** 2
-    Wb = SIBaseUnit.Kilogram * SIBaseUnit.Metre ** 2 * SIBaseUnit.Second ** -2 * SIBaseUnit.Ampere ** -1
-    T = SIBaseUnit.Kilogram * SIBaseUnit.Second ** -2 * SIBaseUnit.Ampere ** -1
-    H = SIBaseUnit.Kilogram * SIBaseUnit.Metre ** 2 * SIBaseUnit.Second ** -2 * SIBaseUnit.Ampere ** -2
+    V = 1000 * SIBaseUnit.Gram * SIBaseUnit.Metre ** 2 * SIBaseUnit.Second ** -3 * SIBaseUnit.Ampere ** -1
+    F = 1000 * SIBaseUnit.Gram ** -1 * SIBaseUnit.Metre ** -2 * SIBaseUnit.Second ** 4 * SIBaseUnit.Ampere ** 2
+    O = 1000 * SIBaseUnit.Gram * SIBaseUnit.Metre ** 2 * SIBaseUnit.Second ** -3 * SIBaseUnit.Ampere ** -2
+    Ω = 1000 * SIBaseUnit.Gram * SIBaseUnit.Metre ** 2 * SIBaseUnit.Second ** -3 * SIBaseUnit.Ampere ** -2
+    S = 1000 * SIBaseUnit.Gram ** -1 * SIBaseUnit.Metre ** -2 * SIBaseUnit.Second ** 3 * SIBaseUnit.Ampere ** 2
+    Wb = 1000 * SIBaseUnit.Gram * SIBaseUnit.Metre ** 2 * SIBaseUnit.Second ** -2 * SIBaseUnit.Ampere ** -1
+    T = 1000 * SIBaseUnit.Gram * SIBaseUnit.Second ** -2 * SIBaseUnit.Ampere ** -1
+    H = 1000 *SIBaseUnit.Gram * SIBaseUnit.Metre ** 2 * SIBaseUnit.Second ** -2 * SIBaseUnit.Ampere ** -2
 
     # some common metric units that are not technically SI
     min = 60 * SIBaseUnit.Second
@@ -308,7 +305,7 @@ class MetricUnits(Enum):
     d = 86400 * SIBaseUnit.Second
     au = 149597870700 * SIBaseUnit.Metre
     L = 10e-3 * SIBaseUnit.Metre ** 3
-    eV = 1.602176634e-19 * SIBaseUnit.Kilogram * SIBaseUnit.Metre ** 2 * SIBaseUnit.Second ** -2
+    eV = 1.602176634e-19 * 1000 * SIBaseUnit.Gram * SIBaseUnit.Metre ** 2 * SIBaseUnit.Second ** -2
 
 class MetricPrefixes(Enum):
     Y = SIPrefix.Yotta
