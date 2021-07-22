@@ -140,14 +140,52 @@ class DimensionfulQuantity:
         return not number
 
 class Unit:
+    """A unit with no associated quantity.
+    
+    ...
+
+    Attributes
+    ----------
+    multiplier : float
+        A multiplier that represents the factor by which quantites in the given unit will differ from quantities in combinations of SI base units.
+    
+    godel_fraction : sympy.Rational
+        A rational number uniquely identifying the unit. A little bit of black math-gic.
+    
+    Methods
+    -------
+    _from_prefixed_unit(prefix, unit)
+        Create a unit by adding a metric prefix to a base unit.
+
+    _from_single_string(str)
+        Parse a string representing a single unit, such as "mT" into units.
+
+    from_string(str)
+        Parse a string, such as "pF", "kg", or "N / C", into units.
+    """
     def __init__(self, multiplier: float, godel_frac: sympy.Rational) -> None:
-        # factor by which quantities in given units will differ from quantities in SI base units
+        """
+        Parameters
+        ----------
+        multiplier : float
+            A multiplier representing the factor by which numbers in this unit would differ from numbers in combinations of SI base units.
+        
+        godel_frac : sympy.Rational
+            A ratio of two Gödel numbers, representing every combination of SI base units uniquely.
+        """
         self.multiplier = multiplier
-        # Gödel fraction representing the unit's dimensions
         self.godel_frac = godel_frac
 
     def __mul__(self, rhs: float | Unit) -> Unit:
-        # for ergonomics, it turns out to be nice to be able to multiply units by floats to represent scaling
+        """Multiply two units, or a float by a unit.
+        
+        Multiplying two units works exactly as expected, N * m = J, A * s = C, etc. Multiplying a unit by a float has the effect of "scaling" that unit, so something like 1000 * g = kg. This float-multiplying capability is mostly to clean up the definition of non-SI units and other odds and ends, and shouldn't be used by the end user.
+
+        Parameters
+        ----------
+        rhs : float | Unit
+            Unit or float to multiply by
+        """
         if isinstance(rhs, Unit):
             new_multiplier = self.multiplier * rhs.multiplier
             new_godel_frac = self.godel_frac * rhs.godel_frac
@@ -157,6 +195,15 @@ class Unit:
             return Unit(new_multiplier, self.godel_frac)
 
     def __rmul__(self, lhs: float | Unit) -> Unit:
+        """Multiply two units, or a float by a unit.
+        
+        Multiplying two units works exactly as expected, N * m = J, A * s = C, etc. Multiplying a unit by a float has the effect of "scaling" that unit, so something like 1000 * g = kg. This float-multiplying capability is mostly to clean up the definition of non-SI units and other odds and ends, and shouldn't be used by the end user.
+
+        Parameters
+        ----------
+        lhs : float | Unit
+            Unit or float to multiply by
+        """
         if isinstance(lhs, Unit):
             new_multiplier =  lhs.multiplier * self.multiplier
             new_godel_frac = lhs.godel_frac * self.godel_frac
@@ -166,30 +213,87 @@ class Unit:
             return Unit(new_multiplier, self.godel_frac)
 
     def __truediv__(self, rhs: Unit) -> Unit:
+        """Divide two units.
+        
+        Dividing two units works exactly as expected, N / m = Pa, J / C = V, etc.
+
+        Parameters
+        ----------
+        lhs : Unit
+            Unit to divide by
+        """
         new_multiplier = self.multiplier / rhs.multiplier
         new_godel_frac = self.godel_frac / rhs.godel_frac
         return Unit(new_multiplier, new_godel_frac)
 
     def __rtruediv__(self, lhs: Unit) -> Unit:
+        """Divide two units.
+        
+        Dividing two units works exactly as expected, N / m = Pa, J / C = V, etc.
+
+        Parameters
+        ----------
+        lhs : Unit
+            Unit by which to divide
+        """
         new_multiplier = lhs.multiplier / self.multiplier
         new_godel_frac = lhs.godel_frac / self.godel_frac
         return Unit(new_multiplier, new_godel_frac)
 
     def __pow__(self, exp: int) -> Unit:
+        """Exponentiate a unit
+        
+        Exponentiating units works as expected. dm ** 3 = L, etc.
+
+        Parameters
+        ----------
+        lhs : Unit
+            Unit by which to divide
+        """
         new_multiplier = self.multiplier ** exp
         new_godel_frac = self.godel_frac ** exp
         return Unit(new_multiplier, sympy.Rational(new_godel_frac))
 
     def __eq__(self, rhs: Unit) -> bool:
+        """Check that two units are equal
+        
+        This only checks that the dimensions of two units are equal, and makes no other guarantees. Newtons are equal to dynes are equal to foot-pounds. DimensionfulQuantity should be used for comparison, and checking equality of two units directly should probably not be done.
+
+        Parameters
+        ----------
+        rhs : Unit
+            Unit to check equality to
+        """
         return self.godel_frac - rhs.godel_frac == 0
 
     @classmethod
     def _from_prefixed_unit(cls, prefix: SIPrefix, unit: Unit) -> Unit:
+        """Create a unit from a prefix and a Unit
+        
+        This is really just a convenience method so that SI prefixes can be defined using the power of 10 by which they differ from the base unit.
+
+        Parameters
+        ----------
+        prefix : SIPrefix
+            Prefix to apply to the unit.
+
+        unit : Unit
+            Unit to apply the prefix to
+        """
         new_multiplier = unit.multiplier * 10 ** prefix.value
         return cls(new_multiplier, unit.godel_frac)
 
     @classmethod
     def _single_from_string(cls, str: str) -> Unit:
+        """Parse a string corresponding to a single unit to a Unit.
+        
+        This is simply a helper function for Unit.from_string, and deals with taking string such as "pF" and "ns" and converting them into Units.
+
+        Parameters
+        ----------
+        str : str
+            String to parse
+        """
         # here be dragons
         regex = f"(?:({'|'.join(MetricPrefixes.__members__.keys())})?({'|'.join(MetricUnits.__members__.keys())}))|({'|'.join(ImperialUnits.__members__.keys())})"
         regex = re.compile(regex)
@@ -209,6 +313,15 @@ class Unit:
 
     @classmethod
     def from_string(cls, str: str) -> Unit:
+        """Parse a string corresponding to a unit or arithmetic combination of units.
+        
+        Given a unit, or some group of units combined using multiplication, division, and exponention, and parse into a Unit. This parsing is safe, and uses a whitelist to ensure that arbitrary code execution is not possible.
+
+        Parameters
+        ----------
+        str : str
+            String to parse
+        """
         tree = ast.parse(str, mode="eval")
         whitelist = (ast.Expression, ast.Name, ast.Load, ast.BinOp, ast.Mult, ast.Div, ast.Pow, ast.Constant)
         CheckWhitelist(whitelist).visit(tree)
