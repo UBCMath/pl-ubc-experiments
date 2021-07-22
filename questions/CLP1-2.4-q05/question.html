@@ -1,0 +1,17 @@
+<!--
+  Parametrized power law questions, based on CLP1 Section 2.4 Q5.
+-->
+
+<pl-question-panel>
+  <p>Differentiate $f(x) = {{params.a1}}x^{{params.a2}} + {{params.a3}}x^{{params.a4}}$.</p>
+</pl-question-panel>
+
+<pl-symbolic-input answers-name="a" variables="x" label="$f'(x) =$"></pl-symbolic-input>
+
+<p>&nbsp;</p>
+
+<pl-question-panel>
+  <p>Differentiate $f(x) = {{params.b1}}x^{{params.b2}} + \frac{ {{params.b3}} }{ {{params.b4}} }x^{\frac{ {{params.b5}} }{ {{params.b6}} }}$</p>
+</pl-question-panel>
+
+<pl-symbolic-input answers-name="b" variables="x" label="$f'(x) =$"></pl-symbolic-input>
