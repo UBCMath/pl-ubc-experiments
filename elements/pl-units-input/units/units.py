@@ -304,7 +304,7 @@ class MetricUnits(Enum):
     h = 3600 * SIBaseUnit.Second
     d = 86400 * SIBaseUnit.Second
     au = 149597870700 * SIBaseUnit.Metre
-    L = 10e-3 * SIBaseUnit.Metre ** 3
+    L = 1e-3 * SIBaseUnit.Metre ** 3
     eV = 1.602176634e-19 * 1000 * SIBaseUnit.Gram * SIBaseUnit.Metre ** 2 * SIBaseUnit.Second ** -2
 
 class MetricPrefixes(Enum):
