@@ -4,7 +4,7 @@ def generate(data):
 
     # Initialize variables
     m1 = random.randint(1,5)     # mass 1           (kg)
-    m2 = random.randint(m1,10)   # mass 2           (kg)
+    m2 = random.randint(m1+1,10)   # mass 2           (kg)
     M = random.randint(1,10)     # mass of pulley   (kg)
     R = random.randint(1,10)     # radius of pulley (m)
 
