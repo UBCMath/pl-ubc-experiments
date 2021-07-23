@@ -49,13 +49,13 @@ def generate(data):
     a = (a1 * a2) * x**(a2-1) + (a3 * a4) * x**(a4-1)
     b = (b1 * b2) * x**(b2-1) + (b3 * b5) / (b4 * b6) * x**(b5/b6 - 1)
 
-    # f = a1 * x**a2 + a3 * x**a4
-    # g = b1 * x**b2 + (b3/b4) * x**(b5/b6)
-    # a_s = sympy.diff(f)
-    # b_s = sympy.diff(g)
+    f = a1 * x**a2 + a3 * x**a4
+    g = b1 * x**b2 + (b3/b4) * x**(b5/b6)
+    a_s = sympy.diff(f)
+    b_s = sympy.diff(g)
 
-    # assert sympy.simplify((a - a_s).expand()) == 0, str(a) + " != " + str(a_s)
-    # assert sympy.simplify((b - b_s).expand()) == 0, str(b) + " != " + str(b_s)
+    assert sympy.simplify(sympy.Eq(a, a_s)), str(a) + " != " + str(a_s)
+    assert sympy.simplify(sympy.Eq(b, b_s)), str(b) + " != " + str(b_s)
 
     data['correct_answers']['a'] = pl.to_json(a)
     data['correct_answers']['b'] = pl.to_json(b)
