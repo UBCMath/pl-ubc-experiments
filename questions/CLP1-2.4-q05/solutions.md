@@ -1,5 +1,7 @@
 # CLP1 2.4 Q5
 
+Find the first derivative.
+
 ## Question 1
 
 $$f(x) = a_1 x^{a_2} + a_3 x^{a_4}$$
