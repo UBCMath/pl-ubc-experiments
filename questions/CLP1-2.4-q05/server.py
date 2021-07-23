@@ -45,9 +45,15 @@ def generate(data):
     data['params']['b6'] = b6
 
     # Evaluate function
-    x = sympy.symbols('x')
+    x = sympy.symbols('x', real=True)
+    a = (a1 * a2) * x**(a2-1) + (a3 * a4) * x**(a4-1)
+    b = (b1 * b2) * x**(b2-1) + (b3 * b5) / (b4 * b6) * x**(b5/b6 - 1)
+
     f = a1 * x**a2 + a3 * x**a4
     g = b1 * x**b2 + (b3/b4) * x**(b5/b6)
 
-    data['correct_answers']['a'] = pl.to_json(sympy.diff(f, x))
-    data['correct_answers']['b'] = pl.to_json(sympy.diff(g, x))
+    assert sympy.Eq(a, sympy.diff(f, x))
+    assert sympy.Eq(b, sympy.diff(g, x))
+
+    data['correct_answers']['a'] = pl.to_json(a)
+    data['correct_answers']['b'] = pl.to_json(b)
