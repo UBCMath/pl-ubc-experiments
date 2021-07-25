@@ -54,8 +54,9 @@ def generate(data):
     a_s = sympy.diff(f)
     b_s = sympy.diff(g)
 
-    assert sympy.simplify(sympy.Eq(a, a_s)), str(a) + " != " + str(a_s)
-    assert sympy.simplify(sympy.Eq(b, b_s)), str(b) + " != " + str(b_s)
+    # patchy solution - BEWARE
+    assert sympy.simplify(sympy.Eq(a, a_s)) or str(a) == str(a_s)
+    assert sympy.simplify(sympy.Eq(b, b_s)) or str(b) == str(b_s)
 
     data['correct_answers']['a'] = pl.to_json(a)
     data['correct_answers']['b'] = pl.to_json(b)
