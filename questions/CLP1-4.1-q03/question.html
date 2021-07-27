@@ -1,0 +1,17 @@
+<!--
+  Parametrized power law questions, based on CLP1 Section 4.1 Q3.
+-->
+
+<pl-question-panel>
+  <p>Find the antiderivative of $f(x) = {{params.c1}}x^{{params.e1}} + {{params.c2}}x^{{params.e2}} - {{params.c3}}x + {{params.c4}}$</p>
+</pl-question-panel>
+
+<pl-symbolic-input answers-name="integral-1" variables="x" label="$F(x) =$"></pl-symbolic-input> $+ \, C$
+
+<p>&nbsp;</p>
+
+<pl-question-panel>
+  <p>Find the antiderivative of $f(x) = \frac{ {{params.d1}} }{ {{params.d2}} } x^{{params.f1}} - {{params.d3}} x^{{params.f2}} - {{params.d4}}$</p>
+</pl-question-panel>
+
+<pl-symbolic-input answers-name="integral-2" variables="x" label="$F(x) =$"></pl-symbolic-input> $+ \, C$
