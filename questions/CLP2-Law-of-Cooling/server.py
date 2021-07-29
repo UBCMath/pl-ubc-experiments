@@ -2,6 +2,7 @@ import random
 import sympy
 
 def generate(data):
+    #generating random variables for the question
     ambient = random.randint(15, 20)
     temp_ini = random.randint(26, 35)
 
@@ -9,8 +10,9 @@ def generate(data):
         temp_fin = random.randint(21, 26)
         if(temp_fin< temp_ini):
             break
-
+        
     time_ini = random.randint(1,6)
+    #choosing when the dead body is discovered
     skip = ["Two", "Three", "Four"]
 
     time_of_day = "pm"
@@ -26,22 +28,12 @@ def generate(data):
     k_const = round(k_const, 5)
     t_d = float((1/k_const)*sympy.log((37-ambient)/(temp_ini-ambient)))
     mins = round(((abs(t_d*100)%100)/100)*60)
-    if (t_d < 0):
-        mins *= -1
+    mins *= -1
     mins += 45
-    hours = int(t_d)
-    while(mins >= 60):
-        mins -= 60
-        if (t_d > 0):
-            hours += 1
-        else:
-            hours -= 1
-    while(mins < 0):
-        mins += 60
-        if (t_d > 0):
-            hours -= 1
-        else:
-            hours += 1        
+    
+    hourss,mins = divmod (mins, 60)
+    hours = int(t_d) + hourss
+    
     if ((hours + time_ini) <= 0 or (hours + time_ini) >= 12):
         if (hours + time_ini <= 0):
             hours += 12
