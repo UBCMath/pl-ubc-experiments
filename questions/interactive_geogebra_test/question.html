@@ -1,0 +1,38 @@
+<pl-question-panel>
+  <p>Draw a graph that is on the line of f(x) = 1/x.</p>
+  <script src="https://www.geogebra.org/apps/deployggb.js"></script>
+  <div id="ggb-element">
+    <script>
+      const ggbParams = {
+        appName: "graph",
+        width: 640,
+        height: 480,
+        showToolBar: false,
+        showAlgebraInput: false,
+        setGridVisible: true,
+        showMenuBar: false,
+        appletOnLoad: function(api) {
+          varArr = api.evalCommandGetLabels('f(x) = 0');
+          function updateListener(obj) {
+            strVal = api.getValueString(obj)
+            document.getElementsByName('textarea1')[0].value = strVal
+          }
+          api.registerUpdateListener(updateListener)
+        }
+      };
+      const ggbApplet = new GGBApplet(ggbParams, true);
+      window.addEventListener("load", function() {
+        ggbApplet.inject('ggb-element');
+      });
+  </script>
+  </div> 
+  <p>Does the limit exist on x = 0?</p>
+</pl-question-panel>
+<p>
+  <pl-string-input answers-name="textarea1"></pl-string-input>
+  <pl-multiple-choice answers-name="conclusion">
+    <pl-answer correct="true">The limit does not exist</pl-answer>
+    <pl-answer correct="false">The limit exists</pl-answer>
+  </pl-multiple-choice>
+</p>
+
