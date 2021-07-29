@@ -4,7 +4,8 @@
     "topic": "Convergence Tests",
     "tags": [
         "hack2021",
-        "CLP2"
+        "CLP2",
+        "singleVariant"
     ],
     "type": "v3"
 }

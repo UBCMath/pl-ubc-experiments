@@ -10,13 +10,13 @@ False: divergence test is inconclusive. It’s true that this series diverges,  
 
 ##  $\displaystyle \sum_{n=1}^ {\infty} \frac{n^2}{n+1}$
 
-True: $\displaystyle lim_{x\to\infty} \frac{n^2}{n+1}$  is not zero, so the divergence test tells us this series diverges
+True: $\displaystyle \lim_{x\to\infty} \frac{n^2}{n+1}$  is not zero, so the divergence test tells us this series diverges
   
 ##  $\displaystyle \sum_{n=1}^ {\infty} \sin(x)$
 
-True: $\displaystyle lim_{x\to\infty}\sin(x)$  DNE, so the divergence test tells us this series diverges
+True: $\displaystyle \lim_{x\to\infty}\sin(x)$  DNE, so the divergence test tells us this series diverges
 
 ##  $\displaystyle \sum_{n=1}^ {\infty} \sin(\pi x)$
 
-True: $\displaystyle lim_{x\to\infty}\sin(\pi x)$  is 0, so the divergence test is inconclusive
+False: $\displaystyle \lim_{x\to\infty}\sin(\pi x)$  is 0, so the divergence test is inconclusive
 

@@ -1,4 +1,3 @@
-import random
 import sympy
 
 def generate(data):
