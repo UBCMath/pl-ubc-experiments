@@ -1,5 +1,5 @@
 import random
-import sympy as s
+import sympy as sp
 import prairielearn as pl
 
 def generate(data):
@@ -23,7 +23,7 @@ def generate(data):
     while True:
         d1 = random.randint(1, 16)
         d2 = random.randint(2, 5)
-        gcd = s.igcd(d1, d2)
+        gcd = sp.igcd(d1, d2)
         if gcd == 1 and d1 != d2:
             break
     d3 = random.randint(2, 9)
@@ -38,17 +38,17 @@ def generate(data):
     data['params']['f1'] = f1
     data['params']['f2'] = f2
 
-    x = s.symbols('x', real=True)
-    i1 = s.Rational(c1, e1+1)*x**(e1+1) + s.Rational(c2, e2+1)*x**(e2+1) - s.Rational(c3, 2)*x**2 + c4*x # + C
-    i2 = s.Rational(d1, d2*(f1+1))*x**(f1+1) - s.Rational(d3, f2+1)*x**(f2+1) - d4*x # + C
+    x = sp.symbols('x', real=True)
+    i1 = sp.Rational(c1, e1+1)*x**(e1+1) + sp.Rational(c2, e2+1)*x**(e2+1) - sp.Rational(c3, 2)*x**2 + c4*x # + C
+    i2 = sp.Rational(d1, d2*(f1+1))*x**(f1+1) - sp.Rational(d3, f2+1)*x**(f2+1) - d4*x # + C
 
     f1_s = c1*x**e1 + c2*x**e2 - c3*x + c4
-    f2_s = s.Rational(d1, d2)*x**f1 - d3*x**f2 - d4
-    i1_s = s.integrate(f1_s, x)
-    i2_s = s.integrate(f2_s, x)
+    f2_s = sp.Rational(d1, d2)*x**f1 - d3*x**f2 - d4
+    i1_s = sp.integrate(f1_s, x)
+    i2_s = sp.integrate(f2_s, x)
 
-    assert s.simplify(s.Eq(i1, i1_s))
-    assert s.simplify(s.Eq(i2, i2_s))
+    assert sp.simplify(sp.Eq(i1, i1_s))
+    assert sp.simplify(sp.Eq(i2, i2_s))
 
     data['correct_answers']['integral-1'] = pl.to_json(i1)
     data['correct_answers']['integral-2'] = pl.to_json(i2)
