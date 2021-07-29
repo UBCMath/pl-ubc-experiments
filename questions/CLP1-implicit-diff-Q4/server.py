@@ -1,6 +1,6 @@
 import prairielearn as pl
-import sympy as s
-import random, copy
+import sympy as sp
+import random
 
 def generate(data):
 
@@ -14,15 +14,15 @@ def generate(data):
     data['params']['c'] = c
     data['params']['d'] = d
     
-    s.var('a b c d')
-    x = s.symbols('x',real=True)
-    y = s.symbols('y',real=True)
+    sp.var('a b c d')
+    x = sp.symbols('x',real=True)
+    y = sp.symbols('y',real=True)
     
-    q_lhs = a*x*y + s.exp(b*x) + s.exp(c*y)
-    manual_ans = -(b*s.exp(b*x)+a*y)/(a*x+c*s.exp(c*y))
-    sympy_ans = s.idiff(q_lhs,y,x)
+    q_lhs = a*x*y + sp.exp(b*x) + sp.exp(c*y)
+    manual_ans = -(b*sp.exp(b*x)+a*y)/(a*x+c*sp.exp(c*y))
+    sympy_ans = sp.idiff(q_lhs,y,x)
     
     #checks if manual and sympy computed answers are the same
-    assert (s.simplify(s.Eq (sympy_ans, manual_ans)))
+    assert (sp.simplify(sp.Eq (sympy_ans, manual_ans)))
 
     data['correct_answers']['ans'] = pl.to_json(manual_ans)

@@ -6,6 +6,6 @@ Find $\displaystyle \frac{dy}{dx}$ (using implicit differntiation)
 
 $$ay +ax\frac{dy}{dx} +be^{bx} +ce^{cy}\frac{dy}{dx} =0$$
 
-$$(ax+ce^{cy}\frac{dy}{dx})\frac{dy}{dx}=-(be^{bx}+ay)$$
+$$(ax+ce^{cy}\frac{dy}{dx})=-(be^{bx}+ay)$$
 
 $$\frac{dy}{dx}= \frac{-(be^{bx}+ay)} {ax+ce^{cy}}$$
