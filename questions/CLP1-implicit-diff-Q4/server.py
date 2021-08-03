@@ -1,5 +1,5 @@
 import prairielearn as pl
-import sympy as sp
+from sympy import symbols, var, exp, idiff, simplify, Eq
 import random
 
 def generate(data):
@@ -14,15 +14,15 @@ def generate(data):
     data['params']['c'] = c
     data['params']['d'] = d
     
-    sp.var('a b c d')
-    x = sp.symbols('x',real=True)
-    y = sp.symbols('y',real=True)
+    var('a b c d')
+    x = symbols('x',real=True)
+    y = symbols('y',real=True)
     
-    q_lhs = a*x*y + sp.exp(b*x) + sp.exp(c*y)
-    manual_ans = -(b*sp.exp(b*x)+a*y)/(a*x+c*sp.exp(c*y))
-    sympy_ans = sp.idiff(q_lhs,y,x)
+    q_lhs = a*x*y + exp(b*x) + exp(c*y)
+    manual_ans = -(b*exp(b*x)+a*y)/(a*x+c*exp(c*y))
+    sympy_ans = idiff(q_lhs,y,x)
     
     #checks if manual and sympy computed answers are the same
-    assert (sp.simplify(sp.Eq (sympy_ans, manual_ans)))
+    assert (simplify(Eq (sympy_ans, manual_ans)))
 
     data['correct_answers']['ans'] = pl.to_json(manual_ans)
