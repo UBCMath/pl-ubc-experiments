@@ -17,6 +17,6 @@ $$\displaystyle \int ae^{\cos (x)}\sin(2x)\,dx =2a \displaystyle \int e^{\cos (x
 Use the substitution $w=\cos(x), dw = -\sin(x) dx$:
 $$=-2a \displaystyle \int we^{w}\,dw$$
 
-Then, use IBP with $u=dw, dv = e^{w}dw, du = dw, v = e^{w}$ to simplify:
+Then, use IBP with $u=w, dv = e^{w}dw, du = dw, v = e^{w}$ to simplify:
 
 $$=2ae^{w}(1-w)+C = 2ae^{\cos(x)}(1-\cos(x))+C$$
