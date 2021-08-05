@@ -35,13 +35,11 @@ $\tau_{net} = I \alpha$
 
 The force of friction applies in the direction of the rotation, at the surface of the ball.
 
-The moment of inertia of a sphere is $\frac{2}{5}MR^2$ .
+$RF_F = I \alpha$
 
-$RF_F = \frac{2}{5}MR^2 \alpha$
+$\mu MgR = I \alpha$
 
-$\mu Mg = \frac{2}{5}MR \alpha$
-
-$\alpha = \frac{5 \mu g}{2R}$
+$\alpha = \frac{\mu MgR}{I}$
 
 Since angular acceleration is constant, the angular velocity as a function of time is:
 
@@ -49,7 +47,12 @@ $\omega = \omega_0 + \alpha t$
 
 There is no initial angular velocity.
 
-$\omega = \frac{5 \mu g}{2R} t$
+$\omega = \frac{\mu MgR}{I} t$
+
+The moment of inertia of a solid ball is $\frac{2}{5}MR^2$ .
+The moment of inertia of a hollow sphere is $\frac{2}{3}MR^2$ .
+
+$\omega = \frac{5 \mu g}{2R} t$ or $\frac{3 \mu g}{2R} t$
 
 ## Slip into roll
 
@@ -57,7 +60,9 @@ When a ball is rolling, translational motion is equal to its rotational counterp
 
 $v = r \omega$
 
-Substitute in the two expressions we calculated above.
+Substitute in the two expressions we calculated above,
+using the value for solid ball.
+(Similar calculations for hollow sphere)
 
 $v_0 - \mu gt = R \frac{5 \mu g}{2R} t$
 
@@ -73,4 +78,6 @@ $v_0 = \frac{7}{2} \mu gt$
 
 Isolating for $t$ :
 
-$t = \frac{2v_0}{7 \mu g}$
+$t = \frac{2v_0}{7 \mu g}$ for solid ball
+
+$t = \frac{2v_0}{5 \mu g}$ for hollow sphere
