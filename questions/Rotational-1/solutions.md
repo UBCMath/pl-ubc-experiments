@@ -1,6 +1,6 @@
 # Rolling and Slipping
 
-A ball with mass $M$ and radius $R$ is slipping on a table
+A solid ball with mass $M$ and radius $R$ is slipping on a table
 with an initial speed of $v_0$ and no rotational velocity.
 Find the time needed to for the ball to go from slipping to rolling,
 if the coefficient of friction between the ball and the table is $\mu$ .
