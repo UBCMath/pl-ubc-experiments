@@ -1,0 +1,41 @@
+<!--
+  Tutorial version of the Rotational-1 question.
+  Complete with symbolic input prompts.
+  Recommended tries: 5+
+-->
+
+<pl-question-panel>
+  <p>
+    A solid ball with mass $M = {{params.m}} \; \textrm{kg}$ and
+    radius $R = {{params.r}} \; \textrm{m}$
+    is slipping on a table with
+    an initial speed of $v_0 = {{params.v0}} \; \textrm{m/s}$
+    and no rotational velocity.
+    The coefficient of friction between the ball and the table is $\mu = {{params.mu}}$.
+  </p>
+
+  <p>
+    What is the translational velocity of the ball as a function of time?
+  </p>
+
+</pl-question-panel>
+
+<pl-symbolic-input answers-name="v" variables="t" allow-blank=true label="$v(t) = $"></pl-symbolic-input>
+
+<pl-question-panel>
+  <p>&nbsp;</p>
+  <p>
+    What is the rotational velocity of the ball as a function of time?
+  </p>
+</pl-question-panel>
+
+<pl-symbolic-input answers-name="omega" variables="t" allow-blank=true label="$\omega (t) = $"></pl-symbolic-input>
+
+<pl-question-panel>
+  <p>&nbsp;</p>
+  <p>
+    Find the time needed to for the ball to go from slipping to rolling.
+  </p>
+</pl-question-panel>
+
+<pl-number-input answers-name="t" comparison="sigfig" digits=3 label="$t = $" suffix="$\textrm{s}$"></pl-number-input>
