@@ -1,9 +1,9 @@
-#  CLP1 1.7 Q23
+#  CLP2 1.7 Q23
 
 
 Evaluate the integral using integration by parts. Use $C$ as the constant of integration.
 
-Problem from: https://secure.math.ubc.ca/~CLP/CLP2/clp_2_ic_problems.pdf
+Problem from: https://secure.math.ubc.ca/~CLP/CLP2/clp_2_ic_problems.pdf (typset on Wednesday 5th May, 2021)
 
   
 
