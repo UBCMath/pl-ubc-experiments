@@ -18,15 +18,14 @@ def generate(data):
     data['params']['solid'] = solid
 
     # Physical constants
-    g = 9.81 # acceleration due to gravity at Earth's surface (m/s^2)
+    g = 10.0 # acceleration due to gravity at Earth's surface (m/s^2)
 
     data['params']['g'] = g
 
     # Answers
     t_value = (2 * v0) / (7 * mu * g) if solid else (2 * v0) / (5 * mu * g)
     
-    g = Rational(str(g)) # swapping over to rationals for ease of calculation
-    mu = Rational(str(mu))
+    mu = Rational(str(mu)) # swapping over to rationals for ease of calculation
 
     t = Symbol('t') # for the two velocities written as a function of time
     v = v0 - mu * g * t
