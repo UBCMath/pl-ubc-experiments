@@ -18,7 +18,7 @@ def generate(data):
     data['params']['solid'] = solid
 
     # Physical constants
-    g = 10.0 # acceleration due to gravity at Earth's surface (m/s^2)
+    g = 10 # acceleration due to gravity at Earth's surface (m/s^2)
 
     data['params']['g'] = "{:.1f}".format(g)
 
