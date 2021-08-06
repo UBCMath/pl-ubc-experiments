@@ -20,7 +20,7 @@ def generate(data):
     # Physical constants
     g = 10.0 # acceleration due to gravity at Earth's surface (m/s^2)
 
-    data['params']['g'] = g
+    data['params']['g'] = "{:.1f}".format(g)
 
     # Answers
     t_value = (2 * v0) / (7 * mu * g) if solid else (2 * v0) / (5 * mu * g)
