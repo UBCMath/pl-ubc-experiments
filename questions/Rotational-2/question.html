@@ -1,0 +1,46 @@
+<pl-question-panel>
+  <p>
+    Two cans of pineapples,
+    one empty and one unopened,
+    sit beside each other on a table next to a slope.
+    James knocks them both over,
+    and the two cans roll down the slope at the same time.
+  </p>
+  <p>
+    Which can reaches the bottom of the slope first?
+  </p>
+</pl-question-panel>
+
+<pl-multiple-choice answers-name="qualitative" fixed-order="true" hide-letter-keys="true" weight=1>
+  <pl-answer correct="false">Empty</pl-answer>
+  <pl-answer correct="true">Unopened</pl-answer>
+  <pl-answer correct="false">They both reach the bottom of the slope at the same time.</pl-answer>
+</pl-multiple-choice>
+
+<pl-question-panel>
+  <p>&nbsp;</p>
+  <p>
+    The cans weigh ${{params.m_can}} \; \textrm{g}$ when empty,
+    and the sliced pineapples themselves (excluding the can) weigh ${{params.m_pa}} \; \textrm{g}$.
+    They were bought at the supermarket at a price of $\$ 1.49$ each,
+    and they both expired two weeks ago.
+    The unopened can of pineapples are so tightly packed
+    such that there is no wiggle room,
+    and nothing moves no matter how hard you shake the can.
+  </p>
+
+  <p>
+    If the cans roll a distance of ${{params.d}} \; \textrm{cm}$,
+    and the slope forms an angle of ${{params.theta}}^\circ$ with the ground,
+    find the speed of both cans the moment they reach the bottom of the slope,
+    assuming no work is done by friction.
+  </p>
+</pl-question-panel>
+
+<pl-number-input answers-name="v_empty" label="$v_{\textrm{empty}}$"
+  suffix="$\textrm{m/s}$" comparison="sigfig" digits=3 weight=2>
+</pl-number-input>
+
+<pl-number-input answers-name="v_unopened" label="$v_{\textrm{unopened}}$" 
+  suffix="$\textrm{m/s}$" comparison="sigfig" digits=3 weight=2>
+</pl-number-input>
