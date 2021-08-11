@@ -1,5 +1,5 @@
 import random
-import sympy
+from sympy import Symbol, solve, exp, log
 
 def generate(data):
     #generating random variables for the question
@@ -22,11 +22,11 @@ def generate(data):
     hours_pased = skip.index(hours_later) + 2 
     time_fin = time_ini + hours_pased
 
-    K = sympy.Symbol('K', real = True)
-    t = sympy.Symbol('t', real = True)
-    k_const = sympy.solve ((temp_ini-ambient)*sympy.exp(K*hours_pased)+ambient-temp_fin,K)[0]
+    K = Symbol('K', real = True)
+    t = Symbol('t', real = True)
+    k_const = solve ((temp_ini-ambient)*exp(K*hours_pased)+ambient-temp_fin,K)[0]
     k_const = round(k_const, 5)
-    t_d = float((1/k_const)*sympy.log((37-ambient)/(temp_ini-ambient)))
+    t_d = float((1/k_const)*log((37-ambient)/(temp_ini-ambient)))
     mins = round(((abs(t_d*100)%100)/100)*60)
     mins *= -1
     mins += 45
