@@ -1,8 +1,7 @@
 <pl-question-panel>
 
-<p> Consider approximating $integral$, where $f(x) = \displaystyle {{params.funct}}$, represented below. </p>
-<p> Draw the rectangles associated with the midpoint rule approximation and $n = 4$. Then, use this method to estimate the integral.</p>
-
+<p> Below is a graph of $f(x) = \displaystyle {{params.funct}}$. Consider approximating $\displaystyle \int_0^\pi {{params.funct}} \, dx$.</p>
+<p> Draw the rectangles associated with the midpoint rule approximation and $n = {{params.n}}$.</p>
 
 </pl-question-panel>
 
@@ -14,17 +13,15 @@
     <pl-location left="20" top="0" valign="top" halign="left">
         <pl-drawing  answers-name="lines" gradable=true width="500" height="400" grid-size=0 show-tolerance-hint="false" hide-answer-panel="true">
             <pl-drawing-answer draw-error-box="true">
-                <pl-graph-line origin="{{params.V_origin}}" end-points="{{params.line}}" offset-tol-x="5" offset-tol-y="5"></pl-graph-line>
+                <pl-rectangle  x1="80" y1="50" width="100" height="40"></pl-rectangle>
             </pl-drawing-answer>
             <pl-drawing-initial>
-                <pl-point x1="{{params.pointa_x}}" y1="{{params.pointa_y}}" label="a" radius="3"></pl-point>
-                <pl-point x1="{{params.pointb_x}}" y1="{{params.pointb_y}}" label="b" radius="3"></pl-point>
+                <pl-point x1="{{params.pointb_x}}" y1="{{params.pointb_y}}" label="pi" radius="3"></pl-point>
             </pl-drawing-initial>
             <pl-controls>
                 <pl-controls-group label="Add rectangle" >
                     <pl-drawing-button type="pl-rectangle" color = "red1"></pl-drawing-button>
                 </pl-controls-group>
-
                 <pl-controls-group label="Delete:">
                     <pl-drawing-button type="delete"></pl-drawing-button>
                 </pl-controls-group>
@@ -32,7 +29,8 @@
           </pl-drawing>
     </pl-location>
 </pl-overlay>
-<pl-number-input answers-name="ans_sig" comparison="sigfig" digits="2" label="$x =$"> </pl-number-input>
+<p> Then, give an approximation of the integral using the midpoint rule approximation and $n = {{params.n}}$.</p>
+<pl-number-input answers-name="ans_sig" comparison="sigfig" digits="3" label="$\displaystyle \int_0^\pi {{params.funct}} \, dx \approx$"> </pl-number-input>
 
 
 <pl-submission-panel>
