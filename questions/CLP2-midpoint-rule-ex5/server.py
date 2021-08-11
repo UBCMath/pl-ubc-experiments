@@ -92,7 +92,7 @@ def grade(data):
                 if (np.isclose(345-d.get("height"),f_of_midpoint_ind, atol = 20.0)):
                     graph_score += (1/n)
             else:
-                data["partial_scores"]["lines"]["feedback"] = "Make sure the widths of the rectangles are uniform!"
+                data["partial_scores"]["lines"]["feedback"] = "Make sure the widths of the rectangles are correct."
     # correct graph is 75% of the correct answer, while the correct numerical approx is 25% of the correct answer
     data["score"] = graph_score*0.75+ans_sig_score*0.25
     

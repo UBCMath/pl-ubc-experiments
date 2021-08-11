@@ -29,9 +29,10 @@
           </pl-drawing>
     </pl-location>
 </pl-overlay>
+<pl-question-panel>
 <p> Then, give an approximation of the integral using the midpoint rule approximation and $n = {{params.n}}$.</p>
 <pl-number-input answers-name="ans_sig" comparison="sigfig" digits="3" label="$\displaystyle \int_0^\pi {{params.funct}} \, dx \approx$"> </pl-number-input>
-
+</pl-question-panel>
 
 <pl-submission-panel>
 {{#partial_scores.lines.feedback}}
