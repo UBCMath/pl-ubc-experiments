@@ -16,7 +16,19 @@ def f(x,a,b,c):
 
 def df(x,a,b):
     return -4*a*x**3 + 2*b*x
+    
+def to_canvas(a, b):
+    x = 200*a+60
+    y = 345-10*(b-10)
+    #if b doesn't begin from 0, add (b-x) to shift b
+    return [x,y]
 
+def to_graph (a,b):
+    x = (a-60)/200
+    y = (b-445)/(-10)
+    return [int(x),y]
+    
+    
 def generate(data):
 
     # equation coefficients
@@ -38,8 +50,8 @@ def generate(data):
     ftb = round(f(choice_of_b,a,b,c),1)
     
     #generating point_a and point_b coordinates on pl-drawing-canvas
-    pa = [60, (345-10*(fta-10))]
-    pb = [int(200*choice_of_b+60), (345-10*(ftb-10))]
+    pa = to_canvas (0, fta)
+    pb = to_canvas (choice_of_b, ftb)
     data["params"]["pointa_x"] = str(pa[0])
     data["params"]["pointa_y"] = str(pa[1])
     data["params"]["pointb_x"] = str(pb[0])
@@ -67,16 +79,28 @@ def grade(data):
     # Custom grade of the plot. Checking the slope of the plot
     graph = data["submitted_answers"].get("lines")
     # the above line will not fail, since the element parse function will fail if no submission is added to the plot area
-    if (len(graph) != 4): #first 2 elements are point_a and point_b
+    gradable_dict = []
+    
+    # only adding items placed by student into gradable_dict
+    for g in graph:
+        if(g.get("placed_by_user") == 1):
+            gradable_dict.append(g)
+    
+    if (len(gradable_dict) != 2):
         data["partial_scores"]["lines"]["feedback"] = "Graph submission is NOT valid! Exactly one line and one point should be added to the graph area"
         data["partial_scores"]["lines"]["score"] = 0
     else:
-        item = graph[2]
-        item_point = graph[3]
+        if (gradable_dict[0].get("type") == "pl-point"):
+            item_point = gradable_dict[0]
+            item = gradable_dict[1]
+        else :
+            item = gradable_dict[0]
+            item_point = gradable_dict[1]
+
         canvas_to_graph = (item_point['left'] -60 )/200
         
         #checking if x coordinate of placed point satisfies MVT
-        if np.allclose(df(canvas_to_graph,data["params"]["a"] ,data["params"]["b"]),  data["params"]["slope_of_secant"] , atol=2):
+        if np.allclose(df(canvas_to_graph,data["params"]["a"] ,data["params"]["b"]),  data["params"]["slope_of_secant"] , atol=3):
             data["partial_scores"]["lines"]["score"] += 0.5
         st_slope = (item['y2'] - item['y1'])/ (item['x2'] - item['x1'] )
         if np.allclose(st_slope, data["params"]["slope_canvas"], rtol=0.5):
