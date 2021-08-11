@@ -1,5 +1,5 @@
 import random
-import sympy as sp
+from sympy import igcd, symbols, Rational, diff, simplify, Eq
 import prairielearn as pl
 
 def generate(data):
@@ -17,13 +17,13 @@ def generate(data):
     while True:
         b3 = random.randint(1, 16)
         b4 = random.randint(2, 5)
-        gcd = sp.igcd(b3, b4)
+        gcd = igcd(b3, b4)
         if gcd == 1 and b3 != b4:
             break
     while True:
         b6 = random.randint(3, 7)
         b5 = random.randint(2, b6 - 1)
-        gcd = sp.igcd(b5, b6)
+        gcd = igcd(b5, b6)
         if gcd == 1 and b5 != b6:
             break
 
@@ -45,17 +45,17 @@ def generate(data):
     data['params']['b6'] = b6
 
     # Evaluate function
-    x = sp.symbols('x', real=True)
+    x = symbols('x', real=True)
     a = (a1 * a2) * x**(a2-1) + (a3 * a4) * x**(a4-1)
-    b = (b1 * b2) * x**(b2-1) + sp.Rational(b3 * b5, b4 * b6) * x**(sp.Rational(b5, b6) - 1)
+    b = (b1 * b2) * x**(b2-1) + Rational(b3 * b5, b4 * b6) * x**(Rational(b5, b6) - 1)
 
     f = a1 * x**a2 + a3 * x**a4
-    g = b1 * x**b2 + sp.Rational(b3, b4) * x**sp.Rational(b5, b6)
-    a_s = sp.diff(f)
-    b_s = sp.diff(g)
+    g = b1 * x**b2 + Rational(b3, b4) * x**Rational(b5, b6)
+    a_s = diff(f)
+    b_s = diff(g)
 
-    assert sp.simplify(sp.Eq(a, a_s))
-    assert sp.simplify(sp.Eq(b, b_s))
+    assert simplify(Eq(a, a_s))
+    assert simplify(Eq(b, b_s))
 
     data['correct_answers']['a'] = pl.to_json(a)
     data['correct_answers']['b'] = pl.to_json(b)
