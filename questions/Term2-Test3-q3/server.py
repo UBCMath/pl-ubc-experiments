@@ -1,5 +1,5 @@
 import prairielearn as pl
-import sympy
+from sympy import symbols, simplify
 import random, copy
 
 def generate (data):
@@ -10,14 +10,14 @@ def generate (data):
 
     data['params']['scale'] = scale
     data['params']['vary'] = vary
-    H = sympy.symbols("H")
-    y = sympy.symbols("y")
-    A = sympy.symbols("A")
-    c = sympy.symbols("c")
-    g = sympy.symbols("g")
-    z = sympy.simplify(0)
+    H = symbols("H")
+    y = symbols("y")
+    A = symbols("A")
+    c = symbols("c")
+    g = symbols("g")
+    z = simplify(0)
     
-    ans = sympy.simplify(g*A*(vary+c*(H/b-y))*(H-y))
+    ans = simplify(g*A*(vary+c*(H/b-y))*(H-y))
     data['correct_answers']['symbolic_math'] = pl.to_json(ans)
     data['correct_answers']['c3'] = pl.to_json(H/b)
     data['correct_answers']['c4'] = pl.to_json(z)
