@@ -1,5 +1,5 @@
 import random
-import sympy
+from sympy import Symbol, integrate 
 
 def generate(data):
 
@@ -16,13 +16,13 @@ def generate(data):
     data['params']['r'] = r
 
     # SymPy setup
-    x = sympy.Symbol('x', real=True)
+    x = Symbol('x', real=True)
     f = sign * (1/18) * (x-n) * (x-l) * (x-r)
 
     # Calculates 3 integrals
-    integral_ln = sympy.integrate(f, (x, l, n))
-    integral_nr = sympy.integrate(f, (x, n, r))
-    integral_lr = sympy.integrate(f, (x, l, r))
+    integral_ln = integrate(f, (x, l, n))
+    integral_nr = integrate(f, (x, n, r))
+    integral_lr = integrate(f, (x, l, r))
 
     integrals = {
         "ln": integral_ln,
