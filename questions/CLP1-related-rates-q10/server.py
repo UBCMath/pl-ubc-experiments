@@ -43,6 +43,7 @@ def file(data):
         # add dotted line showing current water level
         plt.plot([0,w],[n,n], linestyle = 'dotted')
         
+        plt.axis('off')
         plt.show()  
 
         # save plot as utf-8 bytes
@@ -74,12 +75,15 @@ def generate(data):
 
     x = sympy.symbols("x")
     v = b*l*x+(0.5)*(1/h)*l*x**2*(w-b)
-    dv = sympy.lambdify(x, v.diff(x))
-    ans = dv(now_height)
+    dv = v.diff(x)
+    ans = float(dv.subs(x, now_height))
+    
     rateToCmCubed = rate*-1000
     ans = (-1)*rateToCmCubed/ans
+    data['correct_answers']['ans_sig'] = ans
+
     
-    data['correct_answers']['ans_sig'] = round(ans,5)
+
 
 
     
