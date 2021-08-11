@@ -1,21 +1,22 @@
 import prairielearn as pl
-import sympy
+from sympy import Symbol, limit, oo, Eq, lambdify
 import random, copy
-from sympy.calculus.util import continuous_domain
 
 def generate (data):
     const = random.randint(1,10)
     data['params']['const'] = const
+    
 
 def grade (data):
-    x = sympy.symbols ('x')
+    x = Symbol('x', real=True)
     const = data['params']['const']
     ans = pl.from_json(data['submitted_answers']['symbolic_math'])
-    limit_qualifies = ((sympy.limit ((1/ans), x, const,'-') == sympy.oo) and (sympy.limit ((1/ans), x, const,'+') == sympy.oo))
+    limit_qualifies = ((limit ((1/ans), x, const,'-') == oo) and (limit ((1/ans), x, const,'+') == oo))
+    
     if limit_qualifies:
-        limit_to_const = sympy.limit (ans, x, const)
-        f = sympy.lambdify (x, ans)
-        f_at_const = f(const)
+        limit_to_const = limit (ans, x, const)
+        f_at_const = ans.subs (x, const)
+
         if (limit_to_const == f_at_const):
             data ['score'] = 1
         else:
