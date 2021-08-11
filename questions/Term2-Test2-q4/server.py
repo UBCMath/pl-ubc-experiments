@@ -3,7 +3,7 @@ import matplotlib.patches as patches
 import prairielearn as pl
 import io
 import random
-import sympy
+from sympy import Symbol, pi, sqrt, integrate, simplify
 import numpy as np
     
 def file(data):
@@ -65,12 +65,12 @@ def generate (data):
     scale = random.randint(1,4)
 
     data['params']['scale'] = scale
-    x = sympy.Symbol('x', real=True)
-    R = sympy.Symbol('R', real=True)
+    x = Symbol('x', real=True)
+    R = Symbol('R', real=True)
     
-    m = sympy.pi*R**2/2 + 2*scale*R**2
-    dybar = 1/(2*m)*(scale*R + sympy.sqrt(R**2 - x**2))**2
-    y = sympy.simplify(sympy.integrate(dybar, (x, -R, R)))
+    m = pi*R**2/2 + 2*scale*R**2
+    dybar = 1/(2*m)*(scale*R + sqrt(R**2 - x**2))**2
+    y = simplify(integrate(dybar, (x, -R, R)))
     
     data['correct_answers']['y_coor'] = pl.to_json(y)
     
