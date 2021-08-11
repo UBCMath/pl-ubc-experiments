@@ -1,10 +1,9 @@
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
-import prairielearn as pl
 import io
-import random
-import sympy
-import numpy as np
+from random import randint
+from sympy import symbols
+from numpy import diff
 
 def file(data):
     if data['filename']=='figure.png':
@@ -52,14 +51,14 @@ def file(data):
         return f
 
 def generate(data):
-    l = random.randint(2,6)
-    h = random.randint(30, 70)
-    w = random.randint (1, 2)
-    b = random.randint (20, 80)
-    rate = random.randint (1, 3)
+    l = randint(2,6)
+    h = randint(30, 70)
+    w = randint (1, 2)
+    b = randint (20, 80)
+    rate = randint (1, 3)
     
     while (True):
-        now_height= random.randint(5, 50)
+        now_height= randint(5, 50)
         if (now_height < h):
             break
       
@@ -73,7 +72,7 @@ def generate(data):
     l = 100* l #change from m to cm
     w = 100* w
 
-    x = sympy.symbols("x")
+    x = symbols("x")
     v = b*l*x+(0.5)*(1/h)*l*x**2*(w-b)
     dv = v.diff(x)
     ans = float(dv.subs(x, now_height))
