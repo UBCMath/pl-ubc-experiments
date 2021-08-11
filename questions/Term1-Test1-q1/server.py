@@ -1,21 +1,23 @@
 import prairielearn as pl
-import sympy
-import random, copy
-from sympy.calculus.util import continuous_domain
+from sympy import symbols, limit, oo
+import random
 
 def generate (data):
     const = random.randint(1,10)
     data['params']['const'] = const
 
 def grade (data):
-    x = sympy.symbols ('x')
+    x = symbols ('x')
     const = data['params']['const']
+    # stores valid student answer into ans
     ans = pl.from_json(data['submitted_answers']['symbolic_math'])
-    limit_qualifies = ((sympy.limit ((1/ans), x, const,'-') == sympy.oo) and (sympy.limit ((1/ans), x, const,'+') == sympy.oo))
+    # checks whether the second condition is satisfied
+    limit_qualifies = ((limit ((1/ans), x, const,'-') == oo) and (limit ((1/ans), x, const,'+') == oo))
     if limit_qualifies:
-        limit_to_const = sympy.limit (ans, x, const)
-        f = sympy.lambdify (x, ans)
-        f_at_const = f(const)
+        limit_to_const = limit (ans, x, const)
+        f_at_const = ans.subs (x, const)
+        
+        # checks whether or not function is continous at x = const
         if (limit_to_const == f_at_const):
             data ['score'] = 1
         else:
