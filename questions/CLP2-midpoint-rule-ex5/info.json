@@ -6,5 +6,6 @@
         "hack2021",
         "CLP2"
     ],
+    "singleVariant": true,
     "type": "v3"
 }
