@@ -6,7 +6,7 @@ import matplotlib as ml
 ml.rcParams['text.usetex'] = True
 plt.rcParams.update({'font.size': 14})
 
-PI_CONST = round(float(pi),5)
+PI_CONST = round(float(pi),7)
 
 def f(x):
     return np.sin(x)
@@ -39,11 +39,16 @@ def generate(data):
     data["params"]["n"] = n
     data["params"]["delta_x"] = delta_x
 
-    #generating where pi is on pl-drawing-canvas
+    #generating where pi is on x-axis of pl-drawing-canvas
     ftb = round(f(b),3)
     pb = to_canvas (b, ftb)
     data["params"]["pointb_x"] = str(pb[0])
     data["params"]["pointb_y"] = str(pb[1])
+    
+    #generating where pi/2 is on x-axis of pl-drawing canvas
+    pb = to_canvas (b/2, 0)
+    data["params"]["pointb2_x"] = str(pb[0])
+    data["params"]["pointb2_y"] = str(pb[1])
     
     # this is the origin of the graph
     V0 = [60,345]
@@ -55,7 +60,6 @@ def generate(data):
     
     x = symbols('x')
     data["params"]["funct"] = latex(sin(x))
-    data["params"]["pi_rep"] = str(latex(pi))
     
     data["params"]["V_origin"] = create_dict_xy_coord([0,0])
     # numerical approximation for n = 4
@@ -96,7 +100,6 @@ def grade(data):
     # correct graph is 75% of the correct answer, while the correct numerical approx is 25% of the correct answer
     data["score"] = graph_score*0.75+ans_sig_score*0.25
     
-    
 
 
 def file(data):
@@ -113,12 +116,14 @@ def file(data):
         ax = fig.add_subplot(111)
 
         major_ticks = np.arange(0, 4.1, 1)
-        minor_ticks = np.arange(0, 4.1, 0.5)
+        # adding ticks of pi/8 on the minor axis
+        minor_ticks = np.arange(0, 4.1, PI_CONST/8)
+
         ax.set_xticks(major_ticks)
         ax.set_xticks(minor_ticks, minor=True)
-        ax.grid(which='minor', alpha=0.2)
+        
+        ax.grid(which='minor', alpha=0.2, linestyle='--')
         ax.grid(which='major', alpha=0.5)
-
         plt.plot(x,f(x),linewidth=3.0)
         plt.xlim(a0,b0)
         plt.ylim(0,1.2)

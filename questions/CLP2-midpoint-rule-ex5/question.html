@@ -1,7 +1,8 @@
 <pl-question-panel>
 
 <p> Below is a graph of $f(x) = \displaystyle {{params.funct}}$. Consider approximating $\displaystyle \int_0^\pi {{params.funct}} \, dx$.</p>
-<p> Draw the rectangles associated with the midpoint rule approximation and $n = {{params.n}}$.</p>
+<p> Draw the rectangles associated with the midpoint rule approximation and $n = {{params.n}}$. </p>
+<p> $\pi$ has been divided into eight equal segments and marked on the graph for convenience.</p>
 
 </pl-question-panel>
 
@@ -16,7 +17,8 @@
                 <pl-rectangle  x1="80" y1="50" width="100" height="40"></pl-rectangle>
             </pl-drawing-answer>
             <pl-drawing-initial>
-                <pl-point x1="{{params.pointb_x}}" y1="{{params.pointb_y}}" label="pi" radius="3"></pl-point>
+                <pl-point x1="{{params.pointb_x}}" y1="{{params.pointb_y}}" label="\u03c0" radius="3"></pl-point>
+                <pl-point x1="{{params.pointb2_x}}" y1="{{params.pointb2_y}}" label="\u03c0 /2" radius="3" offsetx="1"></pl-point>
             </pl-drawing-initial>
             <pl-controls>
                 <pl-controls-group label="Add rectangle" >
