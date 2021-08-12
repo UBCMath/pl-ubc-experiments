@@ -3,7 +3,6 @@ import math
 import numpy as np
 import matplotlib.pyplot as plt
 import io
-import sympy
 import matplotlib as ml
 ml.rcParams['text.usetex'] = True
 plt.rcParams.update({'font.size': 14})

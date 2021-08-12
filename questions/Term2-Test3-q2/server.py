@@ -1,5 +1,5 @@
 import prairielearn as pl
-import sympy
+from sympy import symbols, simplify, Rational
 import random, copy
 
 def generate (data):
@@ -16,11 +16,11 @@ def generate (data):
     data['params']['flow_in'] = flow_in
     data['params']['flow_out'] = flow_out
     data['params']['salt_solution'] = round(salt_solution*(1/10),1)
-    S = sympy.symbols("S")
-    t = sympy.symbols("t")
+    S = symbols("S")
+    t = symbols("t")
     net_flow = flow_in - flow_out
     volume = water + net_flow*t
-    ans =  sympy.simplify (flow_in*salt_solution*(sympy.Rational (1,10))) - sympy.simplify ((flow_out)*S*(1/volume))
+    ans =  simplify (flow_in*salt_solution*(Rational (1,10))) - simplify ((flow_out)*S*(1/volume))
     data['correct_answers']['symbolic_math'] = pl.to_json(ans)
     data['correct_answers']['c3'] = 0
     data['correct_answers']['c4'] = 0

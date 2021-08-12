@@ -1,5 +1,5 @@
 import prairielearn as pl
-import sympy
+from sympy import var, sin, cos
 import random, copy
 
 def generate(data):
@@ -10,7 +10,7 @@ def generate(data):
     data['params']['a'] = a
     data['params']['b'] = b
 
-    sympy.var('a b x')
-    z = a*sympy.sin(x)+b*sympy.cos(x)
+    var('a b x')
+    z = a*sin(x)+b*cos(x)
     data['correct_answers']['symbolic_math'] = pl.to_json(z)
     
