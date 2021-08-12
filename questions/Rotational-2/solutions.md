@@ -1,22 +1,19 @@
 # Cans of Pineapples
 
-Two cans of pineapples,
-one empty and one unopened,
-sit beside each other on a table next to a slope.
-James knocks them both over,
-and the two cans roll down the slope at the same time.
+A solid wooden cylinder
+and a metal cylindrical shell
+roll down a slope.
+They both have the same mass.
 
 Which can reaches the bottom of the slope first?
 
-If the cans roll a distance of $d$,
-and the slope forms an angle of $\theta$ with the ground,
-find the speed of both cans the moment they reach the bottom of the slope,
+If the cylinders roll a distance of ${{params.d}} \; \textrm{cm}$,
+and the slope forms an angle of ${{params.theta}}^\circ$ with the ground,
+find the speed of both cylinders
+the moment they reach the bottom of the slope,
 assuming no work is done by friction.
 
 ## Reaching the Bottom
-
-We can approximate the unopened can as a solid cylinder,
-and the empty one as a hollow one.
 
 We know **the solid cylinder will reach the bottom first**,
 since a solid cylinder has less mass distributed around the rim
