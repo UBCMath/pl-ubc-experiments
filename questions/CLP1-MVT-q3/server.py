@@ -26,7 +26,7 @@ def to_canvas(a, b):
 def to_graph (a,b):
     x = (a-60)/200
     y = (b-445)/(-10)
-    return [int(x),y]
+    return [x,y]
     
     
 def generate(data):
@@ -100,9 +100,9 @@ def grade(data):
     # convert to list first; if not will raise 'filter' object is not subscriptable error
     item_line = list(filter(lambda x : x["type"] == 'pl-controlled-line', graph))[0]
     item_point = list(filter(lambda x : (x['graded'] == 1) and x["type"] == 'pl-point', graph))[0]
-
-    x_coor = canvas_to_graph = (item_point['left'] -60 )/200
     
+    x_coor = to_graph(item_point['left'],0)[0]
+
     #checking if x coordinate of placed point satisfies MVT
     #print(x_coor,df(x_coor,data["params"]["a"], data["params"]["b"]),data["params"]["slope_of_secant"])
     if np.allclose(df(x_coor,data["params"]["a"], data["params"]["b"]), data["params"]["slope_of_secant"], atol=X_TOL):
