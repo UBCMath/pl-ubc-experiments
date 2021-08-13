@@ -74,40 +74,46 @@ def generate(data):
     data["params"]["line"] = '[' + create_dict_xy_coord(pa) + ',' + create_dict_xy_coord(pb) + ']'
 
 
+def parse(data):
+    # makes sure exactly one line and one point is placed by the user 
+    lines = data["submitted_answers"]["lines"]
+    # this means no additional elements were placed by user 
+    if lines is None:
+        data['format_errors']['lines'] = "Graph submission is NOT valid. Please add one line and one point to the graph area."
+    else:
+        ans_lines = filter(lambda x : x["type"] == 'pl-controlled-line', lines)
+        ans_dots = filter(lambda x : (x['graded'] == 1) and x["type"] == 'pl-point', lines)
+        if len(list(ans_lines)) != 1 or len(list(ans_dots)) != 1:
+            data['format_errors']['lines'] = "Graph submission is NOT valid. Exactly one line and one point should be added to the graph area"
 
+        
 def grade(data):
     # Custom grade of the plot. Checking the slope of the plot
-    graph = data["submitted_answers"].get("lines")
-    # the above line will not fail, since the element parse function will fail if no submission is added to the plot area
-    gradable_dict = []
+    graph = data["submitted_answers"]["lines"]
     
-    # only adding items placed by student into gradable_dict
-    for g in graph:
-        if(g.get("placed_by_user") == 1):
-            gradable_dict.append(g)
-    
-    if (len(gradable_dict) != 2):
-        data["partial_scores"]["lines"]["feedback"] = "Graph submission is NOT valid! Exactly one line and one point should be added to the graph area"
-        data["partial_scores"]["lines"]["score"] = 0
-    else:
-        if (gradable_dict[0].get("type") == "pl-point"):
-            item_point = gradable_dict[0]
-            item = gradable_dict[1]
-        else :
-            item = gradable_dict[0]
-            item_point = gradable_dict[1]
+    # defining error tolerance of grading line/point
+    SLOPE_TOL = 0.5
+    # checking whether derivative at this x-coordinate matches the slope of secant or not
+    X_TOL = 3
 
-        canvas_to_graph = (item_point['left'] -60 )/200
+    # only storing items placed by student
+    # convert to list first; if not will raise 'filter' object is not subscriptable error
+    item_line = list(filter(lambda x : x["type"] == 'pl-controlled-line', graph))[0]
+    item_point = list(filter(lambda x : (x['graded'] == 1) and x["type"] == 'pl-point', graph))[0]
+
+    x_coor = canvas_to_graph = (item_point['left'] -60 )/200
+    
+    #checking if x coordinate of placed point satisfies MVT
+    #print(x_coor,df(x_coor,data["params"]["a"], data["params"]["b"]),data["params"]["slope_of_secant"])
+    if np.allclose(df(x_coor,data["params"]["a"], data["params"]["b"]), data["params"]["slope_of_secant"], atol=X_TOL):
+        data["partial_scores"]["lines"]["score"] += 0.5
         
-        #checking if x coordinate of placed point satisfies MVT
-        if np.allclose(df(canvas_to_graph,data["params"]["a"] ,data["params"]["b"]),  data["params"]["slope_of_secant"] , atol=3):
-            data["partial_scores"]["lines"]["score"] += 0.5
-        st_slope = (item['y2'] - item['y1'])/ (item['x2'] - item['x1'] )
-        if np.allclose(st_slope, data["params"]["slope_canvas"], rtol=0.5):
-            data["partial_scores"]["lines"]["score"] += 0.5
-            data["partial_scores"]["lines"]["feedback"] = "The secant line is correct"
-        else:
-            data["partial_scores"]["lines"]["feedback"] = "The secant line is NOT correct"
+    st_slope = (item_line['y2'] - item_line['y1'])/ (item_line['x2'] - item_line['x1'] )
+    if np.allclose(st_slope, data["params"]["slope_canvas"], rtol=SLOPE_TOL):
+        data["partial_scores"]["lines"]["score"] += 0.5
+        data["partial_scores"]["lines"]["feedback"] = "The secant line is correct"
+    else:
+        data["partial_scores"]["lines"]["feedback"] = "The secant line is NOT correct"
 
     # recomputing final score based on partial scores
     total_score = 0
