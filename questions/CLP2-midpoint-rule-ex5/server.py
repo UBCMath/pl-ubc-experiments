@@ -30,7 +30,6 @@ def generate(data):
     a = 0
     b = PI_CONST
     n = 4
-    #12, 24, 20
     
     # length of rectangle
     delta_x = (b-a)/n
@@ -53,7 +52,6 @@ def generate(data):
     
     # this is the origin of the graph
     V0 = [60,345]
-    
 
     #store origin points
     data["params"]["origin_x"] = str(V0[0])
@@ -65,7 +63,14 @@ def generate(data):
     data["params"]["V_origin"] = create_dict_xy_coord([0,0])
     # numerical approximation for n = 4
     data["correct_answers"]["ans_sig"] = float(delta_x*(np.sin(PI_CONST/8)+np.sin(3*PI_CONST/8)+np.sin(5*PI_CONST/8)+np.sin(7*PI_CONST/8)))
-
+    
+def parse(data):
+    # makes sure accidental rectangles count as an invalid attempt
+    n = data['params']['n']
+    lines = data["submitted_answers"]["lines"]
+    ans_rects = filter(lambda x : x['type'] == 'pl-rectangle', lines)
+    if len(list(ans_rects)) != n:
+        data['format_errors']['lines'] = 'Your answer must have the correct number of rectangles.'
 
 def grade(data):
     
@@ -82,29 +87,27 @@ def grade(data):
     X_TOL = delta_x/5
     Y_TOL = delta_x/5
     
-    for d in data_dict:
-        # only stores pl-rectangles in usable_dict
-        if(d["type"] == "pl-rectangle"):
-            usable_dict.append(d)
+    # only stores pl-rectangles in usable_dict
+    usable_dict = filter(lambda x : x['type'] == 'pl-rectangle', data_dict)
+
     graph_score = 0
-    if (len (usable_dict) != n):
-        data["partial_scores"]["lines"]["feedback"] = "Make sure you have placed the correct number of rectangles."
-    else:
-        for d in usable_dict:
-            submitted_width_gu = to_graph(d["width"],0)[0]-to_graph(0,0)[0]
-            #delta_x is where (pi/4, 0) is on the graph, so need to - x coordinate of origin point tp submitted width to compare
-            set_width = delta_x
-            if (np.isclose(submitted_width_gu, set_width, atol = X_TOL)):
-                # d.get("left") returns the center x-coordinate of rectangle
-                left_ind = to_graph((d["left"]),0)[0]
-                f_of_midpoint_ind = f(left_ind)
-                # d.get("height") returns individual height of rectangle; convert it to graph units
-                f_of_midpoint_submitted = to_graph (0,0)[1] -to_graph(0,d["height"])[1]
-                print(f_of_midpoint_submitted,f_of_midpoint_ind, Y_TOL)
-                if (np.isclose(f_of_midpoint_submitted,f_of_midpoint_ind, atol = Y_TOL)): 
-                    graph_score += (1/n)
+
+    for d in usable_dict:
+        submitted_width_gu = to_graph(d["width"],0)[0]-to_graph(0,0)[0]
+        #delta_x is where (pi/4, 0) is on the graph, so need to - x coordinate of origin point tp submitted width to compare
+        set_width = delta_x
+        if (np.isclose(submitted_width_gu, set_width, atol = X_TOL)):
+            # d.get("left") returns the center x-coordinate of rectangle
+            left_ind = to_graph((d["left"]),0)[0]
+            f_of_midpoint_ind = f(left_ind)
+            # d.get("height") returns individual height of rectangle; convert it to graph units
+            f_of_midpoint_submitted = to_graph (0,0)[1] -to_graph(0,d["height"])[1]
+            if (np.isclose(f_of_midpoint_submitted,f_of_midpoint_ind, atol = Y_TOL)): 
+                graph_score += (1/n)
             else:
-                data["partial_scores"]["lines"]["feedback"] = "Make sure the widths of the rectangles are correct."
+                data["partial_scores"]["lines"]["feedback"] = "Make sure the heights of the rectangles are correct."
+        else:
+            data["partial_scores"]["lines"]["feedback"] = "Make sure the widths of the rectangles are correct."
     # correct graph is 75% of the correct answer, while the correct numerical approx is 25% of the correct answer
     data["score"] = graph_score*0.75+ans_sig_score*0.25
     
@@ -113,7 +116,7 @@ def grade(data):
 def file(data):
     # generates matplotlib graph
     if data['filename']=='figure1.png':
-        # change a0 and b0 to change limit of axes
+        # change a0 and b0 to change limit of the x-axis
         # current configuration is 50 pixels for each tick
         # 8 ticks on x-axis and 6 ticks on y-axis
         a0 = 0
