@@ -7,8 +7,6 @@ ml.rcParams['text.usetex'] = True
 plt.rcParams.update({'font.size': 14})
 
 PI_CONST = round(float(pi),7)
-#define tolerance
-
 
 def f(x):
     return np.sin(x)
@@ -69,34 +67,41 @@ def generate(data):
     data["correct_answers"]["ans_sig"] = float(delta_x*(np.sin(PI_CONST/8)+np.sin(3*PI_CONST/8)+np.sin(5*PI_CONST/8)+np.sin(7*PI_CONST/8)))
 
 
-
 def grade(data):
+    
     # Custom grade of the plot to check whether n rectangles are placed correctly or not
     # correct pl-drawing-answer in html file is just a placeholder
-    data_dict = data["submitted_answers"].["lines"]
+    data_dict = data["submitted_answers"]["lines"]
     ans_sig_score = data["score"]
     usable_dict = []
     a = data['params']['a']
     b = data['params']['b']
     n = data['params']['n']
     delta_x = data['params']['delta_x']
-    set_width = to_canvas(delta_x,0)[0]-to_canvas(0,0)[0]
+    # defining x and y tolerance using value of delta_x
+    X_TOL = delta_x/5
+    Y_TOL = delta_x/5
     
     for d in data_dict:
         # only stores pl-rectangles in usable_dict
-        if(d.["type"] == "pl-rectangle"):
+        if(d["type"] == "pl-rectangle"):
             usable_dict.append(d)
     graph_score = 0
     if (len (usable_dict) != n):
         data["partial_scores"]["lines"]["feedback"] = "Make sure you have placed the correct number of rectangles."
     else:
         for d in usable_dict:
-            if (np.isclose(d["width"], set_width, atol = 10.0)):
+            submitted_width_gu = to_graph(d["width"],0)[0]-to_graph(0,0)[0]
+            #delta_x is where (pi/4, 0) is on the graph, so need to - x coordinate of origin point tp submitted width to compare
+            set_width = delta_x
+            if (np.isclose(submitted_width_gu, set_width, atol = X_TOL)):
                 # d.get("left") returns the center x-coordinate of rectangle
-                left_ind = to_graph((d.["left"]),0)[0]
-                f_of_midpoint_ind = to_canvas (0,f(left_ind))[1]
-                # d.get("height") returns individual height of rectangle; 345- this value to get position of f(midpoint) 
-                if (np.isclose(345-d.["height"],f_of_midpoint_ind, atol = 20.0)): #!!!
+                left_ind = to_graph((d["left"]),0)[0]
+                f_of_midpoint_ind = f(left_ind)
+                # d.get("height") returns individual height of rectangle; convert it to graph units
+                f_of_midpoint_submitted = to_graph (0,0)[1] -to_graph(0,d["height"])[1]
+                print(f_of_midpoint_submitted,f_of_midpoint_ind, Y_TOL)
+                if (np.isclose(f_of_midpoint_submitted,f_of_midpoint_ind, atol = Y_TOL)): 
                     graph_score += (1/n)
             else:
                 data["partial_scores"]["lines"]["feedback"] = "Make sure the widths of the rectangles are correct."
