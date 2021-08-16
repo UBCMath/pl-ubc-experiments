@@ -1,0 +1,28 @@
+<!--
+  Adapted from CLP2 Section 3.2 Q15 & Q16.
+  CLP2 Version May 5 2021
+-->
+
+<pl-question-panel>
+  <p>
+    To what value does the following series evaluate to? 
+  </p>
+  <p>
+    $$1 + \frac{1}{ {{params.a}} } + \frac{1}{ {{params.a2}} } +
+    \frac{1}{ {{params.a3}} } + \frac{1}{ {{params.a4}} } + \cdots$$
+  </p>
+</pl-question-panel>
+
+<pl-number-input answers-name="s1" comparison="sigfig" digits=5></pl-number-input>
+
+<pl-question-panel>
+  <p>&nbsp;</p>
+  <p>
+    Evaluate the following series.
+  </p>
+  <p>
+    $$\sum_{k = {{params.k}} }^{\infty} \frac{1}{ {{params.b}} ^ k}$$
+  </p>
+</pl-question-panel>
+
+<pl-number-input answers-name="s2" comparison="sigfig" digits=5></pl-number-input>
