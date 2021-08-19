@@ -32,10 +32,10 @@ def generate(data):
     a = 0
     b = np.pi
     # randomly selects number of rectangles 
-    n = random.choices([3,4,6])[0]
+    n = random.choice([3,4,6])
     
     # left or right Riemann summ 
-    l_or_r = random.choices(["left","right"])[0]
+    l_or_r = random.choice(["left","right"])
     data["params"]["l_or_r"] = l_or_r
     
     # length of rectangle
