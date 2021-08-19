@@ -1,0 +1,46 @@
+<pl-question-panel>
+
+<p> We want to approximate the area between the graphs of $f(x) = \displaystyle {{params.funct_1}}$ and $g(x) = \displaystyle {{params.funct_2}}$ from $x = 0$ to $x = π$ using a {{params.l_or_r}} Riemann sum with $n = {{params.n}}$ rectangles.</p>
+<p> On the graph below, draw the rectangles.</p>
+
+</pl-question-panel>
+
+<pl-overlay width="550" height="450"  clip="false">
+    <pl-background>
+      <pl-figure file-name="figure1.png" type="dynamic"></pl-figure>
+    </pl-background>
+
+    <pl-location left="20" top="0" valign="top" halign="left">
+        <pl-drawing  answers-name="lines" gradable=true width="500" height="400" grid-size=0 show-tolerance-hint="false" hide-answer-panel="true">
+            <pl-drawing-answer draw-error-box="true">
+                <pl-rectangle  x1="80" y1="50" width="100" height="40"></pl-rectangle>
+            </pl-drawing-answer>
+            <pl-drawing-initial>
+                <pl-point x1="{{params.pointb_x}}" y1="{{params.pointb_y}}" label="\u03c0" radius="3"></pl-point>
+                <pl-point x1="{{params.pointb2_x}}" y1="{{params.pointb2_y}}" label="" radius="2"></pl-point>
+                <pl-point x1="{{params.pointb3_x}}" y1="{{params.pointb3_y}}" label="" radius="2"></pl-point>
+                <pl-point x1="{{params.pointb4_x}}" y1="{{params.pointb4_y}}" label="\u03c0 /2" radius="2"></pl-point>
+                <pl-point x1="{{params.pointb5_x}}" y1="{{params.pointb5_y}}" label="" radius="2"></pl-point>
+                <pl-point x1="{{params.pointb6_x}}" y1="{{params.pointb6_y}}" label="" radius="2"></pl-point>
+            </pl-drawing-initial>
+            <pl-controls>
+                <pl-controls-group label="Add rectangle" >
+                    <pl-drawing-button type="pl-rectangle" color="red1"></pl-drawing-button>
+                </pl-controls-group>
+                <pl-controls-group label="Delete:">
+                    <pl-drawing-button type="delete"></pl-drawing-button>
+                </pl-controls-group>
+              </pl-controls>
+          </pl-drawing>
+    </pl-location>
+</pl-overlay>
+<pl-question-panel>
+<p> Then, calculate the Riemann approximation.</p>
+<pl-number-input answers-name="ans_sig" comparison="sigfig" digits="3" label=""> </pl-number-input>
+</pl-question-panel>
+
+<pl-submission-panel>
+{{#partial_scores.lines.feedback}}
+<p>{{partial_scores.lines.feedback}}</p>
+{{/partial_scores.lines.feedback}}
+</pl-submission-panel>
