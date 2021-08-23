@@ -5,6 +5,7 @@ from enum import Enum
 import sympy
 import re
 import ast
+import prairielearn as pl
 
 class InvalidUnit(Exception):
     pass
@@ -29,6 +30,12 @@ class DimensionfulQuantity:
     -------
     __eq__(rhs)
         Determines whether this and another DimensionfulQuantity are equal.
+    
+    sigfig_equals(rhs, digits)
+        Determines whether this and another DimensionfulQuantity are equal, comparing only siginificant digits.
+    
+    relabs_equals(rhs, rtol, atol)
+        Determines whether this and another DimensionfulQuantuty are within the relative and absolute tolerances.
 
     get_index(answer)
         Determines the index where the unit starts.
@@ -58,7 +65,7 @@ class DimensionfulQuantity:
         self.unit = unit
 
     def __eq__(self, rhs: DimensionfulQuantity) -> bool:
-        """Determines whether this and another DimensionfulQuantity are equal.
+        """Determines whether this and another DimensionfulQuantity are exactly equal.
 
         Equality is determined by two things:
             - number * multiplier/prefix of unit has to be equal
@@ -71,6 +78,49 @@ class DimensionfulQuantity:
         """
 
         return self.quantity * self.unit.multiplier == rhs.quantity * rhs.unit.multiplier and self.unit == rhs.unit
+    
+    def sigfig_equals(self, rhs: DimensionfulQuantity, digits: int) -> bool:
+        """Determines whether this and another DimensionfulQuantity are equal, comparing only siginificant digits.
+        
+        Equality is determined by two things:
+            - number * multiplier/prefix of unit has to be equal, comparing significant digits.
+            - unit has to has same dimensions (i.e. describe the same kind of stuff)
+        
+        Parameters
+        ----------
+        rhs : DimensionfulQuantity
+            The other DimensionfulQuantity we are comparing to.
+
+        digits : int
+            The number of significant digits we are comparing.
+        """
+
+        l_val = self.quantity * self.unit.multiplier
+        r_val = rhs.quantity * rhs.unit.multiplier
+        return pl.is_correct_scalar_sf(r_val, l_val, digits) and self.unit == rhs.unit
+    
+    def relabs_equals(self, rhs: DimensionfulQuantity, rtol: float, atol: float) -> bool:
+        """Determines whether this and another DimensionfulQuantuty are within the relative and absolute tolerances.
+        
+        Equality is determined by two things:
+            - number * multiplier/prefix of unit has to be within rhs' rtol and atol
+            - unit has to has same dimensions (i.e. describe the same kind of stuff)
+        
+        Parameters
+        ----------
+        rhs : DimensionfulQuantity
+            The other DimensionfulQuantity we are comparing to.
+
+        rtol : float
+            Relative tolerance.
+        
+        atol : float
+            Absolute tolerance.
+        """
+        
+        l_val = self.quantity * self.unit.multiplier
+        r_val = rhs.quantity * rhs.unit.multiplier
+        return pl.is_correct_scalar_ra(r_val, l_val, rtol, atol)
     
     @staticmethod
     def get_index(answer: str) -> int:

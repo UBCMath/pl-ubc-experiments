@@ -3,9 +3,6 @@ from html import escape
 import chevron
 import math
 import prairielearn as pl
-import random
-import numpy
-import sympy
 import units
 
 
@@ -20,6 +17,10 @@ ALLOW_NUMBERLESS_DEFAULT = False
 BLANK_VALUE_DEFAULT = ""
 UNITLESS_VALUE_DEFAULT = "rad"
 NUMBERLESS_VALUE_DEFAULT = 0
+COMPARISON_DEFAULT = "sigfig"
+RTOL_DEFAULT = 1e-2
+ATOL_DEFAULT = 1e-8
+DIGITS_DEFAULT = 2
 SIZE_DEFAULT = 35
 SHOW_HELP_TEXT_DEFAULT = True
 PLACEHOLDER_TEXT_THRESHOLD = 4  # Minimum size to show the placeholder text
@@ -31,6 +32,7 @@ def prepare(element_html, data):
         'weight', 'correct-answer', 'label', 'suffix', 'display',
         'allow-blank', 'allow-unitless', 'allow-numberless',
         'blank-value', 'unitless-value', 'numberless-value',
+        'comparison', 'rtol', 'atol', 'digits',
         'size', 'show-help-text'
     ]
     pl.check_attribs(element, required_attribs, optional_attribs)
@@ -50,6 +52,7 @@ def render(element_html, data):
     suffix = pl.get_string_attrib(element, 'suffix', SUFFIX_DEFAULT)
     display = pl.get_string_attrib(element, 'display', DISPLAY_DEFAULT)
     size = pl.get_integer_attrib(element, 'size', SIZE_DEFAULT)
+    comparison = pl.get_string_attrib(element, 'comparison', COMPARISON_DEFAULT)
 
     if data['panel'] == 'question':
         editable = data['editable']
@@ -62,6 +65,18 @@ def render(element_html, data):
             info = chevron.render(template, info_params).strip()
             info_params.pop('format', None)
         
+        if comparison == 'exact':
+            placeholder_text = "Number (exact) + Unit"
+        elif comparison == 'sigfig':
+            digits = pl.get_integer_attrib(element, 'digits', DIGITS_DEFAULT)
+            placeholder_text = f"Number ({digits} significant figures) + Unit"
+        elif comparison == 'relabs':
+            rtol = pl.get_float_attrib(element, 'rtol', RTOL_DEFAULT)
+            atol = pl.get_float_attrib(element, 'atol', ATOL_DEFAULT)
+            placeholder_text = f"Number (rtol={rtol}, atol={atol}) + Unit"
+        else:
+            placeholder_text = "Number + Unit"
+        
         html_params = {
             'question': True,
             'name': name,
@@ -72,6 +87,7 @@ def render(element_html, data):
             'size': size,
             'show_info': pl.get_boolean_attrib(element, 'show-help-text', SHOW_HELP_TEXT_DEFAULT),
             'show_placeholder': size >= PLACEHOLDER_TEXT_THRESHOLD,
+            'shortinfo': placeholder_text,
             'uuid': pl.get_uuid()
         }
 
@@ -222,6 +238,7 @@ def grade(element_html, data):
     element = lxml.html.fragment_fromstring(element_html)
     name = pl.get_string_attrib(element, 'answers-name')
     weight = pl.get_integer_attrib(element, 'weight', WEIGHT_DEFAULT)
+    comparison = pl.get_string_attrib(element, 'comparison', COMPARISON_DEFAULT)
 
     a_tru = data['correct_answers'].get(name, None)
     if a_tru is None:
@@ -234,17 +251,36 @@ def grade(element_html, data):
         return
     a_sub = units.DimensionfulQuantity.from_string(a_sub) # will return no error, assuming parse() catches all of them
 
-    if a_tru == a_sub:
-        data['partial_scores'][name] = {'score': 1, 'weight': weight}
-    elif a_tru.unit == a_sub.unit: # if units are in the same dimension, allow half marks
-        data['partial_scores'][name] = {'score': 0.5, 'weight': weight}
+    if comparison == 'exact':
+        if a_tru == a_sub:
+            data['partial_scores'][name] = {'score': 1, 'weight': weight}
+        elif a_tru.unit == a_sub.unit: # if units are in the same dimension, allow half marks
+            data['partial_scores'][name] = {'score': 0.5, 'weight': weight}
+        else:
+            data['partial_scores'][name] = {'score': 0, 'weight': weight}
+    elif comparison == 'sigfig':
+        digits = pl.get_integer_attrib(element, 'digits', DIGITS_DEFAULT)
+        if a_tru.sigfig_equals(a_sub, digits):
+            data['partial_scores'][name] = {'score': 1, 'weight': weight}
+        elif a_tru.unit == a_sub.unit: # if units are in the same dimension, allow half marks
+            data['partial_scores'][name] = {'score': 0.5, 'weight': weight}
+        else:
+            data['partial_scores'][name] = {'score': 0, 'weight': weight}
+    elif comparison == 'relabs':
+        rtol = pl.get_float_attrib(element, 'rtol', RTOL_DEFAULT)
+        atol = pl.get_float_attrib(element, 'atol', ATOL_DEFAULT)
+        if a_tru.relabs_equals(a_sub, rtol, atol):
+            data['partial_scores'][name] = {'score': 1, 'weight': weight}
+        elif a_tru.unit == a_sub.unit: # if units are in the same dimension, allow half marks
+            data['partial_scores'][name] = {'score': 0.5, 'weight': weight}
+        else:
+            data['partial_scores'][name] = {'score': 0, 'weight': weight}
     else:
-        data['partial_scores'][name] = {'score': 0, 'weight': weight}
+        raise ValueError('method of comparison "%s" us not valid' % comparison)
     
     # TODO: allow complex/fractions? (remember to edit {{format}} in .mustache)
 
 def test(element_html, data):
-    # TODO: unit test
     element = lxml.html.fragment_fromstring(element_html)
     name = pl.get_string_attrib(element, 'answers-name')
     weight = pl.get_integer_attrib(element, 'weight', WEIGHT_DEFAULT)
