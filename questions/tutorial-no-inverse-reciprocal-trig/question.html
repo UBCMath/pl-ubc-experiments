@@ -1,0 +1,23 @@
+<pl-question-panel>
+  <p>
+    In PrairieLearn,
+    while $\arcsin$, $\arccos$, and $\arctan$ are supported,
+    $\operatorname{arccot}$, $\operatorname{arcsec}$, and $\operatorname{arccsc}$ are not.
+  </p>
+
+  <p>
+    In the box below:
+  </p>
+  <ol>
+    <li>
+      Try typing <code>{{params.inv}}(x)</code> or <code>{{params.alt}}(x)</code>.
+      Notice the answer is invalid.
+    </li>
+    <li>
+      Try typing in an equivalent trigonometric function
+      that uses only <code>arcsin()</code>, <code>arccos()</code>, and/or <code>arctan()</code>.
+    </li>
+  </ol>
+</pl-question-panel>
+
+<pl-symbolic-input answers-name="a_inv" label="$\operatorname{ {{params.inv}} } x =$" variables="x"></pl-symbolic-input>
