@@ -1,0 +1,23 @@
+<pl-question-panel>
+  <p>
+    In PrairieLearn,
+    while $\sin$, $\cos$, and $\tan$ are supported,
+    $\cot$, $\sec$, and $\csc$ are not.
+  </p>
+
+  <p>
+    In the box below, try:
+  </p>
+  <ol>
+    <li>
+      Typing <code>{{params.trig}}(x)</code>.
+      Notice the answer is invalid.
+    </li>
+    <li>
+      Try typing in an equivalent trigonometric function
+      that uses only <code>sin()</code>, <code>cos()</code>, and/or <code>tan()</code>.
+    </li>
+  </ol>
+</pl-question-panel>
+
+<pl-symbolic-input answers-name="a_trig" label="$\{{params.trig}} x =$" variables="x"></pl-symbolic-input>
