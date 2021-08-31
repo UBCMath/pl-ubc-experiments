@@ -13,6 +13,7 @@ def generate(data):
     x = symbols('x')
     
     data['correct_answers']['num'] = a/b
+    data['correct_answers']['num_f'] = a/b
     data['correct_answers']['int_value'] = math.ceil(a/b)
     data['correct_answers']['sym'] = pl.to_json(Rational(a/b))
 

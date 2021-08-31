@@ -1,14 +1,15 @@
 <pl-question-panel>
   <p> In PrairieLearn, there is a difference between an invalid and an incorrect input.</p>
-  <p> An invalid response does not waste any attempts, but an incorrect response does. Try typing "$x$" in the boxes below and press "Save & Grade." You should see an error message that says <pl-figure file-name="invalid.png" directory="clientFilesQuestion" inline="True" width="110"></pl-figure>.</p>
+  <p> An invalid response does not use up any attempts, but an incorrect response does.</p> 
+  <p> a. Type "$x$" in the boxes below and press "Save & Grade." Think about why you received this feedback. </p>
+  <p> b. Click the question mark buttons near the input boxes - they are your friend! </p>
+  <p> c. Type "$1$" in each of the boxes and press "Save & Grade." Think about how this feedback is different from what you received in part a.</p>
+  <p> d. What is $\displaystyle \frac { {{params.a}} } { {{params.b}} }$? Round to the nearest integer for the integer input box. </p>
+  <p> Bonus: Note the nuance between the two number input boxes. Press the question mark button to see the subtle difference!</p>
   <pl-symbolic-input answers-name="sym" variables="x" label="Symbolic: "></pl-symbolic-input>
-  <pl-number-input answers-name="num" comparison="sigfig" digits=2 label="Number: "></pl-number-input>
+  <pl-number-input answers-name="num_f" comparison="sigfig" digits=2 label="Number: " allow-fractions="true" suffix=" (allows fractions)"></pl-number-input>
+  <pl-number-input answers-name="num" comparison="sigfig" digits=2 label="Number: " allow-fractions="false"></pl-number-input>
   <pl-integer-input answers-name="int_value" label="Integer: "></pl-integer-input>
-  <p> This is because different input boxes are designed for different types of input. Press the <pl-figure file-name="question_mark.png" directory="clientFilesQuestion" inline="True" width="40"></pl-figure> button on the side of each input box to see what is allowed.</p>
-  
-  <p> Then, try typing "$1$" in each of the boxes and press "Save & Grade." You should see your response being marked as <pl-figure file-name="incorrect.png" directory="clientFilesQuestion" inline="True" width="80"></pl-figure>.</p>
-  <p> With this in mind, figure out what $\displaystyle \frac { {{params.a}} } { {{params.b}} }$ is and input your answers accordingly. Round to the nearest integer for the integer input box.</p>
- 
 </pl-question-panel>
  
 
