@@ -6,9 +6,10 @@ def generate(data):
     a = random.randint(5, 10)  # inclusive
 
     x = Symbol('x')
-    
-    data['params']['a'] = a
-    data['params']['formula'] = latex(a*cos(a*x))
-    data['correct_answers']['sym_1'] = pl.to_json(a*cos(a*x))
+    f = a*cos(a*x)
 
-    
+    data['params']['a'] = a
+    data['params']['formula'] = latex(f)
+    # make an implicit multiplication string: 4cos(4x)
+    data['params']['str_formula'] = pretty(f, use_unicode=False).replace("*", "")
+    data['correct_answers']['sym_1'] = pl.to_json(f)
