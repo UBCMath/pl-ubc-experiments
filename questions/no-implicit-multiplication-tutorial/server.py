@@ -1,5 +1,5 @@
 import prairielearn as pl
-from sympy import cos, latex, Symbol
+from sympy import cos, latex, Symbol, pretty
 import random
 
 def generate(data):
