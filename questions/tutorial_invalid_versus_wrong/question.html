@@ -1,7 +1,8 @@
 <pl-question-panel>
   <p> In PrairieLearn, there is a difference between an <em>invalid input</em> and an <em>incorrect input</em>.</p>
-  <p> An invalid response does not use up any attempts, but an incorrect response does.</p>
-  <!--  but the questions below do not explore this aspect... -->
+  <p>
+    Different types of inputs have different rules about this.
+  </p>
   <ol type="a">
     <li>
       Type an “$x$” in <em>each of the boxes</em> below and press “Save &amp; Grade”.
@@ -14,14 +15,50 @@
       Type “$1$” in each of the boxes and press “Save &amp; Grade”.
       Think about how this feedback is different from what you received in part a.
     </li>
-    <li> What is $\displaystyle \frac { {{params.a}} } { {{params.b}} }$?
-      Enter your answer into each box.
-      Round to the nearest integer for the integer input box.
+    <li>
+      Type “<tt>1/2</tt>” in each of the boxes and press “Save &amp; Grade”.
+      Think about the feedback.
+      You should also explore the grey “Why?” buttons that appear after you submit.
+    </li>
+    <li>
+      Type “<tt>0.6</tt>” in each of the boxes and press “Save &amp; Grade”.
+      Think about the feedback.
+      Again, explore the grey “Why?” buttons that appear.
     </li>
   </ol>
-  <p> Bonus: Note the nuance between the two number input boxes. Press the question mark button to see the subtle difference!</p>
+  <!--<p>
+    Some of those inputs were wrong and some where invalid.
+    But none were correct because we didn’t tell you the question!
+  </p>-->
+  <h4>Applying what we’ve learned</h4>
+  <p>What is $\displaystyle \frac { {{params.a}} } { {{params.b}} }$?
+    Enter an appropriate answer into each box: you may need to
+    format or round your answers appropriately.
+  </p>
+
+  <!--
+  <p>
+    Bonus: Note the nuance between the two number input boxes. Press the question mark button to see the subtle difference!
+  </p>
+  -->
+  <p>
+    Bonus: experiment with leaving some of the boxes blank: this is usually invalid but sometimes the question-author will configure this to simply be wrong.
+  </p>
+  <p>
+    One important difference to note is that an invalid response does not use up
+    any of our “attempts”, but an incorrect response does.
+  </p>
+
+</pl-question-panel>
   <pl-symbolic-input answers-name="sym" variables="x" label="Symbolic: "></pl-symbolic-input>
   <pl-number-input answers-name="num_f" comparison="sigfig" digits=2 label="Number: " allow-fractions="true" suffix=" (allows fractions)"></pl-number-input>
   <pl-number-input answers-name="num" comparison="sigfig" digits=2 label="Number: " allow-fractions="false"></pl-number-input>
   <pl-integer-input answers-name="int_value" label="Integer: "></pl-integer-input>
+<pl-question-panel>
+  <p>
+    <br /> <!-- why?! -->
+
+    In summary, we have learned that PairieLearn can be very particular about how we format our answers.
+    We saw a contrast between invalid answers and incorrect answers, and learned a bit about “debugging” our submissions.
+  </p>
 </pl-question-panel>
