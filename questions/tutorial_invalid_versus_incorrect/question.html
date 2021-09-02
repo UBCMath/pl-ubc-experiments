@@ -30,6 +30,8 @@
       Type “<tt>0.6</tt>” in each of the boxes and press “Save &amp; Grade”.
       Think about the feedback.
       Again, explore the grey “Why?” buttons that appear.
+      Something is subtly different “ans2” and “ans3”: is this documented in the
+      question mark button text?
     </li>
   </ol>
   <!--<p>
@@ -44,11 +46,6 @@
 
   <!--
   <p>
-    Bonus: Note the nuance between the two number input boxes. Press the question mark button to see the subtle difference!
-  </p>
-  -->
-  <!--
-  <p>
     Bonus: experiment with leaving some of the boxes blank: this is usually invalid but sometimes the question-author will configure this to simply be wrong.
   </p>
   -->
@@ -60,10 +57,10 @@
   </p>
 
 </pl-question-panel>
-  <pl-symbolic-input answers-name="sym" variables="x" label="Symbolic: "></pl-symbolic-input>
-  <pl-number-input answers-name="num_f" comparison="sigfig" digits=2 label="Number: " allow-fractions="true" suffix=" (allows fractions)"></pl-number-input>
-  <pl-number-input answers-name="num" comparison="sigfig" digits=2 label="Number: " allow-fractions="false"></pl-number-input>
-  <pl-integer-input answers-name="int_value" label="Integer: "></pl-integer-input>
+  <pl-symbolic-input answers-name="sym" variables="x" label="ans1: "></pl-symbolic-input>
+  <pl-number-input answers-name="num_f" comparison="sigfig" digits=2 label="ans2: " allow-fractions="true"></pl-number-input>
+  <pl-number-input answers-name="num" comparison="sigfig" digits=2 label="ans3: " allow-fractions="false"></pl-number-input>
+  <pl-integer-input answers-name="int_value" label="ans4: "></pl-integer-input>
 <pl-question-panel>
   <p>
     <br /> <!-- why?! -->
