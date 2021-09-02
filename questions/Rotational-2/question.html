@@ -1,0 +1,37 @@
+<pl-question-panel>
+  <p>
+    A solid wooden cylinder
+    and a metal cylindrical shell
+    roll down a slope.
+    They both have the same mass.
+  </p>
+  <p>
+    Which can reaches the bottom of the slope first?
+  </p>
+</pl-question-panel>
+
+<pl-multiple-choice answers-name="qualitative" fixed-order="true" hide-letter-keys="true" weight=1>
+  <pl-answer correct="false">Metal cylindrical shell</pl-answer>
+  <pl-answer correct="true">Solid wooden cylinder</pl-answer>
+  <pl-answer correct="false">They both reach the bottom of the slope at the same time.</pl-answer>
+</pl-multiple-choice>
+
+<pl-question-panel>
+  <p>&nbsp;</p>
+  <p>
+    Both cylinders weigh ${{params.m_cyl}} \; \textrm{g}$.
+    If the cylinders roll a distance of ${{params.d}} \; \textrm{cm}$,
+    and the slope forms an angle of ${{params.theta}}^\circ$ with the ground,
+    find the speed of both cylinders
+    the moment they reach the bottom of the slope,
+    assuming no work is done by friction.
+  </p>
+</pl-question-panel>
+
+<pl-number-input answers-name="v_metal" label="$v_{\textrm{metal}}$"
+  suffix="$\textrm{m/s}$" comparison="sigfig" digits=3 weight=2>
+</pl-number-input>
+
+<pl-number-input answers-name="v_wood" label="$v_{\textrm{wood}}$" 
+  suffix="$\textrm{m/s}$" comparison="sigfig" digits=3 weight=2>
+</pl-number-input>
