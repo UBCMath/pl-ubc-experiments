@@ -1,12 +1,11 @@
 import prairielearn as pl
-from sympy import cos, latex, var
+from sympy import cos, latex, Symbol
 import random
 
 def generate(data):
-    # create a random integer between 5 and 10 (inclusive)
-    a = random.randint(5, 10)
+    a = random.randint(5, 10)  # inclusive
 
-    var('x')
+    x = Symbol('x')
     
     data['params']['a'] = a
     data['params']['formula'] = latex(a*cos(a*x))
