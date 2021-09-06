@@ -44,6 +44,25 @@ def generate(data):
 | `size`           | integer | 35   | Size of the input box. |
 | `show-help-text` | boolean | true | Show the question mark at the end of the input displaying required input parameters. |
 
+## Allowed Units
+
+The units input element only accepts a certain set of valid units:
+- SI units
+- A small set of metric non-SI units (min, h, d, au, L, eV)
+- A small set of common imperial units (f, yd, mi, acre, oz, lb)
+
+SI prefixes cannot be attached to imperial units.
+
+## Partial credit grading
+
+The units input box will always give partial credit.
+
+Full credit will be given to
+correctly answering both the number and the unit;
+half credit will be given to
+correctly answering the dimension of the unit
+(i.e. answering "1 m", "1 ft", "1 km" for "1 cm").
+
 ## Example implementations
 
 - [questions/UnitMadness](/questions/UnitMadness)
